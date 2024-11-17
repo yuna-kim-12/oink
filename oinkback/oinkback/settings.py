@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     # 커스텀앱
     'posts',
     'bank_products',
-    'accounts'
+    'accounts',
     # 라이브러리
     'rest_framework',
     # cors
@@ -92,6 +92,7 @@ REST_FRAMEWORK = {
 # User 모델 커스텀
 AUTH_USER_MODEL = 'accounts.User'
 
+
 ROOT_URLCONF = 'oinkback.urls'
 
 TEMPLATES = [
@@ -117,9 +118,13 @@ WSGI_APPLICATION = 'oinkback.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+'default' : {
+                'ENGINE' : 'django.db.backends.mysql', # 벡엔드 엔진
+                'NAME' : 'oink', # 'mysql'의 이름을 가진 데이터베이스
+                'USER' : 'root', # 계정
+                'PASSWORD' : '961226', #rootpassword로 지정할 숫자(6번에 나와있음)
+                'HOST' : '127.0.0.1',
+                'PORT' : '3306'
     }
 }
 

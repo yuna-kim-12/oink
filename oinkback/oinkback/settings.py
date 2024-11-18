@@ -85,7 +85,7 @@ CORS_ALLOWED_ORIGINS = [
 
 
 REST_FRAMEWORK = {
-    # Authentication
+    # DRF Authentication : token 인증 사용 설정
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
@@ -97,6 +97,46 @@ REST_FRAMEWORK = {
 
 # User 모델 커스텀
 AUTH_USER_MODEL = 'accounts.User'
+
+# 이메일 인증 관련 설정
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+# 비밀번호 유효성 검사 설정
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+# dj-rest-auth 설정
+# 1. 회원가입 시 사용할 Serializer 지정
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+}
+
+# 2. 사용자 정보 조회 및 수정 시 사용할 Serializer 지정
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
+}
+
+# 3. allauth 설정 : 회원가입 시 사용자 저장 로직을 커스터마이징
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
+
 
 
 ROOT_URLCONF = 'oinkback.urls'

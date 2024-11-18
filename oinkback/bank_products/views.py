@@ -112,6 +112,7 @@ def products_recommend_savings(request):
 
 # 사용자 가입 예적금 상품 불러오기 : 가입한 예적금 상품 연동하기 누르면 DB에 추가되도록하고, 조회 값 return
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def products_joined(request, user_pk):
     # 가입일 기준으로 오름차순(D-date 가까운 순)
     userproducts = UserProduct.objects.filter(user_pk=user_pk).order_by('join_date')

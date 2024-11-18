@@ -76,7 +76,6 @@ def delete_account(request):
 @permission_classes([IsAuthenticated])
 def follow(request, following_user_pk):
     following_user = get_object_or_404(User, pk=following_user_pk)
-    # 현재 로그인한 유저
     follower = request.user
 
     # 자기 자신을 팔로우하려는 경우 방지
@@ -95,7 +94,6 @@ def follow(request, following_user_pk):
         follower.followings.add(following_user)
         is_followed = True
 
-    # 팔로우/언팔로우 후의 유저 정보 직렬화
     serializer = CustomUserDetailsSerializer(following_user)
     
     return Response({

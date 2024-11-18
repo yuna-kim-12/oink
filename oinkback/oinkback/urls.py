@@ -22,4 +22,6 @@ urlpatterns = [
     # authorization 사이트 링크
     path('accounts/', include('dj_rest_auth.urls')),
     path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    path('posts/', include('posts.urls')),
+    path('piggy_bank/', include('piggy_bank.urls')),
 ]

@@ -35,18 +35,21 @@ INSTALLED_APPS = [
     'posts',
     'bank_products',
     'accounts',
-    # 라이브러리
+    # DRF
     'rest_framework',
-    # cors
     'rest_framework.authtoken',
+    # cors
     'corsheaders',
-    # authorization
+    # rest_authorization
     'dj_rest_auth',
-    'django.contrib.sites',
     'allauth',
     'allauth.account',
+
+    # social login 필요 시 추가
+    'django.contrib.sites',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
+
     # django 내장 앱
     'django.contrib.admin',
     'django.contrib.auth',
@@ -55,6 +58,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+# social login 필요 시 추가
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,7 +82,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
-SITE_ID = 1
 
 REST_FRAMEWORK = {
     # Authentication

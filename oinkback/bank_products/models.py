@@ -14,10 +14,11 @@ class BankProducts(models.Model):
     join_period_text = models.TextField()
     join_amount_min = models.IntegerField()
     # null값 : 최대 금액 제한 없음
-    join_amount_max = models.IntegerField(null=True)
+    join_amount_max = models.IntegerField(null=True, blank=True)
     join_amount_text = models.TextField()
-    join_way = models.TextField(null=True)
+    join_way = models.TextField(null=True, blank=True)
     join_member = models.TextField()
-    prime_conditions = models.TextField(null=True)
-    interest_payment = models.TextField(null=True)
-    note = models.TextField(null=True)
+    prime_conditions = models.TextField(null=True, blank=True)
+    interest_payment = models.TextField(null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
+

@@ -12,8 +12,8 @@ from .models import Post, Comment
 from .serializers import PostListSerializer, PostSerializer, PostDetailSerializer, CommentSerializer
 
 
-@api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
+@api_view(['GET', 'POST'])
 def post_list(request):
     # 전체 게시글 조회
     if request.method == 'GET':

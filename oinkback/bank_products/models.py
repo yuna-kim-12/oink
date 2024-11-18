@@ -21,4 +21,3 @@ class BankProducts(models.Model):
     prime_conditions = models.TextField(null=True, blank=True)
     interest_payment = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
-

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # 커스텀앱
     'posts',
     'bank_products',
+    'piggy_banks',
     'accounts',
     # DRF
     'rest_framework',

@@ -15,22 +15,21 @@ from .serializers import PiggyListSerializer, PiggySerializer, PiggyDetailSerial
 
 
 # Create your views here.
-
-
 @permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def piggy_list(request):
     # 메인페이지 돼지저금통 조회
     if request.method == 'GET':
-        # 뭘 기준으로 order_by?
-        # 저금통 만든 날짜? 만기가 다가오는 저금통?
-        # piggys = PiggyBank.objects.all().order_by('-만기일자')[:50]
+        # 데이터 보고 50개 끊기 수정
         piggys = PiggyBank.objects.all().order_by('-create_at')[:50]
         serializer = PiggyListSerializer(piggys, many=True)
         return Response(serializer.data)
 
     # 돼지저금통 생성
     elif request.method == 'POST':
+        if PiggyBank.objects.filter(user=request.user).exists():
+            return Response({'detail': '이미 돼지저금통이 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         serializer = PiggySerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)

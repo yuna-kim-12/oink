@@ -13,3 +13,4 @@ class PiggyBank(models.Model):
     weight = models.FloatField(default=0.0)
     cheerup_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+

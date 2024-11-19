@@ -7,22 +7,27 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from django.shortcuts import get_object_or_404, get_list_or_404
+from django.db.models import F
 
 from .models import Post, Comment
 from .serializers import PostListSerializer, PostSerializer, PostDetailSerializer, CommentSerializer
 
 
-@permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def post_list(request):
     # 전체 게시글 조회
     if request.method == 'GET':
-        posts = Post.objects.all()
+        # 조회수 기준으로 내림차순
+        posts = Post.objects.all().order_by('-num_seen')
         serializer = PostListSerializer(posts, many=True)
         return Response(serializer.data)
 
     # 게시글 작성
     elif request.method == 'POST':
+        # 로그인 되지 않았을 경우에는 게시글 작성 권한 없음
+        if not request.user.is_authenticated:
+            return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
@@ -30,16 +35,16 @@ def post_list(request):
 
 
 
-@permission_classes([IsAuthenticated])
 @api_view(['GET', 'PUT', 'DELETE'])
 def post_detail(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
 
     # 단일 게시글 조회
     if request.method == 'GET':
-        # ??? F 오브젝트 활용할지 확인
-        post.num_seen += 1
-        post.save()
+        # F 객체를 이용하면 추가적인 데이터베이스 읽기 작업 없이 값이 바로 증가
+        post.num_seen = F('num_seen') + 1
+        post.save(update_fields=['num_seen'])
+        post.refresh_from_db()  # F() 사용 후 최신 데이터를 가져오기
         serializer = PostDetailSerializer(post)
         return Response(serializer.data)
     

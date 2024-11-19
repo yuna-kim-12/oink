@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import PiggyBank
 from datetime import datetime
+from django.utils.timezone import now
 
 # 메인페이지 돼지저금통 조회
 class PiggyListSerializer(serializers.ModelSerializer):
@@ -13,13 +14,12 @@ class PiggyListSerializer(serializers.ModelSerializer):
 
 # 내 돼지저금통 조회
 class PiggyDetailSerializer(serializers.ModelSerializer):
-    # 
+    # d_day 계산 로직
     d_day = serializers.SerializerMethodField()
 
     def get_d_day(self, obj):
-        # user_product 만기일자와 오늘 날짜를 비교
-        if hasattr(obj, 'user_product') and obj.user_product:
-            return (obj.user_product.expiration_date - datetime.today()).days
+        if hasattr(obj, 'user_product') and obj.user_product and obj.user_product.expiration_date:
+            return (obj.user_product.expiration_date - now().date()).days
         return None
 
     class Meta:
@@ -35,4 +35,5 @@ class PiggySerializer(serializers.ModelSerializer):
 		model = PiggyBank
 		fields = '__all__'
 		read_only_fiels = ('user', 'user_product')
+
 

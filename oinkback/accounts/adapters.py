@@ -61,6 +61,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             print(f"회원 탈퇴 처리 중 오류 발생: {str(e)}")
             return False
 
+
     def _handle_user_data(self, user, withdrawal_time):
         """
         사용자 관련 데이터 처리
@@ -87,7 +88,3 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         # 3. 팔로우 관계 제거
         user.followers.clear()
         user.followings.clear()
-        
-        # 4. 저장된 파일 처리 (프로필 이미지 등)
-        if hasattr(user, 'profile_image') and user.profile_image:
-            user.profile_image.delete(save=False)

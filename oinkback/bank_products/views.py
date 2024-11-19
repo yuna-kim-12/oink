@@ -26,8 +26,8 @@ def deposits(request):
 @api_view(['GET'])
 def deposit_detail(request, product_pk):
     if request.method == 'GET':
-        deposits = get_object_or_404(BankProducts, pk=product_pk, category=0)
-        serializer = BankProductSerializer(deposits)
+        deposit = get_object_or_404(BankProducts, pk=product_pk, category=0)
+        serializer = BankProductSerializer(deposit)
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -46,8 +46,8 @@ def savings(request):
 @api_view(['GET'])
 def savings_detail(request, product_pk):
     if request.method == 'GET':
-        savings = get_object_or_404(BankProducts, pk=product_pk, category=1)
-        serializer = BankProductSerializer(savings)
+        saving = get_object_or_404(BankProducts, pk=product_pk, category=1)
+        serializer = BankProductSerializer(saving)
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -80,33 +80,55 @@ def filtered_savings(request):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+
 # 회원 정보 기반 추천 예금 : 알고리즘 내일 확정.
 # 1. 로그인 안 한 상태 : 목표 카테고리 랜덤으로 선택해서 리턴, 최고 금리 순
-# 2. 로그인 한 상태 : 고객 목표, 기간, 금액이 동일한 사람들이 많이 가입한 상품 필터링, 최고 금리 순
-@api_view(['GET'])
-def products_recommend_deposits(request):
-    if request.method == 'GET':
-        deposits = BankProducts.objects.filter(category=0)
-        # 사용자 데이터 : 목표, 기간, 금액
-        saving_purpose = request.query_params.get('saving_purpose', None)
-        saving_amount = request.query_params.get('saving_amount', None)
-        saving_period = request.query_params.get('saving_period', None)
-        # filtered_deposits = deposits.filter(saving_purpose=saving_purpose, saving_amount=saving_amount, saving_period=saving_period).order_by('-prime_interest_rate')
-        serializer = BankProductListSerializer(filtered_deposits, many=True)
-        return Response(serializer.data)
+# 2. 로그인 한 상태 : 나이 대, 고객 목표, 기간, 금액이 동일한 사람들이 많이 가입한 상품 필터링, 최고 금리 순
+def recommendation(user=None, purpose=None):
+    # 1. 로그인 한 상태면 정보 기반으로 추천 
+    if user:
+        birth_date = user.birth_date
+        asset = user.asset # 예금에 써
+        saving_purpose = user.saving_purpose.split(',').strip()
+        saving_amount = user.saving_amount # 적금에 써
+        saving_period = user.saving_period
 
-# 회원 정보 기반 추천 적금 : 알고리즘 내일 확정.
+        users = get_user_model().objects.all()
+
+        # 1. user를 필터링해 -> 2. 그 유저가 가입한 많이 가입한 상품 목록을 받아. -> 3. 금리기준 내림차순 리턴
+        # 목표를 어떻게 필터링 할지(다중 선택 가능해서 리스트로 전달해야 할 것 같음)
+        # 1. user 필터링
+        filtered_users = users.filter(birth_date__range=(birth_date-1825,birth_date+1825))\
+            .filter(asset__range=(asset-200,asset+200))\
+            .filter(saving_period=saving_period)
+        
+        # .filter() # 목표 어떻게 필터링해야함 \
+        # 2. 가입한 상품목록 -> 금리 기준 내림차순
+        
+        # 예금, 적금 필터링, 5개 씩 리턴
+
+    # 2. 로그인 안 한 사람
+    else:
+        filtered_users = users.filter(saving_purpose__contains=purpose)
+    
+    return filtered_users['user_bank_products']
+        
+        
+    pass
+
+
+
+
 @api_view(['GET'])
-def products_recommend_savings(request):
-    if request.method == 'GET':
-        savings = BankProducts.objects.filter(category=1)
-        # 사용자 데이터 : 목표, 기간, 금액
-        saving_purpose = request.query_params.get('saving_purpose', None)
-        saving_amount = request.query_params.get('saving_amount', None)
-        saving_period = request.query_params.get('saving_period', None)
-        # filtered_savings = savings.filter(saving_purpose=saving_purpose, saving_amount=saving_amount, saving_period=saving_period).order_by('-prime_interest_rate')
-        serializer = BankProductListSerializer(filtered_savings, many=True)
-        return Response(serializer.data)
+def products_recommend(request):
+    if request.user.is_authenticated:
+        recommended_products = recommendation(request.user)
+    else:
+        purpose = request.query_params.get('saving_purpose', None)
+        recommended_products = recommendation(purpose)
+    serializer = BankProductListSerializer(recommended_products, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 

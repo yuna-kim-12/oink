@@ -8,7 +8,6 @@ urlpatterns = [
     path('savings_detail/<int:product_pk>/', views.savings_detail),
     path('filtered_deposits/', views.filtered_deposits),
     path('filtered_savings/', views.filtered_savings),
-    path('products_recommend_deposits/', views.products_recommend_deposits),
-    path('products_recommend_savings/', views.products_recommend_savings),
+    path('products_recommend/', views.products_recommend),
     path('products_joined/<int:user_pk>/', views.products_joined),
 ]

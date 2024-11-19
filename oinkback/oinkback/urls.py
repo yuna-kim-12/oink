@@ -26,5 +26,5 @@ urlpatterns = [
     # 2. 회원가입
     path('accounts/signup/', include('dj_rest_auth.registration.urls')),
     path('posts/', include('posts.urls')),
-    path('piggy_bank/', include('piggy_bank.urls')),
+    path('piggy_banks/', include('piggy_banks.urls')),
 ]

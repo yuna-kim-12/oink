@@ -28,7 +28,27 @@ def register_user(request):
             'message': '회원가입이 완료되었습니다.',
             'user': serializer.data
         })
-    
+
+# 프로필 조회
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_profile(request, user_pk):
+    try:
+        user = get_object_or_404(User, pk=user_pk)
+        serializer = CustomUserDetailsSerializer(user)
+        
+        # serializer.data를 기반으로 추가 데이터 포함
+        data = serializer.data
+        data.update({
+            'followers_count': user.followers.count(),
+            'followings_count': user.followings.count(),
+            'is_following': request.user.followings.filter(pk=user.pk).exists()
+        })
+        
+        return Response(data)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 # 프로필 수정
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
@@ -76,7 +96,6 @@ def delete_account(request):
 @permission_classes([IsAuthenticated])
 def follow(request, following_user_pk):
     following_user = get_object_or_404(User, pk=following_user_pk)
-    # 현재 로그인한 유저
     follower = request.user
 
     # 자기 자신을 팔로우하려는 경우 방지
@@ -95,7 +114,6 @@ def follow(request, following_user_pk):
         follower.followings.add(following_user)
         is_followed = True
 
-    # 팔로우/언팔로우 후의 유저 정보 직렬화
     serializer = CustomUserDetailsSerializer(following_user)
     
     return Response({

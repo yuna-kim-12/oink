@@ -37,7 +37,7 @@ class User(AbstractUser):
     # 이메일을 username 대신 식별자로 사용
     USERNAME_FIELD = 'email'
     # 필수로 입력받을 필드 목록
-    REQUIRED_FIELDS = ['name', 'birth_date', 'saving_purpose', 'saving_amount', 'saving_period']
+    REQUIRED_FIELDS = ['name', 'birth_date', 'assets', 'saving_purpose', 'saving_amount', 'saving_period']
 
     objects = CustomUserManager()
 

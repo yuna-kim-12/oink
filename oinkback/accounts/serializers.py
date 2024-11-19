@@ -10,6 +10,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     email = serializers.EmailField(required=True)
     name = serializers.CharField(required=True)
     birth_date = serializers.DateField(required=True)
+    asset = serializers.IntegerField(required=True)
     saving_purpose = serializers.ListField(required=True)
     saving_amount = serializers.IntegerField(required=True)
     saving_period = serializers.IntegerField(required=True)
@@ -28,6 +29,12 @@ class CustomRegisterSerializer(RegisterSerializer):
             raise serializers.ValidationError("유효한 이메일 형식이 아닙니다.")
         return email
 
+    # 자산 금액 유효성 검사: 10,000원 단위
+    def validate_asset(self, amount):
+        if amount % 10000 != 0:
+            raise serializers.ValidationError("자산 금액은 10,000원 단위여야 합니다.")
+        return amount
+    
     # 저축 금액 유효성 검사: 10,000원 단위
     def validate_saving_amount(self, amount):
         if amount % 10000 != 0:
@@ -40,6 +47,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         data.update({
             'name': self.validated_data.get('name', ''),
             'birth_date': self.validated_data.get('birth_date', ''),
+            'asset': self.validated_data.get('asset', ''),
             'saving_purpose': self.validated_data.get('saving_purpose', []),
             'saving_amount': self.validated_data.get('saving_amount', ''),
             'saving_period': self.validated_data.get('saving_period', '')
@@ -50,6 +58,6 @@ class CustomRegisterSerializer(RegisterSerializer):
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta:
         model = settings.AUTH_USER_MODEL
-        fields = ('pk', 'email', 'name', 'birth_date', 'saving_purpose', 
+        fields = ('pk', 'email', 'name', 'birth_date', 'asset', 'saving_purpose', 
                  'saving_amount', 'saving_period')
-        read_only_fields = ('email', 'name', )  #  수정 불가
+        read_only_fields = ('pk','email', 'name', )  #  수정 불가

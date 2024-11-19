@@ -21,6 +21,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         # 추가 필드 데이터 저장
         user.name = data.get('name')
         user.birth_date = data.get('birth_date')
+        user.asset = data.get('asset')
         user.saving_purpose = data.get('saving_purpose')
         user.saving_amount = data.get('saving_amount')
         user.saving_period = data.get('saving_period')

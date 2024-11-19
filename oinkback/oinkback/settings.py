@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'bank_products',
     'piggy_banks',
     'accounts',
+    'exchange',
     # DRF
     'rest_framework',
     'rest_framework.authtoken',

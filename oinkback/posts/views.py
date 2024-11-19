@@ -37,6 +37,7 @@ def post_detail(request, post_pk):
 
     # 단일 게시글 조회
     if request.method == 'GET':
+        # ??? F 오브젝트 활용할지 확인
         post.num_seen += 1
         post.save()
         serializer = PostDetailSerializer(post)

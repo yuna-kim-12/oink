@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     # 게시글 조회, 생성
     path('', views.post_list),
-    # 단일 게시글 수정, 삭제
+    # 단일 게시글 조회, 수정, 삭제
     path('detail/<int:post_pk>/', views.post_detail),
     # 게시글 좋아요
     path('like_post/<int:post_pk>/', views.like_post),

@@ -27,10 +27,14 @@ class BankProducts(models.Model):
 
 class UserProduct(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # 사용자 1명이 가입한 예적금 상품 / 역참조 : 예적금 상품에 가입한 사용자들
-    user_bank_products = models.ManyToManyField(BankProducts, related_name="bank_product_users")
+    product = models.ForeignKey(BankProducts, on_delete=models.CASCADE)
+    # 21년부터 지금까지 랜덤
     join_date = models.DateTimeField()
+    # join_date에서 += join_period
     expiration_date = models.DateTimeField()
+    # 리스트 중에서 하나 선택
     join_period = models.IntegerField()
+    # 최고, 최저 사이 랜덤, 1만원 단위로
     monthly_amount = models.IntegerField()
+    # 더미데이터 : 최저~우대금리 사이 값 선택 0.1%씩 차이
     interest_rate = models.FloatField()

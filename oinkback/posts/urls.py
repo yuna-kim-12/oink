@@ -12,7 +12,7 @@ urlpatterns = [
     # 게시글 저장
     path('save_post/<int:post_pk>/', views.save_post),
     # 댓글 생성
-    path('<int:post_pk>/comments/', views.create_comment),
+    path('<int:post_pk>/create_comment/', views.create_comment),
     # 댓글 삭제
     path('delete_comment/<int:comment_pk>/', views.delete_comment),
 ]

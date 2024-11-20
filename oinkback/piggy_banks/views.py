@@ -21,7 +21,7 @@ def piggy_list(request):
     # 메인페이지 돼지저금통 조회
     if request.method == 'GET':
         # 데이터 보고 50개 끊기 수정
-        piggys = PiggyBank.objects.all().order_by('-create_at')[:50]
+        piggys = PiggyBank.objects.all().order_by('-created_at')[:50]
         serializer = PiggyListSerializer(piggys, many=True)
         return Response(serializer.data)
 
@@ -30,6 +30,7 @@ def piggy_list(request):
         if PiggyBank.objects.filter(user=request.user).exists():
             return Response({'detail': '이미 돼지저금통이 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
         
+        # user_product는 vue에서 사용자가 선택하는데 그것이 request.data로 잘 들어갈지?
         serializer = PiggySerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)

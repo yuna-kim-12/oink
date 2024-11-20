@@ -10,3 +10,4 @@ urlpatterns = [
     # 돼지저금통 응원
     path('cheerup/<int:cheerup_piggy_bank_pk>/', views.cheerup),
 ]
+

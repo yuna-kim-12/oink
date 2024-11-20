@@ -1,6 +1,8 @@
 <template>
   <nav class="nav">
-    <RouterLink :to="{name:'home'}" class="logo roboto-black-italic">Oink</RouterLink>
+    <RouterLink :to="{name:'home'}" class="logo roboto-black-italic">
+      <img src="/images/logo.png" alt="logo-img">
+    </RouterLink>
     <div class="real-nav">
       <RouterLink :to="{name:'recommend'}">금융상품추천</RouterLink>
       <RouterLink :to="{name:'map'}">지도</RouterLink>
@@ -47,22 +49,22 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1280px;
   min-width: 900px;
-  margin: 0 auto;
   padding: 10px 20px;
 }
 
 .logo {
   font-size: 30px;
-  color: #7268CF;
+  color: #FF6709;
+  font-weight: bold;
+}
+
+.logo img {
+  width: 80px;
 }
 
 .real-nav {
   display: flex;
-  position: relative;
-  top: 6px;
-  right: 75px;
 }
 
 .real-nav a {
@@ -73,11 +75,9 @@ onMounted(() => {
 }
 
 .login-btn {
-  position: relative;
   background-color: rgba(255, 103, 8, 0.6);
   color: white;
   padding: 5px 12px;
   border-radius: 30px;
-  top: 6px;
 }
 </style>

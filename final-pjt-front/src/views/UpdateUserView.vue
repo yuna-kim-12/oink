@@ -222,20 +222,21 @@ onMounted(() => {
 .signup-container {
     width: 100%;
     max-width: 500px;
-    margin: 200px auto;
+    margin: 150px auto;
     padding: 20px;
 }
 
 .signup-title {
-    color: #FF6708;
+    color: var(--main-color);
     text-align: center;
     font-size: 24px;
     margin-bottom: 40px;
+	font-weight: 600;
 }
 
 /* 입력 필드 공통 스타일 */
 p {
-    color: #808080;
+    color: var(--sub-text-color);
     margin-bottom: 8px;
     margin-left: 3px;
     font-size: 14px;
@@ -255,23 +256,25 @@ p {
 
 .man-won {
     position: absolute;
-    width: 30px;
+    width: 32px;
     right: 10px;
-    top: 10px;
-    color: #808080;
+    top: 11px;
+    color: var(--sub-text-color);
+	font-size: 13px;
 }
 
 .man-won2 {
     position: absolute;
-    width: 30px;
+    width: 32px;
     right: 10px;
     top: 40px;
-    color: #808080;
+    color: var(--sub-text-color);
+	font-size: 13px;
 }
 
 .password-require {
     font-size: 12px;
-    color: #fc8a44;
+    color: var(--main-text-color);
     padding-left: 10px;
     font-weight: 350;
 }
@@ -282,7 +285,7 @@ p {
 
 .asset-min {
     font-size: 12px;
-    color: #fc8a44;
+    color: var(--main-text-color);
     padding-left: 10px;
     font-weight: 350;
 }
@@ -293,6 +296,9 @@ p {
     border: 1px solid #E5E5E5;
     border-radius: 8px;
     font-size: 14px;
+	/* color: var(--sub-text2-color); */
+	/* font-weight: 600; */
+	color: var(--sub-text-bold-color);
 }
 
 .input-field::placeholder {
@@ -351,17 +357,19 @@ p {
     font-size: 13px;
     transition: all 0.3s ease;
     text-align: center;
+	color: var(--sub-text2-color);
+
 }
 
 .goal-btn:hover {
-    border-color: #FFB07E;
-    color: #FFB07E;
+    border-color: var(--main-text-color);
+    color: var(--main-text-color);
 }
 
 .goal-btn.active {
-    background: #FFB07E;
+    background: var(--main-text-color);
     color: white;
-    border-color: #FFB07E;
+    border-color: var(--main-text-color);
 }
 
 /* 슬라이더 스타일 */
@@ -400,6 +408,7 @@ p {
     width: 20%;
     height: 100%;
     cursor: pointer;
+	color: var(--sub-text2-color);
 }
 
 .savings-amount-slider label::before {
@@ -428,14 +437,14 @@ p {
 }
 
 .savings-amount-slider label:hover::after {
-    border-color: #FF6708;
-    background: #FF6708;
+    border-color: var(--main-color);
+    background: var(--main-color);
     transform: translate(-50%, -50%) scale(1.25);
 }
 
 .savings-amount-slider input:checked+label::after {
-    border-color: #FF6708;
-    background: #FF6708;
+    border-color: var(--main-color);
+    background: var(--main-color);
     transform: translate(-50%, -50%) scale(0.75);
 }
 
@@ -443,7 +452,7 @@ p {
 .submit-btn {
     width: 100%;
     padding: 15px;
-    background-color: var(--main-color);
+    background-color: var(--point-color);
     color: white;
     border: none;
     border-radius: 8px;
@@ -454,7 +463,7 @@ p {
 }
 
 .submit-btn:hover {
-    background: var(--point-color);
+    background: var(--main-color);
 }
 
 .deb-amount {

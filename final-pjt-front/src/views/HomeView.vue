@@ -1,13 +1,11 @@
 <template>
     <div>
-        
-        <RecommendDetail/>
+        <OinkIntro/>
     </div>
 </template>
 
 <script setup>
-import RecommendDetail from '@/components/RecommendDetail.vue';
-
+import OinkIntro from '@/components/OinkIntro.vue';
 
 </script>
 

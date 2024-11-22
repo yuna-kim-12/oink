@@ -1,10 +1,10 @@
 <template>
     <div class="signup-container">
         <h2 class="signup-title">회원가입</h2>
-        <form class="signup-form">
+        <form class="signup-form" @submit.prevent="signUp">
             <div class="input-group">
                 <p>이름</p>
-                <input type="text" class="input-field" placeholder="이름을 입력하세요">
+                <input type="text" class="input-field" placeholder="이름을 입력하세요" v-model.trim="username">
             </div>
 
             <p>생년월일</p>
@@ -31,9 +31,9 @@
 
             <p>아이디</p>
             <div class="email-input-group">
-                <input type="text" class="input-field" placeholder="이메일 주소">
+                <input type="text" class="input-field" placeholder="이메일 주소" v-model.trim="email">
                 <span>@</span>
-                <select class="select-box">
+                <select class="select-box" v-model="emailDomain">
                     <option value="naver.com">naver.com</option>
                     <option value="google.com">google.com</option>
                     <option value="hanmail.net">hanmail.net</option>
@@ -44,65 +44,142 @@
 
             <p>비밀번호</p>
             <div class="input-group">
-                <input type="password" class="input-field" placeholder="비밀번호를 입력하세요">
+                <input type="password" class="input-field" placeholder="비밀번호를 입력하세요" v-model.trim="password1">
+                <p class="password-require">* 비밀번호는 대소 문자, 특수문자를 포함한 8자리 이상으로 설정해주세요</p>
+            </div>
+
+            <p>비밀번호 확인</p>
+            <div class="input-group">
+                <input type="password" class="input-field" placeholder="비밀번호를 다시 한번 더 입력해주세요" v-model.trim="password2">
             </div>
 
             <p>자산</p>
             <div class="input-group">
-                <input type="password" class="input-field" placeholder="자산을 입력하세요">
+                <div class="man">
+                    <input type="text" class="input-field" placeholder="자산을 입력하세요" v-model.number="asset"
+                        style="text-align: end; padding-right: 50px; padding-top: 10px;">
+                    <span class="man-won">만원</span>
+                    <!-- <p class="asset-min">* 만 단위</p> -->
+                </div>
             </div>
 
             <p>저축 목표</p>
             <div class="goal-group">
                 <button v-for="goal in goals" :key="goal" type="button" class="goal-btn"
                     :class="{ 'active': selectedGoals.includes(goal) }" @click="toggleGoal(goal)">
-                    {{ goal }}
+                    {{ goalsToKor[goal] }}
                 </button>
             </div>
 
             <p>저축 기간 (개월)</p>
             <div class="savings-slider-wrapper">
                 <div class="savings-amount-slider">
-                    <input type="radio" name="savings-amount" id="amount1" value="1" required>
+                    <input type="radio" name="savings-amount" id="amount1" value="0" v-model="savingPeriod" disabled>
                     <label for="amount1" data-amount="0"></label>
-                    <input type="radio" name="savings-amount" id="amount2" value="2" required>
+                    <input type="radio" name="savings-amount" id="amount2" value="6" v-model="savingPeriod">
                     <label for="amount2" data-amount="6"></label>
-                    <input type="radio" name="savings-amount" id="amount3" value="3" required>
+                    <input type="radio" name="savings-amount" id="amount3" value="12" v-model="savingPeriod">
                     <label for="amount3" data-amount="12"></label>
-                    <input type="radio" name="savings-amount" id="amount4" value="4" required>
+                    <input type="radio" name="savings-amount" id="amount4" value="24" v-model="savingPeriod">
                     <label for="amount4" data-amount="24"></label>
-                    <input type="radio" name="savings-amount" id="amount5" value="5" required>
+                    <input type="radio" name="savings-amount" id="amount5" value="36" v-model="savingPeriod">
                     <label for="amount5" data-amount="36"></label>
                 </div>
             </div>
 
             <div class="input-group">
-                <p class="deb-amount">저축 금액 (만원)</p>
-                <input type="text" class="input-field" placeholder="금액을 입력하세요">
+                <div class="man">
+                    <p class="deb-amount">저축 금액</p>
+                    <div class="input-end-start">
+                        <input type="text" class="input-field" placeholder="금액을 입력하세요" v-model.number="savingAmount"
+                            style="text-align: end; padding-right: 50px; padding-top: 10px;">
+                    </div>
+                    <span class="man-won2">만원</span>
+                    <!-- <p class="asset-min">* 만 단위 이상 기입</p> -->
+                </div>
             </div>
-            <button type="submit" class="submit-btn"
-            @click="router.push('/')">완료</button>
+            <button type="submit" class="submit-btn">완료</button>
         </form>
     </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router';
-
-const goals = [
-    '내집마련',
-    '교육비',
-    '의료비',
-    '결혼자금',
-    '노후자금',
-    '시드머니',
-    '여행자금',
-    '위시리스트'
-]
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter()
+const store = useUserStore()
 
+const signUp = function () {
+    if (password1.value !== password2.value) {
+        alert('비밀번호가 달라요!')
+        return
+    }
+
+    const payload = {
+        name: username.value,
+        email: fullEmail.value,
+        birth_date: `${selectedYear.value}-${String(selectedMonth.value).padStart(2, '0')}-${String(selectedDay.value).padStart(2, '0')}`,
+        asset: parseInt(asset.value),
+        saving_purpose: selectedGoals.value,
+        saving_amount: parseInt(savingAmount.value),
+        saving_period: parseInt(savingPeriod.value),
+        password1: password1.value,
+        password2: password2.value,
+    }
+
+    store.signUp(payload)
+        .catch(error => {
+            if (error.response?.data?.email) {
+                alert('이미 가입된 이메일이 존재합니다.')
+            } else {
+                alert('이미 가입된 이메일이 존재합니다.')
+            }
+        })
+}
+
+
+//폼 데이터
+const username = ref('')
+const email = ref('')
+const emailDomain = ref('naver.com')
+const password1 = ref('')
+const password2 = ref('')
+const asset = ref('')
+const savingAmount = ref('')
+const savingPeriod = ref('')
+const selectedGoals = ref([])
+
+// 이메일 계산
+
+const fullEmail = computed(() => {
+    if (email.value && emailDomain.value) {
+        return `${email.value}@${emailDomain.value}`
+    }
+})
+
+const goals = [
+    'home',
+    'education',
+    'medication',
+    'wedding',
+    'future',
+    'seedmoney',
+    'travel',
+    'wishlist'
+]
+
+const goalsToKor = {
+        'home': '내집마련',
+        'education': '교육비',
+        'medication': '의료비',
+        'wedding': '결혼자금',
+        'future': '노후자금',
+        'seedmoney': '시드머니',
+        'travel': '여행자금',
+        'wishlist': '위시리스트'
+    }
 
 // 생년월일 관련 코드
 const currentYear = new Date().getFullYear()
@@ -144,18 +221,26 @@ watch([selectedYear, selectedMonth], () => {
 })
 
 // 선택된 목표들을 배열로 관리
-const selectedGoals = ref([])
 
 // 목표 토글 함수
 const toggleGoal = (goal) => {
+
+    console.log(goal)
     if (selectedGoals.value.includes(goal)) {
         // 이미 선택된 목표라면 제거
         selectedGoals.value = selectedGoals.value.filter(g => g !== goal)
-    } else {
+    } else if (selectedGoals.value.length > 2) {
+        alert('목표 설정은 최대 3개까지만 가능합니다.')
+    } 
+
+    else {
         // 선택되지 않은 목표라면 추가
         selectedGoals.value.push(goal)
     }
 }
+
+
+
 </script>
 
 <style scoped>
@@ -184,6 +269,43 @@ p {
 
 .input-group {
     margin-bottom: 30px;
+}
+
+
+
+.man {
+    position: relative;
+}
+
+.man-won {
+    position: absolute;
+    width: 30px;
+    right: 10px;
+    top: 10px;
+    color: #808080;
+}
+
+.man-won2 {
+    position: absolute;
+    width: 30px;
+    right: 10px;
+    top: 40px;
+    color: #808080;
+}
+
+.password-require {
+    font-size: 12px;
+    color: #fc8a44;
+    padding-left: 10px;
+    font-weight: 350;
+}
+
+.asset-min {
+    font-size: 12px;
+    color: #fc8a44;
+    padding-left: 10px;
+    font-weight: 350;
+    justify-content: end;
 }
 
 .input-field {
@@ -229,6 +351,8 @@ p {
 .email-input-group span {
     color: #666;
 }
+
+
 
 /* 목표 버튼 스타일 */
 .goal-group {
@@ -360,6 +484,4 @@ p {
     margin-top: 90px;
     margin-bottom: 10px;
 }
-
-
 </style>

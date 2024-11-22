@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2 class="title">게시글 작성하기</h2>
+        <h2 class="title">게시글 수정하기</h2>
         <div class="main">
             <span class="category">* 카테고리를 선택하세요</span>
             <div class="tag">
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <form class="post" @submit.prevent="store.createPost(title, content, selectedTag)">
+        <form class="post" @submit.prevent="store.updatePost(route.params.postId, title, content, selectedTag)">
             <div class="input-group">
                 <label for="post-title" class="post-title">제목</label>
                 <input type="text" id="post-title" v-model.trim="title">
@@ -32,25 +32,40 @@
                 <label for="post-content" class="post-content">내용</label>
                 <textarea name="post-content" id="post-content" class="post-textarea" v-model.trim="content"></textarea>
             </div>
-            <button class="post-btn">작성하기</button>
+            <button class="post-btn">수정하기</button>
         </form>
     </div>
 </template>
 
 <script setup>
 import { useCommunityStore } from '@/stores/community';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
+const router = useRouter()
+const route = useRoute()
 const store = useCommunityStore()
 
 const selectedTag = ref('');
+const title = ref('')
+const content = ref('')
 
 const selectTag = (tag) => {
     selectedTag.value = tag;
 };
 
-const title = ref('')
-const content = ref('')
+
+// 기존 게시글 데이터 불러오기
+onMounted(async () => {
+  try {
+    const postData = await store.getPostDetail(route.params.postId);
+    title.value = postData.title;
+    content.value = postData.content;
+    selectedTag.value = postData.category;
+  } catch (err) {
+    console.error('게시글 불러오기 오류', err);
+  }
+});
 </script>
 
 <style scoped>
@@ -67,7 +82,6 @@ const content = ref('')
 .title {
     margin: 100px auto 30px;
     color: #FF6708;
-    text-align: center;
     text-align: center;
 }
 
@@ -169,4 +183,3 @@ const content = ref('')
     background-color: #e55a00;
 }
 </style>
-

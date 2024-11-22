@@ -13,9 +13,12 @@
         </button>
 
         <div class="community-intro">
-            <img src="@/assets/images/indicator.png" alt="coin-img">
-            <p><span>나와 같은 목표</span>를 가진<br>사람들의 소식을 만나보실 수도 있어요</p>
-            <img src="@/assets/images/indicator.png" alt="coin-img">
+            <div class="community-intro-text">
+                <img src="@/assets/images/coin.png" alt="coin-img">
+                <p><span>나와 같은 목표</span>를 가진<br>사람들의 소식을 만나보실 수도 있어요</p>
+                <img src="@/assets/images/coin.png" alt="coin-img">
+            </div>
+            <img src="@/assets/images/community.png" alt="">
         </div>
     </div>
 </template>
@@ -69,5 +72,15 @@ onUnmounted(() => {
 .create-piggy:hover {
     transform: translateX(-50%) translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.community-intro {
+    margin: 100px auto;
+    text-align: center;
+}
+
+.community-intro > img {
+    width: 80%;
+    max-width: 1000px;
 }
 </style>

@@ -72,7 +72,7 @@ const router = createRouter({
       component: SignUpView
     },
     {
-      path:'/profile',
+      path:'/profile/:userId',
       name:'profile',
       component:ProfileView,
     },

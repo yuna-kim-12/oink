@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <h2 class="title">Welcome to</h2>
+        <img class="logo" src="/public/images/logo.png" alt="">
 
         <form class="login-form" @submit.prevent="logIn">
             <div>
@@ -49,16 +49,21 @@ const logIn = () => {
 </script>
 
 <style scoped>
+
+.logo {
+    width: 120px;
+}
+
 .login {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 150px;
+    margin-top: 350px;
 }
 
 .login .title {
-  color: #FF6709;
+  color: var(--main-color);
   font-weight: bold;
   font-size: 30px;
 }
@@ -78,7 +83,7 @@ const logIn = () => {
 .login-form label {
     margin-bottom: 5px;
     font-weight: 700;
-    color: #FFB07E;
+    color: var(--main-text-color);
 }
 
 .login-form input {
@@ -94,7 +99,7 @@ const logIn = () => {
 }
 
 .login-form input[type='submit'] {
-  background-color: rgba(255,103,8,0.6);
+  background-color: var(--point-color);
   color: white;
   margin-top: 30px;
   padding: 10px 12px; 
@@ -127,4 +132,6 @@ const logIn = () => {
     color: #898989;
     cursor: pointer;
 }
+
+
 </style>

@@ -222,12 +222,12 @@ onMounted(() => {
 .signup-container {
     width: 100%;
     max-width: 500px;
-    margin: 20px auto;
+    margin: 150px auto;
     padding: 20px;
 }
 
 .signup-title {
-    color: #FF6708;
+    color: var(--main-color);
     text-align: center;
     font-size: 24px;
     margin-bottom: 40px;
@@ -443,7 +443,7 @@ p {
 .submit-btn {
     width: 100%;
     padding: 15px;
-    background: #FF6708;
+    background: var(--main-color);
     color: white;
     border: none;
     border-radius: 8px;
@@ -454,7 +454,7 @@ p {
 }
 
 .submit-btn:hover {
-    background: #ff7d2e;
+    background:  var(--main-color);
 }
 
 .deb-amount {

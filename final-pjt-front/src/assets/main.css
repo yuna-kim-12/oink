@@ -37,15 +37,7 @@ button {
     background-color: #fff;
 }
 
-/* logo 폰트 */
-.roboto-black-italic {
-    font-family: "Roboto", sans-serif;
-    font-weight: 900;
-    font-style: italic;
-}
-
 body {
-    max-width: 1280px;
     min-width: 900px;
     margin: auto;
 }

@@ -64,6 +64,8 @@ onMounted(() => {
 
 <style scoped>
 .nav {
+  position: fixed;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,6 +76,7 @@ onMounted(() => {
   border-bottom: 1px solid var(--main-color);
   background: #fff;
   opacity: 80%;
+  z-index: 100;
 }
 
 .logo img {

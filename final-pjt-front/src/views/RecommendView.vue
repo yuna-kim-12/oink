@@ -27,6 +27,126 @@
                 </div>
             </div>
         </div>
+        <div class="product-list">
+            <div v-for="n in 5" :key="n" class="product-item">
+                <div class="product-card">
+                    <div class="product-card-inner">
+                        <div class="product-card-front">
+                            <div class="product-content">
+                                <span class="product-number">{{ n }}</span>
+                                <img class="product-icon" :src="n === 2 ? '/path-to-globe-icon.png' : '/path-to-card-icon.png'" alt="Product Icon">
+                                <div class="product-info">
+                                    <p class="product-name">웰컴저축은행</p>
+                                    <p class="product-detail">웰뱅 위킹 적금</p>
+                                </div>
+                                <div class="product-rate">
+                                    <p class="rate-label">최고</p>
+                                    <p class="rate-value">10%</p>
+                                    <p class="rate-condition">기본 1%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card-back"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-list">
+            <div v-for="n in 5" :key="n" class="product-item">
+                <div class="product-card">
+                    <div class="product-card-inner">
+                        <div class="product-card-front">
+                            <div class="product-content">
+                                <span class="product-number">{{ n }}</span>
+                                <img class="product-icon" :src="n === 2 ? '/path-to-globe-icon.png' : '/path-to-card-icon.png'" alt="Product Icon">
+                                <div class="product-info">
+                                    <p class="product-name">웰컴저축은행</p>
+                                    <p class="product-detail">웰뱅 위킹 적금</p>
+                                </div>
+                                <div class="product-rate">
+                                    <p class="rate-label">최고</p>
+                                    <p class="rate-value">10%</p>
+                                    <p class="rate-condition">기본 1%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card-back"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-list">
+            <div v-for="n in 5" :key="n" class="product-item">
+                <div class="product-card">
+                    <div class="product-card-inner">
+                        <div class="product-card-front">
+                            <div class="product-content">
+                                <span class="product-number">{{ n }}</span>
+                                <img class="product-icon" :src="n === 2 ? '/path-to-globe-icon.png' : '/path-to-card-icon.png'" alt="Product Icon">
+                                <div class="product-info">
+                                    <p class="product-name">웰컴저축은행</p>
+                                    <p class="product-detail">웰뱅 위킹 적금</p>
+                                </div>
+                                <div class="product-rate">
+                                    <p class="rate-label">최고</p>
+                                    <p class="rate-value">10%</p>
+                                    <p class="rate-condition">기본 1%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card-back"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-list">
+            <div v-for="n in 5" :key="n" class="product-item">
+                <div class="product-card">
+                    <div class="product-card-inner">
+                        <div class="product-card-front">
+                            <div class="product-content">
+                                <span class="product-number">{{ n }}</span>
+                                <img class="product-icon" :src="n === 2 ? '/path-to-globe-icon.png' : '/path-to-card-icon.png'" alt="Product Icon">
+                                <div class="product-info">
+                                    <p class="product-name">웰컴저축은행</p>
+                                    <p class="product-detail">웰뱅 위킹 적금</p>
+                                </div>
+                                <div class="product-rate">
+                                    <p class="rate-label">최고</p>
+                                    <p class="rate-value">10%</p>
+                                    <p class="rate-condition">기본 1%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card-back"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-list">
+            <div v-for="n in 5" :key="n" class="product-item">
+                <div class="product-card">
+                    <div class="product-card-inner">
+                        <div class="product-card-front">
+                            <div class="product-content">
+                                <span class="product-number">{{ n }}</span>
+                                <img class="product-icon" :src="n === 2 ? '/path-to-globe-icon.png' : '/path-to-card-icon.png'" alt="Product Icon">
+                                <div class="product-info">
+                                    <p class="product-name">웰컴저축은행</p>
+                                    <p class="product-detail">웰뱅 위킹 적금</p>
+                                </div>
+                                <div class="product-rate">
+                                    <p class="rate-label">최고</p>
+                                    <p class="rate-value">10%</p>
+                                    <p class="rate-condition">기본 1%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card-back"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

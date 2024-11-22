@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav">
+  <nav class="nav scrolled">
     <RouterLink :to="{name:'home'}" class="logo">
       <img src="/images/logo.png" alt="logo-img">
     </RouterLink>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { gsap } from 'gsap'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user';
@@ -36,7 +36,17 @@ import { useRoute } from 'vue-router';
 const router = useRouter()
 const store = useUserStore()
 
+const handleScroll = () => {
+  const nav = document.querySelector('.nav');
+  if (window.scrollY > 0) {
+    nav.classList.remove('scrolled');
+  } else {
+    nav.classList.add('scrolled');
+  }
+};
+
 onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
   // Homepage container animation
   gsap.fromTo(".recommendation-container",
     { opacity: 0, y: -50 },
@@ -64,16 +74,23 @@ onMounted(() => {
 
 <style scoped>
 .nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1280px;
   min-width: 900px;
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 10px 15%;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 100;
+  border-bottom: none;
+}
+
+.nav.scrolled {
   border-bottom: 1px solid var(--main-color);
-  background: #fff;
-  opacity: 80%;
+  transition: border-bottom 0.3s ease;
 }
 
 .logo img {

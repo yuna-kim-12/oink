@@ -69,8 +69,8 @@ onMounted(() => {
 
 <style scoped>
 .piggybank-main {
-    width: 640px;
-    height: 300px;
+    width: 740px;
+    height: 400px;
     margin: 50px auto;
     display: flex;
     justify-content: center;
@@ -82,8 +82,8 @@ onMounted(() => {
 .piggybank-img {
     display: flex;
     flex-direction: column;
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     margin-right: 100px;
     margin-bottom:67px;
 }
@@ -107,12 +107,13 @@ onMounted(() => {
 
 .piggy-nickname {
     color: var(--sub-text-bold-color);
+    font-size: 24px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .duration {
-    font-size: 10px;
+    font-size: 13px;
     color: var(--sub-text-color);
     margin-bottom: 10px;
 }
@@ -124,7 +125,7 @@ onMounted(() => {
 .real-intro {
     display: table;
     text-align: start;
-    font-size: 13px;
+    font-size: 15px;
     margin-top: 10px;
 }
 
@@ -180,6 +181,7 @@ onMounted(() => {
     font-weight: 700;
     color: #a8a8a8;
     margin-top: 10px;
+    font-size: 20px;
 }
 
 .indicator-wrapper {

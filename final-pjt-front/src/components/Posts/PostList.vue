@@ -125,7 +125,7 @@ const clickPost = (postId) => {
 }
 
 .user-id {
-    color: #666;
+	color:#888;
     font-size: 14px;
     font-weight: 600;
 }
@@ -133,7 +133,7 @@ const clickPost = (postId) => {
 .post-title {
     font-size: 18px;
     margin: 0;
-    color: #333;
+    color: var(--sub-text2-color);
     font-weight: 600;
 }
 
@@ -143,7 +143,7 @@ const clickPost = (postId) => {
     gap: 10px;
     margin-top: 10px;
     font-size: 12px;
-    color: #888;
+	color: var(--sub-text-color);
 }
 
 .post-item:hover {

@@ -3,7 +3,7 @@
         <p>댓글</p>
         <form @submit.prevent="userStore.isLoggedIn ? createComment() : router.push({ name: 'login' })">
             <input type="text" placeholder="댓글을 입력하세요" v-model="content">
-            <button>등록</button>
+            <button>등록하기</button>
         </form>
         <div class="comment-ilst" v-if="comments">
             <div class="comment-item" v-for="comment in comments" :key="comment.id">
@@ -96,17 +96,23 @@ const updateComments = () => {
     }
 }
 
-// route.params.postId가 변경될 때마다 댓글 목록 업데이트
-watch(() => route.params.postId, async (newPostId) => {
-    // newPostId가 존재하지 않을 때 기본 게시글 ID인 1번 게시글의 댓글 목록을 가져오기
-    const postIdToFetch = newPostId || 1; // newPostId가 없으면 1로 설정
+// // route.params.postId가 변경될 때마다 댓글 목록 업데이트
+// watch(() => route.params.postId, async (newPostId) => {
+//     // newPostId가 존재하지 않을 때 기본 게시글 ID인 1번 게시글의 댓글 목록을 가져오기
+//     const postIdToFetch = newPostId || 1; // newPostId가 없으면 1로 설정
 
-    // 해당 게시글의 상세 정보를 가져옵니다.
-    await communityStore.getPostDetail(postIdToFetch);
+//     // 해당 게시글의 상세 정보를 가져옵니다.
+//     await communityStore.getPostDetail(postIdToFetch);
     
+//     // 댓글 목록 업데이트
+//     updateComments()
+// });
+
+watch(() => communityStore.post, async (newPost) => {
     // 댓글 목록 업데이트
     updateComments()
-});
+}, {deep:true});
+
 
 onMounted(() => {
     updateComments();
@@ -126,12 +132,12 @@ onMounted(() => {
 }
 
 .comments form {
-    position: relative
+    position: relative;
 }
 
 .comments input[type="text"] {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     padding-right: 15%;
     border: none;
     border-radius: 6px;
@@ -142,7 +148,7 @@ onMounted(() => {
     position: absolute;
     top: 16px;
     right: 6px;
-    padding: 3px 10px;
+    padding: 5px 10px;
     font-size: 12px;
     color: #fff;
     background-color: var(--point-color);

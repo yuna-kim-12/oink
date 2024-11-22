@@ -120,7 +120,7 @@ const updateChart = () => {
         },
       },
     },
-    colors: ['#bebebe', '#FF6708','#bebebe'],
+    colors: ['#bebebe', '#7268CF','#bebebe'],
   };
 };
 </script>

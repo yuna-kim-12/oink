@@ -248,14 +248,15 @@ const toggleGoal = (goal) => {
 .signup-container {
     width: 100%;
     max-width: 500px;
-    margin: 60px auto;
+    margin: 150px auto;
     padding: 20px;
 }
 
 .signup-title {
-    color: #FF6708;
+    color: var(--main-color);
     text-align: center;
     font-size: 24px;
+    font-weight: bold;
     margin-bottom: 40px;
 }
 
@@ -295,14 +296,14 @@ p {
 
 .password-require {
     font-size: 12px;
-    color: #fc8a44;
+    color: var(--main-text-color);
     padding-left: 10px;
     font-weight: 350;
 }
 
 .asset-min {
     font-size: 12px;
-    color: #fc8a44;
+    color: var(--main-text-color);
     padding-left: 10px;
     font-weight: 350;
     justify-content: end;
@@ -377,14 +378,14 @@ p {
 }
 
 .goal-btn:hover {
-    border-color: #FFB07E;
-    color: #FFB07E;
+    border-color: var(--main-text-color);
+    color: var(--main-text-color);
 }
 
 .goal-btn.active {
-    background: #FFB07E;
+    background: var(--main-text-color);
     color: white;
-    border-color: #FFB07E;
+    border-color: var(--main-text-color);
 }
 
 /* 슬라이더 스타일 */
@@ -451,14 +452,14 @@ p {
 }
 
 .savings-amount-slider label:hover::after {
-    border-color: #FF6708;
-    background: #FF6708;
+    border-color: var(--main-text-color);
+    background: var(--main-text-color);
     transform: translate(-50%, -50%) scale(1.25);
 }
 
 .savings-amount-slider input:checked+label::after {
-    border-color: #FF6708;
-    background: #FF6708;
+    border-color: var(--main-text-color);
+    background: var(--main-text-color);
     transform: translate(-50%, -50%) scale(0.75);
 }
 
@@ -466,7 +467,7 @@ p {
 .submit-btn {
     width: 100%;
     padding: 15px;
-    background: #FF6708;
+    background: var(--point-color);
     color: white;
     border: none;
     border-radius: 8px;
@@ -477,7 +478,7 @@ p {
 }
 
 .submit-btn:hover {
-    background: #ff7d2e;
+    background: var(--main-text-color);
 }
 
 .deb-amount {

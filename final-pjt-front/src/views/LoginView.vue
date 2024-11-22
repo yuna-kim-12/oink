@@ -59,7 +59,7 @@ const logIn = () => {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 350px;
+    margin-top: 150px;
 }
 
 .login .title {
@@ -108,6 +108,10 @@ const logIn = () => {
   border: none;
   border-radius: 30px;
   cursor: pointer;
+}
+
+.login-form input[type='submit']:hover {
+    background:  var(--main-color);
 }
 
 .user-nav {

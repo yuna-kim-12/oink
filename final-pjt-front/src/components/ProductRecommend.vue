@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="recommendation-container">
     <div class="account-toggle">
       <div class="toggle-slider" :style="sliderStyle"></div>
       <button @click="setCategory(false)" :class="{ active: !category }" class="toggle-button">예금</button>
@@ -127,6 +127,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.recommendation-container {
+  padding: 180px 0;
+  margin: 100px auto;
+  text-align: center;
+  background-color: rgb(248, 248, 248);
+}
+
 .account-toggle {
   display: inline-flex;
   background-color: #f0f0f0;

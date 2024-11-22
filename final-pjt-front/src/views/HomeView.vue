@@ -1,25 +1,28 @@
 <template>
     <div>
-        <OinkIntro/>
-        <PiggyBank/>
-        <PiggyBankInfo/>
-        <RecommendView/>
-        <button 
-            class="create-piggy"
-            v-show="showButton"
-            @click="navigateToPiggyCreate"
-        >
+        <OinkIntro />
+        <PiggyBank />
+        <PiggyBankInfo />
+
+        <div class="recommend">
+            <h2 class="recommendation-badge">돼지 저금통을 불릴 수 있는</h2>
+            <h2 class="recommendation-badge">예적금 상품을 추천해드려요.</h2>
+        </div>
+        <ProductRecommend />
+        <button class="create-piggy" v-show="showButton" @click="navigateToPiggyCreate">
             저금통 만들러 가기
         </button>
 
         <div class="community-intro">
             <div class="community-intro-text">
                 <img src="@/assets/images/coin.png" alt="coin-img">
-                <p><span>나와 같은 목표</span>를 가진<br>사람들의 소식을 만나보실 수도 있어요</p>
+                <h2><span>나와 같은 목표</span>를 가진<br>사람들의 소식을 만나보실 수도 있어요</h2>
                 <img src="@/assets/images/coin.png" alt="coin-img">
             </div>
             <img src="@/assets/images/community.png" alt="">
         </div>
+
+        <Cheerup />
     </div>
 </template>
 
@@ -29,7 +32,8 @@ import { useRouter } from 'vue-router';
 import OinkIntro from '@/components/OinkIntro.vue';
 import PiggyBank from '@/components/PiggyBank.vue';
 import PiggyBankInfo from '@/components/PiggyBankInfo.vue';
-import RecommendView from './RecommendView.vue';
+import ProductRecommend from '@/components/ProductRecommend.vue';
+import Cheerup from '@/components/Cheerup.vue';
 
 const showButton = ref(false);
 const router = useRouter();
@@ -52,6 +56,19 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* 상품 추천 */
+.recommend {
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.recommendation-badge {
+  margin-bottom: 5px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #020202;
+}
+
 /* 저금통 만들러 가기 버튼 */
 .create-piggy {
     position: fixed;
@@ -76,11 +93,11 @@ onUnmounted(() => {
 }
 
 .community-intro {
-    margin: 100px auto;
+    margin: 100px auto 200px;
     text-align: center;
 }
 
-.community-intro > img {
+.community-intro>img {
     width: 80%;
     max-width: 1000px;
 }
@@ -88,16 +105,19 @@ onUnmounted(() => {
 .community-intro-text {
     position: relative;
     display: inline-block;
-    margin-bottom: 100px;
+    margin: 100px 0;
     padding: 50px 0;
     text-align: center;
-    font-size: 30px;
     color: var(--sub-text-bold-color);
 }
 
 .community-intro-text span,
-.community-intro-text p {
+.community-intro-text h2 {
     font-weight: 700;
+}
+
+.community-intro-text h2 {
+    font-size: 30px;
 }
 
 .community-intro-text span {

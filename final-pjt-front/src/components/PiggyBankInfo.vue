@@ -30,7 +30,7 @@ import PiggyBankCarousel from './PiggyBankCarousel.vue'
 
 <style scoped>
 .piggy-bank-info-container h2 {
-  margin: 100px 0;
+  margin: 200px 0 130px;
   color: var(--sub-text-bold-color);
   text-align: center;
   font-size: 30px;
@@ -49,7 +49,7 @@ import PiggyBankCarousel from './PiggyBankCarousel.vue'
   display: flex;
   align-items: center;
   gap: 100px;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
 }
 
 .piggy-bank-item-text p:first-child {
@@ -74,7 +74,6 @@ import PiggyBankCarousel from './PiggyBankCarousel.vue'
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
   border-radius: 10px;
 }
 </style>

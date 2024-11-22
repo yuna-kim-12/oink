@@ -36,7 +36,8 @@ const weightDisplay = ref(null);
 const indicatorWrapper = ref(null);
 
 onMounted(() => {
-    const targetWeight = 27;
+    // curWeight 현재까지 모은 무게 넣기
+    const curWeight = 27;
     const duration = 1500;
 
     let startTime = null;
@@ -45,13 +46,14 @@ onMounted(() => {
         const elapsed = timestamp - startTime;
         const progress = Math.min(elapsed / duration, 1);
 
-        const currentValue = Math.round(targetWeight * progress);
+        const currentValue = Math.round(curWeight * progress);
         if (weightDisplay.value) {
             weightDisplay.value.textContent = `${currentValue}kg`;
         }
         
         if (progressBar.value) {
-            progressBar.value.style.width = `${progress * 90}%`;
+            // `${progress * 100}%` 100 자리에 얼만큼 달성했는지 적기
+            progressBar.value.style.width = `${progress * 100}%`;
         }
 
         if (indicatorWrapper.value) {

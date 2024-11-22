@@ -1,7 +1,13 @@
 <template>
     <div class="piggy-bank-carousel">
+      <p>{{ currentPiggy.percentage }}% </p>
       <img :src="currentPiggy.image" :alt="currentPiggy.color + ' 돼지 저금통'">
-      <p>목표 {{ currentPiggy.percentage }}% 달성</p>
+      <div class="carousel-indicators">
+        <span v-for="(piggy, index) in piggyBanks" 
+              :key="index" 
+              :class="['indicator', { 'active': index === currentIndex }]">
+        </span>
+      </div>
     </div>
   </template>
   
@@ -9,10 +15,10 @@
   import { ref, onMounted, onUnmounted } from 'vue'
   
   const piggyBanks = [
-    { color: '핑크', image: 'src/assets/images/bank_logo/kb.png', percentage: '0 - 25' },
-    { color: '블루', image: 'src/assets/images/bank_logo/woori.png', percentage: '26 - 50' },
-    { color: '그린', image: 'src/assets/images/bank_logo/toss.png', percentage: '51 - 75' },
-    { color: '골드', image: 'src/assets/images/bank_logo/sc.png', percentage: '76 - 100' }
+    { color: '핑크', image: 'src/assets/images/pink-pig(25).png', percentage: '0 - 25' },
+    { color: '블루', image: 'src/assets/images/green-pig(50).png', percentage: '26 - 50' },
+    { color: '그린', image: 'src/assets/images/blue-pig(75).png', percentage: '51 - 75' },
+    { color: '골드', image: 'src/assets/images/yellow-pig(100).png', percentage: '76 - 100' }
   ]
   
   const currentIndex = ref(0)
@@ -26,7 +32,7 @@
   let intervalId
   
   onMounted(() => {
-    intervalId = setInterval(updatePiggy, 2000) // 3초마다 변경
+    intervalId = setInterval(updatePiggy, 2000) // 2초마다 변경
   })
   
   onUnmounted(() => {
@@ -37,6 +43,9 @@
   <style scoped>
   .piggy-bank-carousel {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .piggy-bank-carousel img {
@@ -47,6 +56,29 @@
   
   .piggy-bank-carousel p {
     margin-top: 10px;
+    color: var(--sub-text-color);
     font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .carousel-indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .indicator.active {
+    width: 20px;
+    border-radius: 4px;
+    background-color: var(--sub-text-color);
   }
   </style>

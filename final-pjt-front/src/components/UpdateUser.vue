@@ -443,7 +443,7 @@ p {
 .submit-btn {
     width: 100%;
     padding: 15px;
-    background: var(--main-color);
+    background-color: var(--point-color);
     color: white;
     border: none;
     border-radius: 8px;

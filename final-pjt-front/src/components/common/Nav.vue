@@ -1,6 +1,6 @@
 <template>
   <nav class="nav">
-    <RouterLink :to="{name:'home'}" class="logo roboto-black-italic">
+    <RouterLink :to="{name:'home'}" class="logo">
       <img src="/images/logo.png" alt="logo-img">
     </RouterLink>
     <div class="real-nav">
@@ -9,14 +9,32 @@
       <RouterLink :to="{name:'community'}">커뮤니티</RouterLink>
       <RouterLink :to="{name:'exchange'}">환율 계산기</RouterLink>
     </div>
-    <RouterLink :to="{name: 'login'}" class="login-btn">로그인</RouterLink>
+
+    <div class="is-logged-in" v-if="store.isLoggedIn">
+      <button @click="router.push({ name: 'profile', params: { userId: store.userPK }})">
+        <i class="pi pi-user user-icon"></i>
+      </button>
+      <button @click="store.logOut" class="logout-btn">
+      로그아웃
+      </button>
+    </div>
+
+  <RouterLink
+  v-else
+  :to="{name: 'login'}" class="login-btn">로그인</RouterLink>
+ 
   </nav>
 </template>
 
 <script setup>
 import { onMounted } from 'vue'
 import { gsap } from 'gsap'
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user';
+import { useRoute } from 'vue-router';
+
+const router = useRouter()
+const store = useUserStore()
 
 onMounted(() => {
   // Homepage container animation
@@ -49,18 +67,14 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1280px;
   min-width: 900px;
+  margin: 0 auto;
   padding: 10px 20px;
 }
 
-.logo {
-  font-size: 30px;
-  color: #FF6709;
-  font-weight: bold;
-}
-
 .logo img {
-  width: 80px;
+  width: 90px;
 }
 
 .real-nav {
@@ -71,13 +85,50 @@ onMounted(() => {
   padding: 12px;
   color: #B9B9B9;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 500;
 }
 
-.login-btn {
+.real-nav a:hover {
+  font-weight: 700;
+  
+}
+
+.user-icon {
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  background-color: rgba(255, 103, 8, 0.6);
+  border-radius: 50%;
+  height: 32px;
+  width: 35px;
+  margin-right: 5px;
+}
+
+/* .user-btn {
+  margin-top: 10px;
+} */
+
+.login-btn,
+.logout-btn {
   background-color: rgba(255, 103, 8, 0.6);
   color: white;
   padding: 5px 12px;
   border-radius: 30px;
+  width: 83px;
+  font-size: 13px;
+  width: 83px;
+  height: 29px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+button.login-btn {
+  border: none;
+  cursor: pointer;
+  padding: 5px 12px;
+  font-size: 13px;
+  width: 83px;
+  height: 29px;
+  margin-top: 10px;
 }
 </style>

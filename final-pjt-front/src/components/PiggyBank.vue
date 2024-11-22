@@ -2,7 +2,7 @@
     <div class="container">
         <div class="piggybank-main">
             <div class="piggybank-img">
-                <img src="@/assets/images/돼지 그림.png" alt="">
+                <img src="@/assets/images/yellow-pig(100).png" alt="">
                 <span ref="weightDisplay" class="weight">0kg</span>
                 <div class="progress-outer">
                     <div class="progress-container">
@@ -53,11 +53,11 @@ onMounted(() => {
         
         if (progressBar.value) {
             // `${progress * 100}%` 100 자리에 얼만큼 달성했는지 적기
-            progressBar.value.style.width = `${progress * 100}%`;
+            progressBar.value.style.width = `${progress * 80}%`;
         }
 
         if (indicatorWrapper.value) {
-            indicatorWrapper.value.style.left = `${progress * 90}%`;
+            indicatorWrapper.value.style.left = `${progress * 80}%`;
         }
 
         if (progress < 1) {
@@ -84,10 +84,16 @@ onMounted(() => {
 .piggybank-img {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 200px;
     height: 200px;
     margin-right: 100px;
-    margin-bottom:67px;
+}
+
+.piggybank-img > img {
+    width: 200px;
+    
 }
 
 
@@ -152,18 +158,26 @@ onMounted(() => {
     padding-left: 5px;
 }
 
+
+.weight {
+    margin-top: 20px;
+    font-weight: 700;
+    color: var(--sub-text2-color);
+    font-size: 24px;
+}
+
 .progress-outer {
     width: 100%;
-    margin-top: 15px;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
 }
 
 .progress-container {
-    width: 150px;
-    height: 8px;
+    width: 250px;
+    height: 15px;
     background-color: #DDDDDD;
-    border-radius: 4px;
+    border-radius: 10px;
     position: relative;
 }
 
@@ -174,16 +188,7 @@ onMounted(() => {
     height: 100%;
     width: 0;
     background-color: #2ECC71;
-    border-radius: 4px;
-}
-
-.weight {
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: 700;
-    color: #a8a8a8;
-    margin-top: 10px;
-    font-size: 20px;
+    border-radius: 10px;
 }
 
 .indicator-wrapper {
@@ -195,8 +200,8 @@ onMounted(() => {
 
 .progress-indicator {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
     right: -10px;
     top: 50%;
     transform: translateY(-50%);

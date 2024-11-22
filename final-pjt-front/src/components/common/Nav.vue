@@ -62,14 +62,15 @@ onMounted(() => {
   min-width: 900px;
   margin: 0 auto;
   padding: 10px 15%;
-  background: rgba(255, 255, 255, 0.8);
+  background-color: #fff;
   z-index: 100;
   border-bottom: none;
 }
 
 .nav.scrolled {
   border-bottom: 1px solid var(--main-color);
-  transition: border-bottom 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease; 
 }
 
 .logo img {

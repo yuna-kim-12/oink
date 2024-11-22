@@ -1,4 +1,5 @@
 <template>
+
   <div class="container">
     <div class="account-toggle">
       <div class="toggle-slider" :style="sliderStyle"></div>
@@ -135,6 +136,7 @@ onMounted(() => {
     margin: 0px auto ;
     width: 1280px;
   }
+
 
 .account-toggle {
   display: inline-flex;

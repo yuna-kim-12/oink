@@ -71,6 +71,9 @@ onMounted(() => {
   min-width: 900px;
   margin: 0 auto;
   padding: 10px 20px;
+  border-bottom: 1px solid var(--main-color);
+  background: #fff;
+  opacity: 80%;
 }
 
 .logo img {
@@ -85,32 +88,30 @@ onMounted(() => {
   padding: 12px;
   color: #B9B9B9;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .real-nav a:hover {
-  font-weight: 700;
-  
+  color: var(--main-text-color);
+  transform: scale(1.1);
+  transition: all 450ms ease-in-out;
 }
 
 .user-icon {
   cursor: pointer;
   padding: 10px;
   color: white;
-  background-color: rgba(255, 103, 8, 0.6);
+  background-color: var(--main-color);
   border-radius: 50%;
   height: 32px;
   width: 35px;
   margin-right: 5px;
 }
 
-/* .user-btn {
-  margin-top: 10px;
-} */
 
 .login-btn,
 .logout-btn {
-  background-color: rgba(255, 103, 8, 0.6);
+  background-color: var(--main-color);
   color: white;
   padding: 5px 12px;
   border-radius: 30px;
@@ -119,7 +120,6 @@ onMounted(() => {
   width: 83px;
   height: 29px;
   text-align: center;
-  margin-top: 10px;
 }
 
 button.login-btn {

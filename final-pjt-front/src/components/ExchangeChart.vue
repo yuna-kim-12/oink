@@ -47,7 +47,7 @@ const getCurrencyCode = computed(() => {
 }
 
 .card:hover {
-    color: #1089FF;
+    color: var(--main-color);
     transform: scale(1.02);
 }
 

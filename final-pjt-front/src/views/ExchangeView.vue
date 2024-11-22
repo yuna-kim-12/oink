@@ -13,20 +13,22 @@
                     </select>
                 </div>
                 <div class="input-box">
-                    <label for="">금액</label>
-                    <input type="number" placeholder="계산할 금액을 입력하세요" v-model="price">
+                    <label for="price">금액</label>
+                    <input id="price" type="number" placeholder="계산할 금액을 입력하세요" v-model="price">
                 </div>
             </div>
 
             <div class="exchange-krw">
-                <p>KRW</p>
-                <p>{{ calculatedAmount }}원</p>
+				<div class="input-box">
+					<label for="price-krw">KRW</label>
+					<p id="price-krw">{{ calculatedAmount }}</p>
+				</div>
             </div>
         </div>
 
         <br>
 
-        <p>환율 그래프</p>
+        <h4>환율 그래프</h4>
         <div class="chart">
             <ExchangeChart 
             v-for="info in exchangeInfo"
@@ -137,7 +139,15 @@ onMounted(() => {
 
 .exchange-rate h2 {
     margin: 100px auto 30px;
-    color: #ff6708;
+    color: var(--main-color);
+	font-weight: 600;
+
+}
+
+.exchange-rate h4 {
+    margin: 20px auto 30px;
+	font-weight: 600;
+	color: var(--sub-text-color);
 }
 
 .exchange-rate-box {
@@ -157,10 +167,20 @@ onMounted(() => {
     flex-grow: 1;
 }
 
+#cur-nm {
+	height: 35px;
+	
+}
+#price {
+	height: 35px;
+}
+#price-krw {
+	height: 40px;
+}
+
 .input-box,
 .exchange-krw {
     position: relative;
-    padding: 0 5px;
 }
 
 .input-box label,
@@ -173,7 +193,13 @@ onMounted(() => {
     background-color: #fff;
 }
 
-.input-box select,
+.input-box select {
+	width: 95%;
+    padding: 8px 10px;
+    border: 1px solid #BCBCBC;
+    border-radius: 5px;
+}
+
 .input-box input {
     width: 100%;
     padding: 8px 10px;

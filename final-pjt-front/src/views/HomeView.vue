@@ -7,8 +7,8 @@
         <div class="product-recommend">
             <h2 class="recommendation-badge">돼지 저금통을 불릴 수 있는</h2>
             <h2 class="recommendation-badge">예적금 상품을 추천해드려요.</h2>
+            <ProductRecommend />
         </div>
-        <ProductRecommend />
         <button class="create-piggy" v-show="showButton" @click="navigateToPiggyCreate">
             저금통 만들러 가기
         </button>

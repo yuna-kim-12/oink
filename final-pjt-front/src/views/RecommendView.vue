@@ -1,6 +1,9 @@
 <template>
     <div class="recommendation-container">
-      <h2 class="recommendation-badge">예적금 상품 추천</h2>
+      <div class="recommend">
+        <h2 class="recommendation-badge">돼지 저금통을 불릴 수 있는</h2>
+        <h2 class="recommendation-badge">예적금 상품을 추천해드려요.</h2>
+      </div>
       <div class="account-toggle">
         <div class="toggle-slider" :style="sliderStyle"></div>
         <button @click="setCategory(false)" :class="{ active: !category }" class="toggle-button">예금</button>
@@ -127,16 +130,23 @@
   
   <style scoped>
   .recommendation-container {
+  padding-top: 180px;
   margin: 100px auto;
   text-align: center;
+  background-color: rgb(248, 248, 248);
+  height: 100vh;
 }
 
+.recommend {
+  margin-bottom: 60px;
+}
 .recommendation-badge {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   font-size: 30px;
   font-weight: 700;
-  color: #FF6708;
+  color: #020202;
 }
+
 
 .account-toggle {
   display: inline-flex;
@@ -192,13 +202,19 @@
   color: #ABABAB;
 }
 
+
+
+
 .recommendation-intro > span {
-  color: #FF6708;
+  color: var(--main-color);
   font-weight: 700;
 }
 
 .recommendation-title {
   margin-top: 8px;
+  font-size: 30px;
+  font-weight: 700;
+  color: rgb(92, 92, 92);
 }
 
 .product-list {
@@ -219,6 +235,9 @@
   position: relative;
   transform-style: preserve-3d;
   transition: all 0.3s ease;
+  zoom: 99.6%;
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
 }
 
 .product-card-inner {
@@ -254,7 +273,7 @@
 
 /* 호버 효과 */
 .product-item:hover .product-card {
-  transform: scale(1.05);
+  transform: scale(1);
 }
 
 /* 클릭 효과 */
@@ -263,7 +282,15 @@
 }
 
 .hover-effect .product-card-front {
-  background-color: #FFB07E;
+  background-color: var(--point-color);
+}
+
+.hover-effect .product-card-front .rate-value {
+  color: white;
+}
+
+.hover-effect .product-card-front .rate-condition {
+  color: black;
 }
 
 .product-content {
@@ -310,7 +337,7 @@
 .rate-value {
   font-size: 24px;
   font-weight: bold;
-  color: #FF6708;
+  color: var(--point-color);
 }
 
 .rate-condition {

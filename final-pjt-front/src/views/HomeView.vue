@@ -3,6 +3,7 @@
         <OinkIntro/>
         <PiggyBank/>
         <PiggyBankInfo/>
+        <RecommendView/>
         <button 
             class="create-piggy"
             v-show="showButton"
@@ -19,6 +20,7 @@ import { useRouter } from 'vue-router';
 import OinkIntro from '@/components/OinkIntro.vue';
 import PiggyBank from '@/components/PiggyBank.vue';
 import PiggyBankInfo from '@/components/PiggyBankInfo.vue';
+import RecommendView from './RecommendView.vue';
 
 const showButton = ref(false);
 const router = useRouter();

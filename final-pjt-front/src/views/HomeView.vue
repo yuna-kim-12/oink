@@ -3,10 +3,19 @@
         <OinkIntro/>
         <PiggyBank/>
         <PiggyBankInfo/>
-        <RecommendView/>
+
+        <div class="product-recommend">
+            <div class="recommend">
+                <h2 class="recommendation-badge">돼지 저금통을 불릴 수 있는</h2>
+                <h2 class="recommendation-badge">예적금 상품을 추천해드려요.</h2>
+            </div>
+            <ProductRecommend/>
+        </div>
+        
+        
         <button 
-            class="create-piggy"
-            v-show="showButton"
+        class="create-piggy"
+        v-show="showButton"
             @click="navigateToPiggyCreate"
         >
             저금통 만들러 가기
@@ -30,6 +39,7 @@ import OinkIntro from '@/components/OinkIntro.vue';
 import PiggyBank from '@/components/PiggyBank.vue';
 import PiggyBankInfo from '@/components/PiggyBankInfo.vue';
 import RecommendView from './RecommendView.vue';
+import ProductRecommend from '@/components/ProductRecommend.vue';
 
 const showButton = ref(false);
 const router = useRouter();
@@ -121,4 +131,34 @@ onUnmounted(() => {
     height: 70px;
     transform: rotate(-60deg);
 }
+
+.product-recommend {
+    /* text-align: center; */
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(248, 248, 248);
+}
+
+.product-recommend-text {
+
+    padding: 50px 0;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.recommend {
+  margin-bottom: 80px;
+  margin-top: 60px;
+  text-align: center;
+}
+.recommendation-badge {
+  margin-bottom: 5px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #020202;
+}
+
 </style>

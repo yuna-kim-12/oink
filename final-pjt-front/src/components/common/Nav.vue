@@ -1,8 +1,10 @@
 <template>
   <nav class="nav scrolled">
-    <RouterLink :to="{name:'home'}" class="logo">
-      <img src="/images/logo.png" alt="logo-img">
-    </RouterLink>
+    <h1 class="logo">
+      <RouterLink :to="{name:'home'}">
+        <img src="/images/logo.png" alt="logo-img">
+      </RouterLink>
+    </h1>
     <div class="real-nav">
       <RouterLink :to="{name:'recommend'}">금융상품추천</RouterLink>
       <RouterLink :to="{name:'map'}">지도</RouterLink>
@@ -31,7 +33,6 @@ import { onMounted, onUnmounted } from 'vue'
 import { gsap } from 'gsap'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user';
-import { useRoute } from 'vue-router';
 
 const router = useRouter()
 const store = useUserStore()
@@ -47,28 +48,6 @@ const handleScroll = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
-  // Homepage container animation
-  gsap.fromTo(".recommendation-container",
-    { opacity: 0, y: -50 },
-    { opacity: 1, y: 0, duration: 1, ease: "power2.out" }
-  );
-  
-  // Navbar animation with timing sync
-  const stagger = 0.6;
-  const totalProducts = 5;
-  const productAnimationDuration = 3;
-  const totalDelay = (totalProducts * stagger + productAnimationDuration);
-  
-  gsap.fromTo(".nav",
-    { opacity: 0, y: -50 },
-    { 
-      opacity: 1, 
-      y: 0, 
-      duration: 1,
-      delay: 0.2,
-      ease: "power2.out"
-    }
-  );
 });
 </script>
 

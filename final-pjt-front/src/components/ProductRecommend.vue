@@ -181,9 +181,9 @@ onMounted(() => {
   outline: none;
 }
 
-.toggle-button:hover:not(.active) {
+/* .toggle-button:hover:not(.active) {
   background-color: rgba(255, 255, 255, 0.5);
-}
+} */
 
 .recommendation-intro,
 .recommendation-title {

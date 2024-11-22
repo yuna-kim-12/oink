@@ -182,7 +182,7 @@ const handleCheerup = (index) => {
 }
 
 .stage {
-  width: 100vw;
+  width: 100%;
   margin-top: 20px;
 }
 

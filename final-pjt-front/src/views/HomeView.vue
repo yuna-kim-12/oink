@@ -6,7 +6,7 @@
 
         <div class="product-recommend">
             <h2 class="recommendation-badge">돼지 저금통을 불릴 수 있는</h2>
-            <h2 class="recommendation-badge">예적금 상품을 추천해드려요.</h2>
+            <h2 class="recommendation-badge last">예적금 상품을 추천해드려요.</h2>
             <ProductRecommend />
         </div>
         <button class="create-piggy" v-show="showButton" @click="navigateToPiggyCreate">
@@ -68,6 +68,10 @@ onUnmounted(() => {
   font-size: 30px;
   font-weight: 700;
   color: #020202;
+}
+
+.recommendation-badge.last {
+    margin-bottom: 100px;
 }
 
 /* 저금통 만들러 가기 버튼 */

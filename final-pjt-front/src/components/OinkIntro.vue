@@ -17,7 +17,7 @@
     align-items: center;
     width: 100%;
     height: 100vh;
-    background-image: url('src/assets/intro-bg-img.png');
+    background-image: url('src/assets/images/intro-bg-img.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;

@@ -32,44 +32,44 @@ const props = defineProps({
 // const getBankLogo = (categoryName) => {
 //     const bankName = categoryName.split(' > ').pop();
 //     const bankLogos = {
-//       'KB국민은행': require('@/assets/images/kb.png'),
-//         '신한은행': require('@/assets/images/shinhan.png'),
-//         '하나은행': require('@/assets/images/hana.png'),
-//         '우리은행': require('@/assets/images/woori.png'),
-//         'NH농협은행': require('@/assets/images/nh.png'),
-//         'IBK기업은행': require('@/assets/images/IBK.png'),
-//         'KDB산업은행': require('@/assets/images/KDB.png'),
-//         'SC제일은행': require('@/assets/images/sc.png'),
-//         '부산은행': require('@/assets/images/BUSAN.png'),
-//         'iM뱅크': require('@/assets/images/IM.png'),
-//         'SH수협은행': require('@/assets/images/SH.png'),
-//         '경남은행': require('@/assets/images/BUSAN.png'),
-//         '카카오뱅크': require('@/assets/images/kakao.png'),
-//         '광주은행': require('@/assets/images/KWANGJU.png'),
-//         '토스뱅크': require('@/assets/images/toss.png'),
-//         '전북은행': require('@/assets/images/JEONBUK.png'),
-//         '케이뱅크': require('@/assets/images/kbank.png'),
-//         '제주은행': require('@/assets/images/shinhan.png'),
+//       'KB국민은행': require('src/assets/images/bank_logo/kb.png'),
+//         '신한은행': require('src/assets/images/bank_logo/shinhan.png'),
+//         '하나은행': require('src/assets/images/bank_logo/hana.png'),
+//         '우리은행': require('src/assets/images/bank_logo/woori.png'),
+//         'NH농협은행': require('src/assets/images/bank_logo/nh.png'),
+//         'IBK기업은행': require('src/assets/images/bank_logo/IBK.png'),
+//         'KDB산업은행': require('src/assets/images/bank_logo/KDB.png'),
+//         'SC제일은행': require('src/assets/images/bank_logo/sc.png'),
+//         '부산은행': require('src/assets/images/bank_logo/BUSAN.png'),
+//         'iM뱅크': require('src/assets/images/bank_logo/IM.png'),
+//         'SH수협은행': require('src/assets/images/bank_logo/SH.png'),
+//         '경남은행': require('src/assets/images/bank_logo/BUSAN.png'),
+//         '카카오뱅크': require('src/assets/images/bank_logo/kakao.png'),
+//         '광주은행': require('src/assets/images/bank_logo/KWANGJU.png'),
+//         '토스뱅크': require('src/assets/images/bank_logo/toss.png'),
+//         '전북은행': require('src/assets/images/bank_logo/JEONBUK.png'),
+//         '케이뱅크': require('src/assets/images/bank_logo/kbank.png'),
+//         '제주은행': require('src/assets/images/bank_logo/shinhan.png'),
 //     };
 //     return bankLogos[bankName] || require('@/assets/images/default.png');
 // };
 
-import kbLogo from '@/assets/images/kb.png';
-import shinhanLogo from '@/assets/images/shinhan.png';
-import hanaLogo from '@/assets/images/hana.png';
-import wooriLogo from '@/assets/images/woori.png';
-import nhLogo from '@/assets/images/nh.png';
-import ibkLogo from '@/assets/images/IBK.png';
-import kdbLogo from '@/assets/images/KDB.png';
-import scLogo from '@/assets/images/sc.png';
-import busanLogo from '@/assets/images/BUSAN.png';
-import imBankLogo from '@/assets/images/IM.png';
-import shLogo from '@/assets/images/SH.png';
-import kakaoLogo from '@/assets/images/kakao.png';
-import kwangjuLogo from '@/assets/images/KWANGJU.png';
-import tossLogo from '@/assets/images/toss.png';
-import jeonbukLogo from '@/assets/images/JEONBUK.png';
-import kbankLogo from '@/assets/images/kbank.png';
+import kbLogo from '@/assets/images/bank_logo/kb.png';
+import shinhanLogo from '@/assets/images/bank_logo/shinhan.png';
+import hanaLogo from '@/assets/images/bank_logo/hana.png';
+import wooriLogo from '@/assets/images/bank_logo/woori.png';
+import nhLogo from '@/assets/images/bank_logo/nh.png';
+import ibkLogo from '@/assets/images/bank_logo/IBK.png';
+import kdbLogo from '@/assets/images/bank_logo/KDB.png';
+import scLogo from '@/assets/images/bank_logo/sc.png';
+import busanLogo from '@/assets/images/bank_logo/BUSAN.png';
+import imBankLogo from '@/assets/images/bank_logo/IM.png';
+import shLogo from '@/assets/images/bank_logo/SH.png';
+import kakaoLogo from '@/assets/images/bank_logo/kakao.png';
+import kwangjuLogo from '@/assets/images/bank_logo/KWANGJU.png';
+import tossLogo from '@/assets/images/bank_logo/toss.png';
+import jeonbukLogo from '@/assets/images/bank_logo/JEONBUK.png';
+import kbankLogo from '@/assets/images/bank_logo/kbank.png';
 
 // 기본 로고 (없을 경우 표시)
 const defaultLogo = '/images/default.png';

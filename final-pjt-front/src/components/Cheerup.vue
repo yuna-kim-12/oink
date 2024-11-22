@@ -6,12 +6,21 @@
     </div>
 
     <div class="cheerup-list">
-      <div class="cheerup-item" v-for=" n in cheerupList">
-        <p><span>오한나</span>님</p>
-        <img src="@/assets/images/돼지 그림.png" alt="" class="cheerup-img">
-        <p class="goal-name">결혼식 자금 모으기</p>
-        <p class="cheerup-count">50</p>
-        <button class="cheerup-btn">응원하기</button>
+      <div class="cheerup-container">
+        <div class="cheerup-item" v-for=" n in cheerupList">
+          <p><span>오한나</span>님</p>
+          <img src="@/assets/images/돼지 그림.png" alt="" class="cheerup-img">
+          <p class="goal-name">결혼식 자금 모으기</p>
+          <p class="cheerup-count">50</p>
+          <button class="cheerup-btn">응원하기</button>
+        </div>
+        <div class="cheerup-item" v-for=" n in cheerupList">
+          <p><span>오한나</span>님</p>
+          <img src="@/assets/images/돼지 그림.png" alt="" class="cheerup-img">
+          <p class="goal-name">결혼식 자금 모으기</p>
+          <p class="cheerup-count">50</p>
+          <button class="cheerup-btn">응원하기</button>
+        </div>
       </div>
     </div>
     <img src="@/assets/images/stage.png" alt="" class="stage">
@@ -44,7 +53,6 @@ const cheerupList = ref(5)
 .cheerup-text span {
   color: var(--main-text-color);
   font-weight: 700;
-
 }
 
 .cheerup-text p {
@@ -54,10 +62,24 @@ const cheerupList = ref(5)
 }
 
 .cheerup-list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
 
+.cheerup-container {
+  display: flex;
+  animation: slideLeft 20s linear infinite;
+  width: fit-content;
+}
+
+@keyframes slideLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .cheerup-item {
@@ -66,7 +88,7 @@ const cheerupList = ref(5)
   padding: 20px 50px;
   border-radius: 15px;
   margin: 0px 15px;
-
+  flex-shrink: 0;
 }
 
 .cheerup-item>p {

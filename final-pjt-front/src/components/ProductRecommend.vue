@@ -1,5 +1,6 @@
 <template>
-  <div class="recommendation-container">
+
+  <div class="container">
     <div class="account-toggle">
       <div class="toggle-slider" :style="sliderStyle"></div>
       <button @click="setCategory(false)" :class="{ active: !category }" class="toggle-button">예금</button>
@@ -61,24 +62,24 @@ const sliderStyle = computed(() => ({
 const getBankLogo = (categoryName) => {
   const bankName = categoryName.split(' > ').pop();
   const bankLogos = {
-    'KB국민은행': 'src/assets/images/kb.png',
-    '신한은행': 'src/assets/images/shinhan.png',
-    '하나은행': 'src/assets/images/hana.png',
-    '우리은행': 'src/assets/images/woori.png',
-    'NH농협은행': 'src/assets/images/nh.png',
-    'IBK기업은행': 'src/assets/images/IBK.png',
-    'KDB산업은행': 'src/assets/images/KDB.png',
-    'SC제일은행': 'src/assets/images/sc.png',
-    '부산은행': 'src/assets/images/BUSAN.png',
-    'iM뱅크': 'src/assets/images/IM.png',
-    'SH수협은행': 'src/assets/images/SH.png',
-    '경남은행': 'src/assets/images/BUSAN.png',
-    '카카오뱅크': 'src/assets/images/kakao.png',
-    '광주은행': 'src/assets/images/KWANGJU.png',
-    '토스뱅크': 'src/assets/images/toss.png',
-    '전북은행': 'src/assets/images/JEONBUK.png',
-    '케이뱅크': 'src/assets/images/kbank.png',
-    '제주은행': 'src/assets/images/shinhan.png',
+    'KB국민은행': 'src/assets/images/bank_logo/kb.png',
+    '신한은행': 'src/assets/images/bank_logo/shinhan.png',
+    '하나은행': 'src/assets/images/bank_logo/hana.png',
+    '우리은행': 'src/assets/images/bank_logo/woori.png',
+    'NH농협은행': 'src/assets/images/bank_logo/nh.png',
+    'IBK기업은행': 'src/assets/images/bank_logo/IBK.png',
+    'KDB산업은행': 'src/assets/images/bank_logo/KDB.png',
+    'SC제일은행': 'src/assets/images/bank_logo/sc.png',
+    '부산은행': 'src/assets/images/bank_logo/BUSAN.png',
+    'iM뱅크': 'src/assets/images/bank_logo/IM.png',
+    'SH수협은행': 'src/assets/images/bank_logo/SH.png',
+    '경남은행': 'src/assets/images/bank_logo/BUSAN.png',
+    '카카오뱅크': 'src/assets/images/bank_logo/kakao.png',
+    '광주은행': 'src/assets/images/bank_logo/KWANGJU.png',
+    '토스뱅크': 'src/assets/images/bank_logo/toss.png',
+    '전북은행': 'src/assets/images/bank_logo/JEONBUK.png',
+    '케이뱅크': 'src/assets/images/bank_logo/kbank.png',
+    '제주은행': 'src/assets/images/bank_logo/shinhan.png',
   };
   return bankLogos[bankName] || '/images/default.png';
 };
@@ -127,12 +128,15 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.recommendation-container {
-  padding: 180px 0;
-  margin: 100px auto;
-  text-align: center;
-  background-color: rgb(248, 248, 248);
-}
+  .container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px auto ;
+    width: 1280px;
+  }
+
 
 .account-toggle {
   display: inline-flex;
@@ -150,7 +154,7 @@ onMounted(() => {
   left: 4px;
   width: calc(50% - 4px);
   height: calc(100% - 8px);
-  background-color: #fff;
+  background-color: var(--main-color);
   border-radius: 25px;
   transition: transform 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -170,7 +174,7 @@ onMounted(() => {
 }
 
 .toggle-button.active {
-  color: #333;
+  color: white;
 }
 
 .toggle-button:focus {

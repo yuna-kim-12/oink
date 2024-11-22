@@ -80,12 +80,10 @@ onBeforeRouteUpdate(async (to) => {
 
 <style scoped>
 .container {
-    background-color: #FAE7DB;
     width: 100%;
     height: 100vh;
     display: flex;
-    margin: 0px;
-    padding: 0px;
+    /* margin: 150px 0; */
     flex-direction: column;
 }
 
@@ -97,6 +95,8 @@ onBeforeRouteUpdate(async (to) => {
 }
 
 .product-container {
+    background-color: #f8f7ff;
+    padding: 150px 0;
     margin-top: 40px;
 }
 
@@ -142,7 +142,7 @@ onBeforeRouteUpdate(async (to) => {
 }
 
 .product-interest span {
-    color: #FF6708;
+    color: var(--main-color);
     font-weight: 700;
     font-size: 18px;
 }
@@ -190,7 +190,7 @@ onBeforeRouteUpdate(async (to) => {
     white-space-collapse: collapse;
     text-wrap-mode: nowrap;
     font-weight: 700;
-    color: #FF6708;
+    color: var(--main-color);
 }
 
 .product-detail-item dd {
@@ -207,7 +207,7 @@ onBeforeRouteUpdate(async (to) => {
     font-size: 20px;
     border: none;
     color: white;
-    background-color: #FF6708;
+    background-color: var(--main-color);
     border-radius: 20px;
     cursor: pointer;
 }

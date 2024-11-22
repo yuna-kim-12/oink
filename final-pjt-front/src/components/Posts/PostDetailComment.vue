@@ -3,7 +3,7 @@
         <p>댓글</p>
         <form @submit.prevent="userStore.isLoggedIn ? createComment() : router.push({ name: 'login' })">
             <input type="text" placeholder="댓글을 입력하세요" v-model="content">
-            <button>작성하기</button>
+            <button>등록</button>
         </form>
         <div class="comment-ilst" v-if="comments">
             <div class="comment-item" v-for="comment in comments" :key="comment.id">
@@ -145,12 +145,12 @@ onMounted(() => {
     padding: 3px 10px;
     font-size: 12px;
     color: #fff;
-    background-color: var(--point-text-color);
+    background-color: var(--point-color);
     border-radius: 20px;
 }
 
 .comments button:hover {
-    background-color: var(--point-color);
+    background-color: var(--main-color);
 }
 
 .comment-item {

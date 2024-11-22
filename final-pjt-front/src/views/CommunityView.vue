@@ -15,7 +15,7 @@
                     <label :for="category.id" class="category-label">{{ category.label }}</label>
                 </div>
             </div>
-            <button @click="router.push(userStore.isLoggedIn ? { name: 'createPost' } : { name: 'login' })" class="write-btn">작성하기</button>
+            <button @click="router.push(userStore.isLoggedIn ? { name: 'createPost' } : { name: 'login' })" class="write-btn">게시글 작성</button>
         </div>
         
         <div class="content-wrapper">
@@ -129,7 +129,7 @@ onMounted(() => {
 
 .write-btn {
     padding: 8px 20px;
-    background-color: var(--point-text-color);
+    background-color: var(--point-color);
     color: white;
     border: none;
     border-radius: 30px;
@@ -137,7 +137,7 @@ onMounted(() => {
 }
 
 .write-btn:hover {
-    background-color: var(--point-color);
+    background-color: var(--main-color);
 }
 
 .content-wrapper {

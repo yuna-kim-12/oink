@@ -17,15 +17,11 @@
             </div>
 
             <div class="save">
-                    <!-- <div :class="['save-btn', { 'saved': isSaved }]"
-                    @click="toggleSave"> -->
-                    <div class="save-btn">
+                    <div :class="['save-btn', { 'saved': isSaved }]"
+                    	@click="toggleSave">
                         <i class="pi pi-bookmark-fill"></i>
-                    </div>
-                    
-                <!-- </div> -->
-                    <!-- <p>{{ saveCount }}</p> -->
-                    <p>0</p>
+                </div>
+                    <p>{{ saveCount }}</p>
             </div>
         </div>
     </div>
@@ -50,6 +46,8 @@ const props = defineProps({
 
 const isLiked = ref(false);
 const likeCount = ref(0);
+const isSaved = ref(false);
+const saveCount = ref(0);
 
 const computedLikeCount = computed(() => {
     return props.post ? likeCount.value : 0;
@@ -64,6 +62,18 @@ const getLikedStatus = async () => {
         likeCount.value = props.post.like_count;
     } catch (err) {
         console.log('좋아요 상태 가져오기 오류', err);
+    }
+};
+
+// 저장 상태 가져오기
+const getSavedStatus = async () => {
+    if (!props.post) return;
+
+    try {
+        isSaved.value = props.post.save_users == userStore.user.pk;
+        saveCount.value = props.post.save_count;
+    } catch (err) {
+        console.log('저장 상태 가져오기 오류', err);
     }
 };
 
@@ -95,17 +105,48 @@ const toggleLike = async () => {
     }
 };
 
+// 저장 토글
+const toggleSave = async () => {
+    if (!userStore.isLoggedIn) {
+        alert('로그인이 필요합니다.');
+        return;
+    }
+
+    if (!props.post) return;
+
+    isSaved.value = !isSaved.value;
+
+    try {
+        axios({
+            method: 'post',
+            url: `${communityStore.API_URL}/posts/save_post/${props.post.id}/`,
+            headers: {
+                Authorization: `Token ${userStore.token}`
+            }
+        })
+        .then(res => {
+            saveCount.value = res.data.save_count;
+        })
+
+    } catch (err) {
+        console.log('좋아요 시 오류', err);
+    }
+};
+
 // post 데이터 변화 감지
 watch(() => props.post, (newPost) => {
     if (newPost) {
         likeCount.value = newPost.like_users?.length || 0;
         getLikedStatus();
+		saveCount.value = newPost.save_users?.length || 0;
+        getSavedStatus();
     }
 }, { immediate: true });
 
 onMounted(() => {
     if (props.post) {
         getLikedStatus();
+		getSavedStatus();
     }
 });
 </script>

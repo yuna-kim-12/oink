@@ -1,3 +1,13 @@
+:root {
+    --main-color: #7268CF;
+    --main-text-color: #746EF4;
+    --point-color: #33C686;
+    --sub-text-color: #808080;
+    --sub-text2-color: #565656;
+    --sub-text-bold-color: #333;
+    --stroke-color: #BCBCBC;
+    --box-bg-color: #D9D9D9;
+}
 * {
     margin: 0;
     padding: 0;

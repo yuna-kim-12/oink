@@ -6,12 +6,27 @@
             v-if="userStore.isLoggedIn && userStore.user.pk === post.user">수정하기</button>
         </div>
         <div class="content">{{ post.content }}</div>
-        <div class="like">
-            <div :class="['like-btn', { 'liked': isLiked }]"
-            @click="toggleLike">
-            <i class="pi pi-heart-fill"></i>
-        </div>
-            <p>{{ likeCount }}</p>
+
+        <div class="like_save_btn">
+            <div class="like">
+                <div :class="['like-btn', { 'liked': isLiked }]"
+                    @click="toggleLike">
+                    <i class="pi pi-heart-fill"></i>
+                </div>
+                    <p>{{ likeCount }}</p>
+            </div>
+
+            <div class="save">
+                    <!-- <div :class="['save-btn', { 'saved': isSaved }]"
+                    @click="toggleSave"> -->
+                    <div class="save-btn">
+                        <i class="pi pi-bookmark-fill"></i>
+                    </div>
+                    
+                <!-- </div> -->
+                    <!-- <p>{{ saveCount }}</p> -->
+                    <p>0</p>
+            </div>
         </div>
     </div>
 </template>
@@ -96,6 +111,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
 .post-body {
     margin: 10px 0;
 }
@@ -113,6 +129,11 @@ onMounted(() => {
 
 .content {
     margin: 30px 0;
+}
+
+.like_save_btn {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .like {
@@ -139,6 +160,33 @@ onMounted(() => {
     color: crimson;
     animation: pulse 500ms ease;
 }
+
+.save {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10px;
+}
+
+.save-btn {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 24px;
+}
+
+.save-btn i {
+    font-size: 16px;
+    color: #bcbcbc;
+}
+
+.save-btn.saved i {
+    color: crimson;
+    animation: pulse 500ms ease;
+}
+
+
 
 /* 좋아요 버튼 눌렀을 때 크기 변하는 애니메이션 */
 @keyframes pulse {

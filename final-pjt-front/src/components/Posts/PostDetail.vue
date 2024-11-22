@@ -60,11 +60,14 @@ onMounted(() => {
 .post-header h2 {
     color: #333;
     font-size: 24px;
+    font-weight: 600;
 }
 
 .post-header p {
     color: #565656;
     font-size: 16px;
+    width: 50px;
+    font-weight: 600;
 }
 
 hr {

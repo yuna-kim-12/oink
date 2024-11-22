@@ -121,6 +121,8 @@ onMounted(() => {
 
 .comments > p {
     margin-left: 10px;
+    font-weight: 600;
+    color: var(--sub-text-color);
 }
 
 .comments form {
@@ -143,12 +145,12 @@ onMounted(() => {
     padding: 3px 10px;
     font-size: 12px;
     color: #fff;
-    background-color: #ff9966;
+    background-color: var(--point-text-color);
     border-radius: 20px;
 }
 
 .comments button:hover {
-    background-color: #ff8855;
+    background-color: var(--point-color);
 }
 
 .comment-item {

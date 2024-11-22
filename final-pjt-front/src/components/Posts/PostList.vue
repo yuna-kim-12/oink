@@ -8,7 +8,7 @@
                     <div class="post-body">
                         <p class="post-number">{{ startIndex + index + 1 }}/</p>
                         <div class="post-content">
-                            <span class="user-id">{{ post.userId }}</span>
+                            <span class="user-id">{{ post.user.name }}</span>
                             <h3 class="post-title">{{ post.title }}</h3>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ const clickPost = (postId) => {
 .post-number {
     margin-right: 10px;
     font-size: 28px;
-    color: #ff8940;
+    color: var(--main-color);
 }
 
 .post-content {
@@ -127,12 +127,14 @@ const clickPost = (postId) => {
 .user-id {
     color: #666;
     font-size: 14px;
+    font-weight: 600;
 }
 
 .post-title {
     font-size: 18px;
     margin: 0;
     color: #333;
+    font-weight: 600;
 }
 
 .post-footer {
@@ -171,12 +173,12 @@ const clickPost = (postId) => {
 }
 
 .pagination button.active {
-    background-color: #ff8940;
+    background-color: var(--main-text-color);
     color: white;
-    border-color: #ff8940;
+    border-color: var(--main-color);
 }
 
 .pagination button:hover:not(:disabled) {
-    background-color: #f0f0f0;
+    background-color: var(--main-color);
 }
 </style>

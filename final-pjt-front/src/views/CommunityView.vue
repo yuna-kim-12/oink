@@ -69,7 +69,8 @@ onMounted(() => {
 
 .container h2 {
     margin: 100px auto 65px;
-    color: #FF6708;
+    color: var(--main-color);
+    font-weight: 600;
 }
 
 .community-nav {
@@ -109,8 +110,9 @@ onMounted(() => {
 }
 
 .category p:first-child {
-    color: #FF6708;
+    color: var(--main-color);
     cursor: default;
+    font-weight: 600;
 }
 
 .category input {
@@ -118,16 +120,16 @@ onMounted(() => {
 }
 
 .category input:checked + .category-label {
-    background-color: #FF6708;
+    background-color: var(--main-color);
     color: white;
-    border-color: #FF6708;
+    border-color: var(--main-color);
     transition: all 0.3s ease-in-out;
 }
 
 
 .write-btn {
     padding: 8px 20px;
-    background-color: #ff9966;
+    background-color: var(--point-text-color);
     color: white;
     border: none;
     border-radius: 30px;
@@ -135,7 +137,7 @@ onMounted(() => {
 }
 
 .write-btn:hover {
-    background-color: #ff8855;
+    background-color: var(--point-color);
 }
 
 .content-wrapper {

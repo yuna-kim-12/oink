@@ -115,7 +115,7 @@ const connectMyProduct = () => {
     flex-direction: column;
     width: 60%;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 150px;
 }
 
 /* .content {
@@ -125,7 +125,8 @@ const connectMyProduct = () => {
 .title {
     margin: 0 auto;
     margin-bottom: 20px;
-    color: #FF6708;
+    color: var(--main-color);
+    font-weight: bold;
 }
 
 .user-name {
@@ -137,14 +138,14 @@ const connectMyProduct = () => {
 }
 
 .user-realname {
-    color: #FFA46B;
+    color: #746EF4;
     font-weight: 700;
     margin-right: 5px;
 
 }
 
 .modify-btn {
-    background-color: #FF6708;
+    background-color: var(--main-color);
     color: white;
     border-radius: 20px;
     padding: 0 8px;
@@ -168,7 +169,7 @@ const connectMyProduct = () => {
 .product > button {
     font-size: 12px;
     /* margin-right: 250px ; */
-    background-color: #FF6708;
+    background-color: var(--main-color);
     color: white;
     padding: 0 8px;
     border-radius: 20px;

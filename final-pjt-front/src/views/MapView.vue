@@ -266,11 +266,12 @@
   </script>
   
   <style scoped>
+
   .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 100px auto 0px;
+    margin: 150px auto 0px;
     width: 1280px;
   }
   
@@ -282,7 +283,8 @@
     display: flex;
     justify-content: center;
     align-content: center;
-    color: #FF6708;
+    color: var(--main-color);
+    font-weight: bold;
   }
   
   .select-container {
@@ -309,7 +311,7 @@
   
   .select-box:focus {
     outline: none;
-    border-color: #FF6708;
+    border-color: var(--main-color);
   }
   
   .select-box option {

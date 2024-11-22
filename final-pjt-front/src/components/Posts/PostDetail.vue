@@ -58,13 +58,13 @@ onMounted(() => {
 }
 
 .post-header h2 {
-    color: #333;
+    color: var(--sub-text2-color);
     font-size: 24px;
     font-weight: 600;
 }
 
 .post-header p {
-    color: #565656;
+    color: var(--sub-text-color);
     font-size: 16px;
     width: 50px;
     font-weight: 600;

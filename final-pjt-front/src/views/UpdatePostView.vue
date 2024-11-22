@@ -1,37 +1,36 @@
 <template>
     <div class="container">
         <h2 class="title">게시글 수정하기</h2>
-        <div class="main">
-            <span class="category">* 카테고리를 선택하세요</span>
-            <div class="tag">
-                <span 
-                    :class="['account', { active: selectedTag === 'account' }]"
-                    @click="selectTag('account')"
-                >예적금</span>
-                <span 
-                    :class="['asset', { active: selectedTag === 'asset' }]"
-                    @click="selectTag('asset')"
-                >부동산</span>
-                <span 
-                    :class="['stock', { active: selectedTag === 'stock' }]"
-                    @click="selectTag('stock')"
-                >주식</span>
-                <span 
-                    :class="['etc', { active: selectedTag === 'etc' }]"
-                    @click="selectTag('etc')"
-                >기타</span>
-            </div>
-        </div>
 
-        <form class="post" @submit.prevent="store.updatePost(route.params.postId, title, content, selectedTag)">
+        <form class="post" @submit.prevent="store.createPost(title, content, selectedTag)">
             <div class="input-group">
-                <label for="post-title" class="post-title">제목</label>
-                <input type="text" id="post-title" v-model.trim="title">
+                <input type="text" id="post-title" v-model.trim="title" placeholder="제목을 입력하세요">
             </div>
             <div class="input-group">
-                <label for="post-content" class="post-content">내용</label>
-                <textarea name="post-content" id="post-content" class="post-textarea" v-model.trim="content"></textarea>
+                <textarea name="post-content" id="post-content" class="post-textarea" v-model.trim="content" placeholder="내용을 입력하세요"></textarea>
             </div>
+
+			<div class="main">
+				<span class="category">카테고리</span>
+				
+				<span class="tag"
+					:class="['account', { active: selectedTag === 'account' }]"
+					@click="selectTag('account')"
+				>예적금</span>
+				<span class="tag"
+					:class="['asset', { active: selectedTag === 'asset' }]"
+					@click="selectTag('asset')"
+				>부동산</span>
+				<span class="tag"
+					:class="['stock', { active: selectedTag === 'stock' }]"
+					@click="selectTag('stock')"
+				>주식</span>
+				<span class="tag"
+					:class="['etc', { active: selectedTag === 'etc' }]"
+					@click="selectTag('etc')"
+				>기타</span>
+			</div>
+
             <button class="post-btn">수정하기</button>
         </form>
     </div>
@@ -81,48 +80,43 @@ onMounted(async () => {
 
 .title {
     margin: 100px auto 30px;
-    color: #FF6708;
+    color: var(--main-color);
     text-align: center;
+    font-weight: 600;
 }
 
 .main {
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
+	justify-items: center;
     align-items: center;
+	justify-content: space-between;
+	width: 400px;
 }
 
 .category {
-    font-size: 16px;
-    display: block;
-    margin-bottom: 15px;
-    text-align: center;
-    font-size: 12px;
-    color: #888;
-}
-
-.tag {
     display: flex;
-    gap: 15px;
     justify-content: center;
     align-items: center;
     height: 30px;
+	color: var(--sub-text-color);
+	font-weight: 600;
 }
 
-.tag span {
-    padding: 8px 25px;
-    /* border: 1px solid #FF6709; */
+.tag {
+    padding: 5px 15px;
+    border: 1px solid var(--stroke-color);
     color: #888;
     border-radius: 20px;
-    font-size: 18px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 12px;
 }
 
-.tag span.active {
-    background-color: #FFB07E;
+.tag.active {
+    background-color: var(--main-color);
     color: white;
 }
 
@@ -164,22 +158,26 @@ onMounted(async () => {
 }
 
 .input-group textarea {
-    height: 600px;
+    height: 400px;
     resize: none;
 }
 
 .post-btn {
-    background-color: #FF6708;
+    background-color: var(--point-color);
     color: white;
     padding: 8px;
-    border-radius: 10px;
-    font-size: 16px;
+    border-radius: 20px;
+    font-size: 14px;
     cursor: pointer;
     width: 100px;
-    margin: 0 auto;
+	margin-left: auto;
+	display: block;
+	margin-bottom: 50px;
 }
 
 .post-btn:hover {
-    background-color: #e55a00;
+    background-color: var(--main-color);
 }
+
 </style>
+

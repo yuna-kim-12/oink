@@ -52,6 +52,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* 저금통 만들러 가기 버튼 */
 .create-piggy {
     position: fixed;
     bottom: 65px;
@@ -68,7 +69,7 @@ onUnmounted(() => {
     white-space: nowrap;
 }
 
-
+/* 커뮤니티 소개 */
 .create-piggy:hover {
     transform: translateX(-50%) translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -82,5 +83,42 @@ onUnmounted(() => {
 .community-intro > img {
     width: 80%;
     max-width: 1000px;
+}
+
+.community-intro-text {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 100px;
+    padding: 50px 0;
+    text-align: center;
+    font-size: 30px;
+    color: var(--sub-text-bold-color);
+}
+
+.community-intro-text span,
+.community-intro-text p {
+    font-weight: 700;
+}
+
+.community-intro-text span {
+    color: var(--main-text-color);
+}
+
+.community-intro-text img:first-child {
+    position: absolute;
+    top: 0;
+    right: 166px;
+    width: 50px;
+    height: 50px;
+    transform: rotate(-30deg);
+}
+
+.community-intro-text img:last-child {
+    position: absolute;
+    bottom: -27px;
+    left: 110px;
+    width: 70px;
+    height: 70px;
+    transform: rotate(-60deg);
 }
 </style>

@@ -280,18 +280,20 @@ p {
 
 .man-won {
     position: absolute;
-    width: 30px;
+    width: 32px;
     right: 10px;
-    top: 10px;
+    top: 11px;
     color: #808080;
+	font-size: 13px;
 }
 
 .man-won2 {
     position: absolute;
-    width: 30px;
+    width: 32px;
     right: 10px;
-    top: 40px;
+    top: 39px;
     color: #808080;
+	font-size: 13px;
 }
 
 .password-require {
@@ -315,6 +317,7 @@ p {
     border: 1px solid #E5E5E5;
     border-radius: 8px;
     font-size: 14px;
+	color: var(--sub-text-bold-color);
 }
 
 .input-field::placeholder {
@@ -375,6 +378,7 @@ p {
     font-size: 13px;
     transition: all 0.3s ease;
     text-align: center;
+	color: var(--sub-text-bold-color);
 }
 
 .goal-btn:hover {
@@ -424,6 +428,7 @@ p {
     width: 20%;
     height: 100%;
     cursor: pointer;
+	color: var(--sub-text-bold-color);
 }
 
 .savings-amount-slider label::before {

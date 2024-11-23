@@ -118,18 +118,42 @@ export const useUserStore = defineStore("user", () => {
     }
   };
 
+  // 5. 정보 수정
   const updateUserInfo = async (payload) => {
     try {
+      const { asset, saving_purpose, saving_amount, saving_period } = payload;
       const response = await axios({
         method: 'put',
         url: `${url}/accounts/profile/update/`,
-        data: payload,
+        data: { asset, saving_purpose, saving_amount, saving_period },
         headers: {
           Authorization: `Token ${token.value}`
         }
       });
       user.value = response.data;
       router.push(`/profile/${userPK.value}`);
+      console.log(response.data.message)
+      return response.data;
+    } catch (error) {
+      console.error('사용자 정보 업데이트 실패:', error);
+      throw error;
+    }
+  };
+  
+  // 6. 비밀번호 변경
+  const passwordChange = async (payload) => {
+    try {
+      const { old_password, new_password1, new_password2 } = payload;
+      const response = await axios({
+        method: 'post',
+        url: `${url}/accounts/password/change/`,
+        data: { old_password, new_password1, new_password2 },
+        headers: {
+          Authorization: `Token ${token.value}`
+        }
+      });
+      console.log('비밀번호 변경 완료')
+      console.log(response.data.message)
       return response.data;
     } catch (error) {
       console.error('사용자 정보 업데이트 실패:', error);
@@ -166,6 +190,6 @@ export const useUserStore = defineStore("user", () => {
     getUserInfo, 
     updateUserInfo,
     getAllUserInfo,
-
+	passwordChange,
   }
 }, { persist: true });

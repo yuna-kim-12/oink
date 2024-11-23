@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import RecommendView from '@/views/RecommendView.vue'
-import RecommendDetail from '@/views/RecommendDetailView.vue'
+import RecommendDetailView from '@/views/RecommendDetailView.vue'
 import MapView from '@/views/MapView.vue'
 import CommunityView from '@/views/CommunityView.vue'
 import CreatePostView from '@/views/CreatePostView.vue'
 import UpdatePostView from '@/views/UpdatePostView.vue'
 import ExchangeView from '@/views/ExchangeView.vue'
-import LoginView from '@/views/LoginView.vue'
-import SignUpView from '@/views/SignUpView.vue'
-import ProfileView from '@/views/ProfileView.vue'
-import UpdateUserView from '@/views/UpdateUserView.vue'
+import LoginView from '@/views/User/LoginView.vue'
+import SignUpView from '@/views/User/SignUpView.vue'
+import ProfileView from '@/views/User/ProfileView.vue'
+import UpdateUserView from '@/views/User/UpdateUserView.vue'
 
 
 const router = createRouter({
@@ -29,7 +29,7 @@ const router = createRouter({
     {
       path: '/recommend/:category/:productId',
       name: 'recommendDetail',
-      component: RecommendDetail
+      component: RecommendDetailView
     },
     {
       path: '/map',

@@ -13,8 +13,8 @@
   import { gsap } from 'gsap';
   import { useUserStore } from '@/stores/user';
   import { useRecommendStore } from '@/stores/recommend';
-  import ProductRecommend from '@/components/ProductRecommend.vue';
-  import ProductList from '@/components/ProductList.vue';
+  import ProductRecommend from '@/components/ProductRecommend/ProductRecommend.vue';
+  import ProductList from '@/components/ProductRecommend/ProductList.vue';
 
   const userStore = useUserStore();
   const recommendStore = useRecommendStore();

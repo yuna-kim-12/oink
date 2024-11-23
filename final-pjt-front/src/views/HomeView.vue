@@ -30,11 +30,11 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
-import OinkIntro from '@/components/OinkIntro.vue';
+import OinkIntro from '@/components/Home/OinkIntro.vue';
 import PiggyBank from '@/components/PiggyBank.vue';
-import PiggyBankInfo from '@/components/PiggyBankInfo.vue';
-import ProductRecommend from '@/components/ProductRecommend.vue';
-import Cheerup from '@/components/Cheerup.vue';
+import PiggyBankInfo from '@/components/Home/PiggyBankInfo.vue';
+import ProductRecommend from '@/components/ProductRecommend/ProductRecommend.vue';
+import Cheerup from '@/components/Home/Cheerup.vue';
 
 const router = useRouter();
 const userStore = useUserStore()

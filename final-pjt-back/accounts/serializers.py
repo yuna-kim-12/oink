@@ -4,6 +4,7 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 import re
 from django.conf import settings
+from piggy_banks.models import PiggyBank
 
 User = get_user_model()
 
@@ -63,15 +64,18 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 # 사용자 정보 조회/수정을 위한 시리얼라이저
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
+    
+    class PiggyBankSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = PiggyBank
+            fields = '__all__'
+
+    piggy_bank = PiggyBankSerializer(many=True, read_only=True)
+
     # followers 필드를 사용자 이름 리스트로 변환
     followers = serializers.SerializerMethodField()
     followings = serializers.SerializerMethodField()
 
-    class Meta:
-        model = get_user_model()
-        fields = ('pk', 'email', 'name', 'birth_date', 'asset', 'saving_purpose', 
-                  'saving_amount', 'saving_period', 'followers', 'followings')
-        read_only_fields = ('pk', 'email', 'name')
 
     # followers 필드에 대해 사용자 이름을 반환하는 메서드
     def get_followers(self, obj):
@@ -81,3 +85,9 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
     def get_followings(self, obj):
         return [following.name for following in obj.followings.all()]
     
+
+    class Meta:
+        model = get_user_model()
+        fields = ('pk', 'email', 'name', 'birth_date', 'asset', 'saving_purpose', 
+                  'saving_amount', 'saving_period', 'followers', 'followings', 'piggy_bank')
+        read_only_fields = ('pk', 'email', 'name', 'piggy_bank')

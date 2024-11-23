@@ -19,7 +19,7 @@
 
                 <template v-else>
 
-                    <ProductIItem 
+                    <ProfileUserProduct 
                     v-for="(myProduct, index) in myProducts"
                     :key="myProduct.pk"
                     :my-product="myProduct"
@@ -49,10 +49,10 @@
 
 <script setup>
 
-import ProductIItem from '@/components/ProductIItem.vue';
+import ProfileUserProduct from '@/components/Profile/ProfileUserProduct.vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
-import ProfileChart from '@/components/ProfileChart.vue';
+import ProfileChart from '@/components/Profile/ProfileChart.vue';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import { storeToRefs } from 'pinia';

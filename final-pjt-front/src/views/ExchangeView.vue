@@ -138,7 +138,7 @@ onMounted(() => {
 }
 
 .exchange-rate h2 {
-    margin: 100px auto 30px;
+    margin: 150px auto 30px;
     color: var(--main-color);
 	font-weight: 600;
 

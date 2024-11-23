@@ -76,7 +76,7 @@ class UserProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProduct
-        fields = ('product', 'join_date', 'expiration_date', 'join_period', 'monthly_amount', 'interest_rate')
+        fields = ('id', 'product', 'join_date', 'expiration_date', 'join_period', 'monthly_amount', 'interest_rate')
 
 # PiggyBankSerializer에서 UserProductSerializer 중첩
 class PiggyBankSerializer(serializers.ModelSerializer):

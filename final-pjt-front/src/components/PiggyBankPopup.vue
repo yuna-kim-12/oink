@@ -4,7 +4,7 @@
 
     <div class="piggybank-popup">
       <!-- 예적금 만들기 또는 계좌 연동 버튼 선택 팝업 -->
-      <div class="piggybank-join-btns">
+      <div class="piggybank-join-btns" v-if="!isAccounts">
         <div class="piggybank-join-btn" @click="goRecommend">
           <p>새로운 걸로 할게요!</p>
           <p><span>username</span>님께 맞는<br>예적금 상품을 추천받고
@@ -20,13 +20,13 @@
       </div>
 
       <!-- 돼지 저금통 만들기(정보 입력) -->
-      <div class="piggybank-join-info" v-if="false">
+      <div class="piggybank-join-info" v-if="isAccounts">
         <div class="piggybank-show">
           <span class="piggy-nickname-btn">저금통 애칭</span>
-          <p class="piggy-nickname">먀먀</p>
+          <p class="piggy-nickname">{{ piggybankName || '저금통 이름' }}</p>
           <div class="piggybank-img">
             <img src="@/assets/images/pink-pig(25).png" alt="pink-pig-img">
-            <span ref="weightDisplay" class="weight">{{ curWeight }}kg</span>
+            <span ref="weightDisplay" class="weight">{{ goalAmount || 0 }}kg</span>
             <div class="progress-outer">
               <div class="progress-container">
                 <div class="progress-bar" ref="progressBar"></div>
@@ -37,21 +37,30 @@
             </div>
           </div>
         </div>
-        <form>
+        <form @submit.prevent="makePiggybank">
+          <div class="piggybank-input">
+            <label for="piggybank-goal">목표 선택</label>
+            <select name="piggybank-goal" id="piggybank-goal" v-model="goal">
+              <option value="" disabled selected>목표를 입력하세요</option>
+              <option v-for="(val, key) in goals" :key="key" :value="key">{{ val }}</option>
+            </select>
+          </div>
           <div class="piggybank-input">
             <label for="piggybank-name">돼지 저금통 이름</label>
-            <input type="text" id="piggybank-name" placeholder="저금통 이름을 입력하세요">
+            <input type="text" id="piggybank-name" v-model="piggybankName" placeholder="저금통 이름을 입력하세요 (15자 이내)"
+              maxlength='15'>
+          </div>
+          <div class="piggybank-input goal-amount">
+            <label for="piggybank-goal-amount">목표 금액</label>
+            <input type="number" id="piggybank-goal-amount" v-model="goalAmount" placeholder="목표 금액을 입력하세요">
+            <span v-if="showUnit">만원</span>
           </div>
           <div class="piggybank-input">
             <label for="piggybank-account">예적금 선택</label>
-            <select name="" id="">
-              <option value=""></option>
+            <select name="piggybank-account" id="piggybank-account" v-model="account" placeholder="예적금을 선택하세요">
+              <option value="" disabled selected>연동할 상품을 선택하세요</option>
+              <option v-for="account in accounts" :key="account.id">{{ }}</option>
             </select>
-          </div>
-          <div class="piggybank-input goalAmount">
-            <label for="piggybank-name">목표 금액</label>
-            <input type="number" id="piggybank-name" v-model="goalAmount" placeholder="목표 금액을 입력하세요">
-            <span v-if="showUnit">만원</span>
           </div>
           <button>만들기</button>
         </form>
@@ -67,6 +76,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
+import axios from 'axios';
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -81,13 +91,54 @@ const goRecommend = function () {
 }
 
 // 기존 예적금으로 만들기 버튼 클릭 시 저금통 만들기 진행
+const isAccounts = ref(false)
 const goMaking = function () {
-  console.log(userStore.user)
+  if (userStore.user.user_product.length) {
+    isAccounts.value = true
+  } else {
+    alert('먼저 예적금을 연동해주세요🐽')
+    router.push({ name: 'profile', params: { userId: userStore.user.pk } })
+  }
+}
+
+// 저금통 만들기
+const goals = {
+  'home': '내집마련',
+  'education': '교육비',
+  'medication': '의료비',
+  'wedding': '결혼자금',
+  'future': '노후자금',
+  'seedmoney': '시드머니',
+  'travel': '여행자금',
+  'wishlist': '위시리스트'
+}
+
+const accounts = ref(userStore.user.user_product)
+
+const goal = ref('')
+const piggybankName = ref('')
+const goalAmount = ref()
+const account = ref('')
+
+const makePiggybank = function () {
+  console.log(goal.value)
+  console.log(piggybankName.value)
+  console.log(goalAmount.value)
+  console.log(account.value)
+
+  axios({
+    method: 'post',
+    url: `${userStore.url}/piggy_banks/`,
+    data: {
+
+    },
+    headers: {
+      Authorization: `Token ${userStore.token.value}`
+    }
+  })
 }
 
 // 저금통 만들 때 '만원'이 따라다니기
-const goalAmount = ref('')
-
 const showUnit = computed(() => {
   return goalAmount.value !== '' && goalAmount.value !== '0';
 })
@@ -97,6 +148,7 @@ const emit = defineEmits(['closePopup'])
 const closePopup = function () {
   emit('closePopup')
 }
+
 </script>
 
 <style scoped>
@@ -193,6 +245,7 @@ const closePopup = function () {
 }
 
 .piggybank-show {
+  width: 200px;
   text-align: center;
 }
 
@@ -253,14 +306,14 @@ const closePopup = function () {
   left: 0;
   top: 0;
   height: 100%;
-  width: 0;
+  width: 80%;
   background-color: #2ECC71;
   border-radius: 10px;
 }
 
 .indicator-wrapper {
   position: absolute;
-  left: 0;
+  left: 80%;
   top: 0;
   height: 100%;
 }
@@ -296,19 +349,27 @@ const closePopup = function () {
   border-radius: 5px;
 }
 
-.goalAmount {
+
+.piggybank-input select {
+  padding-left: 5px;
+  color: var(--sub-text-color);
+  outline: none;
+}
+
+.goal-amount {
   position: relative;
 }
 
-.goalAmount input {
+.goal-amount input {
   width: 100%;
 }
 
-.goalAmount span {
+.goal-amount span {
   position: absolute;
   right: 10px;
-  top: 30px;
+  top: 33px;
   color: #666;
+  font-size: 14px;
 }
 
 input::-webkit-outer-spin-button,
@@ -316,9 +377,18 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
+.piggybank-join-info form>button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 4px 10px;
+  color: #fff;
+  border-radius: 14px;
+  background-color: var(--main-color);
+}
+
 
 /* 다음에 만들기 버튼 */
-.piggybank-popup button {
+.piggybank-popup>button {
   position: absolute;
   bottom: 20px;
   left: 50%;

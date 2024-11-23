@@ -43,13 +43,30 @@
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
+import { useCommunityStore } from '@/stores/community';
 
-const cheerupList = ref(5);
+const communityStore = useCommunityStore()
+
+// 응원하기 버튼 눌렀을 때 응원수 cnt+1
+const cheerup = function () {
+  axios({
+    method: 'post',
+    url: `${communityStore.API_URL}/piggy_banks/cheerup/<int:cheerup_piggy_bank_pk>/`
+  })
+  .then(res => {
+    console.log(res.data)
+  })
+  .catch(err => console.log('응원하기 수 불러오기 실패', err))
+}
+
+
 const cheerupItems = ref(Array(5).fill().map(() => ({
   count: 0,
   bubbles: []
 })));
 
+// 응원하기 버튼 눌렀을 때 애니매이션
 const handleCheerup = (index) => {
   cheerupItems.value[index].count++;
   const newBubble = Date.now();

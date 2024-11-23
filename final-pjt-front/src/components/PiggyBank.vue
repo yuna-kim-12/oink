@@ -10,19 +10,7 @@
     <div class="piggybank-main">
       <!-- 로그인 안한 사용자는 예시 내용 보여주기, 로그인 했는데 저금통 있는 사람 그 정보 보여주기  -->
       <div class="is-piggybank" v-show="false">
-        <div class="piggybank-img">
-          <!-- 진행율에 따라 돼지 색깔 다르게 -->
-          <img src="" alt="">
-          <span ref="weightDisplay" class="weight">{{ curWeight }}kg</span>
-          <div class="progress-outer">
-            <div class="progress-container">
-              <div class="progress-bar" ref="progressBar"></div>
-              <div class="indicator-wrapper" ref="indicatorWrapper">
-                <img class="progress-indicator" src="@/assets/images/indicator.png" alt="indicator-img">
-              </div>
-            </div>
-          </div>
-        </div>
+         
         <div class="piggybank-intro">
           <span class="piggy-nickname-btn">저금통 애칭</span>
           <p class="piggy-nickname"></p>

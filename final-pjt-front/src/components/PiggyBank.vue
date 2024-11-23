@@ -1,15 +1,8 @@
 <template>
   <div class="container">
-    <div class="piggy-text">
-      <p v-if="userStore.isLoggedIn && userStore.user" class="piggy-user"><span>{{ userStore.user.name }}</span>님의 돼지
-        저금통</p>
-      <p v-else class="piggy-recommend">나만의 <span>돼지 저금통</span>을 만들어 금융 자산을 관리하고,<br>
-        저금통을 무겁게 만들 <span>금융 상품</span>을 추천 받아보세요!</p>
-    </div>
-
     <div class="piggybank-main">
       <!-- 로그인 안한 사용자는 예시 내용 보여주기, 로그인 했는데 저금통 있는 사람 그 정보 보여주기  -->
-      <div class="is-piggybank" v-if="true">
+      <div class="is-piggybank" v-if="isPiggybank">
         <div class="piggybank-img">
           <img src="@/assets/images/pink-pig(25).png" alt="pink-pig-img">
           <span ref="weightDisplay" class="weight">{{ curWeight }}kg</span>
@@ -37,11 +30,16 @@
         </div>
         <!-- 로그인 했지만 저금통 없는 사람들에게 보여주기 -->
       </div>
-      <div class="no-piggybank" v-if="false">
+      <div class="no-piggybank" v-if="!isPiggybank">
         <img src="@/assets/images/no-piggybank.png" alt="no-piggybank-img">
         <p>현재 만들어진 돼지 저금통이 없어요</p>
         <!-- 버튼에 팝업 창 연결 -->
-        <button>돼지 저금통 만들기</button>
+        <button @click="openPopup">돼지 저금통 만들기</button>
+        <PiggyBankPopup
+        
+        :is-open="isOpen"
+        @close-popup="closePopup"
+        />
       </div>
     </div>
   </div>
@@ -50,6 +48,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/user';
+import PiggyBankPopup from './PiggyBankPopup.vue';
 
 const userStore = useUserStore()
 
@@ -66,6 +65,19 @@ const piggyExam = ref({
   cheerupCnt: 45, // 응원 수
   piggyImg: '@/assets/images/yellow-pig(100).png' // 돼지 이미지
 })
+
+const isPiggybank = ref(false)
+
+// 저금통 만들기 버튼 클릭 시 팝업 창 띄우기
+const isOpen = ref(false)
+const openPopup = function () {
+  isOpen.value = !isOpen.value
+}
+
+// 팝업 창 닫기
+const closePopup = function () {
+  isOpen.value = !isOpen.value
+}
 
 onMounted(() => {
   // 1. progress bar 애니매이션
@@ -104,29 +116,7 @@ onMounted(() => {
 
 <style scoped>
 .container {
-  margin: 50px 0 100px;
-}
-
-.piggy-text p {
-  width: 740px;
-  margin: 0 auto;
-  padding-left: 20px;
-  font-size: 25px;
-  font-weight: 700;
-  color: var(--sub-text-color);
-}
-
-.piggy-text span {
-  font-weight: 700;
-  color: var(--main-text-color);
-}
-
-.piggy-recommend {
-  text-align: center;
-}
-
-.piggy-recommend span:last-child {
-  color: var(--point-color);
+  margin: 0 0 100px;
 }
 
 .piggybank-main {

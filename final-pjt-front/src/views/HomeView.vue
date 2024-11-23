@@ -1,7 +1,16 @@
 <template>
     <div>
         <OinkIntro />
+
+        <div class="piggy-text">
+            <p v-if="userStore.isLoggedIn && userStore.user" class="piggy-user"><span>{{ userStore.user.name }}</span>님의
+                돼지
+                저금통</p>
+            <p v-else class="piggy-recommend">나만의 <span>돼지 저금통</span>을 만들어 금융 자산을 관리하고,<br>
+                저금통을 무겁게 만들 <span>금융 상품</span>을 추천 받아보세요!</p>
+        </div>
         <PiggyBank />
+
         <PiggyBankInfo />
 
         <div class="product-recommend">
@@ -46,7 +55,7 @@ const handleScroll = () => {
 };
 
 const navigateToPiggyCreate = () => {
-    router.push({ name: 'login'});
+    router.push({ name: 'login' });
 };
 
 onMounted(() => {
@@ -59,6 +68,33 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* 돼지 저금통 큰 제목 */
+.piggy-text {
+    margin-top: 50px;
+}
+
+.piggy-text p {
+  width: 740px;
+  margin: 0 auto;
+  padding-left: 20px;
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--sub-text-color);
+}
+
+.piggy-text span {
+  font-weight: 700;
+  color: var(--main-text-color);
+}
+
+.piggy-recommend {
+  text-align: center;
+}
+
+.piggy-recommend span:last-child {
+  color: var(--point-color);
+}
+
 /* 상품 추천 */
 .product-recommend {
     text-align: center;
@@ -71,10 +107,10 @@ onUnmounted(() => {
 }
 
 .recommendation-badge {
-  margin-bottom: 80px;
-  font-size: 30px;
-  font-weight: 700;
-  color: #020202;
+    margin-bottom: 80px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #020202;
 }
 
 
@@ -107,7 +143,7 @@ onUnmounted(() => {
     text-align: center;
 }
 
-.community-intro > img {
+.community-intro>img {
     display: block;
     width: 80%;
     max-width: 1000px;

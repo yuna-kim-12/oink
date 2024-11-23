@@ -46,7 +46,7 @@ import { ref } from 'vue';
 
 const cheerupList = ref(5);
 const cheerupItems = ref(Array(5).fill().map(() => ({
-  count: 50,
+  count: 0,
   bubbles: []
 })));
 
@@ -105,6 +105,11 @@ const handleCheerup = (index) => {
   width: fit-content;
 }
 
+.cheerup-container:hover {
+  animation-play-state: paused;
+  transition: all 500ms ease-in-out;
+}
+
 @keyframes slideLeft {
   0% {
     transform: translateX(0);
@@ -122,6 +127,11 @@ const handleCheerup = (index) => {
   border-radius: 15px;
   margin: 0px 15px;
   flex-shrink: 0;
+}
+
+.cheerup-item:hover {
+  transform: scale(1.02);
+  transition: tansform 500ms ease-in-out;
 }
 
 .cheerup-item>p {
@@ -182,7 +192,7 @@ const handleCheerup = (index) => {
 }
 
 .stage {
-  width: 100vw;
+  width: 100%;
   margin-top: 20px;
 }
 

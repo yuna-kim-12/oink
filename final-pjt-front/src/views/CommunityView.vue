@@ -68,7 +68,7 @@ onMounted(() => {
 }
 
 .container h2 {
-    margin: 100px auto 65px;
+    margin: 150px auto 65px;
     color: var(--main-color);
     font-weight: 600;
 }

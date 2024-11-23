@@ -53,5 +53,35 @@ export const useRecommendStore = defineStore("recommend", () => {
     }
   };
 
-  return { getProduct, depositProducts, savingsProducts, getProductDetail, product };
+
+  const depositLists = ref([])
+  const savingLists = ref([])
+
+  // 3. 모든 예금 상품 가져오기
+  const getDeposits = async (value) => {
+    try {
+      const response = await axios.get(`${API_URL}/bank_products/deposits/`, {
+        params: { order_by: value },
+      });
+      depositLists.value = response.data;
+    } catch (error) {
+      console.error("예금 상품 목록 조회 실패:", error);
+    }
+  }
+  
+  // 4. 모든 적금 상품 가져오기
+  const getSavings = async (value) => {
+    try {
+      const response = await axios.get(`${API_URL}/bank_products/savings/`, {
+        params: { order_by: value },
+      });
+      savingLists.value = response.data;
+    } catch (error) {
+      console.error("적금 상품 목록 조회 실패:", error);
+    }
+  };
+
+
+  return { getProduct, depositProducts, savingsProducts, getProductDetail, product, 
+    getDeposits, getSavings, depositLists, savingLists };
 }, { persist: true });

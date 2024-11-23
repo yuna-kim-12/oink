@@ -5,8 +5,8 @@
         <PiggyBankInfo />
 
         <div class="product-recommend">
-            <h2 class="recommendation-badge">돼지 저금통을 불릴 수 있는</h2>
-            <h2 class="recommendation-badge">예적금 상품을 추천해드려요.</h2>
+            <h2 class="recommendation-badge1">돼지 저금통을 불릴 수 있는</h2>
+            <h2 class="recommendation-badge2">예적금 상품을 추천해드려요.</h2>
             <ProductRecommend />
         </div>
         <button class="create-piggy" v-show="showButton" @click="navigateToPiggyCreate">
@@ -145,6 +145,7 @@ onUnmounted(() => {
 
 .product-recommend {
     /* text-align: center; */
+    
     padding: 50px 0;
     display: flex;
     flex-direction: column;
@@ -154,7 +155,6 @@ onUnmounted(() => {
 }
 
 .product-recommend-text {
-
     padding: 50px 0;
     font-size: 30px;
     font-weight: 700;
@@ -165,11 +165,16 @@ onUnmounted(() => {
   margin-top: 60px;
   text-align: center;
 }
-.recommendation-badge {
+.recommendation-badge1,
+.recommendation-badge2 {
   margin-bottom: 5px;
   font-size: 30px;
   font-weight: 700;
   color: #020202;
+}
+
+.recommendation-badge2{
+    margin-bottom: 50px;
 }
 
 </style>

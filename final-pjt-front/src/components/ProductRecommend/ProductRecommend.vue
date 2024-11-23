@@ -189,6 +189,7 @@ onMounted(() => {
 
 .recommendation-intro,
 .recommendation-title {
+  text-align: center;
   font-size: 20px;
   font-weight: 500;
   color: #ABABAB;

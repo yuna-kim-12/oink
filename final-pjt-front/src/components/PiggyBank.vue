@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="piggybank-container">
     <div class="piggybank-main">
       <!-- 로그인 안한 사용자는 예시 내용 보여주기, 로그인 했는데 저금통 있는 사람 그 정보 보여주기  -->
       <div class="is-piggybank" v-if="isPiggybank">
@@ -120,7 +120,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.container {
+.piggybank-container {
   margin: 0 0 100px;
 }
 

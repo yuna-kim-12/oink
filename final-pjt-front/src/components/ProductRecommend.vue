@@ -1,15 +1,22 @@
 <template>
 
-  <div class="container">
+  <div class="product-recommend-container">
+    
     <div class="account-toggle">
       <div class="toggle-slider" :style="sliderStyle"></div>
       <button @click="setCategory(false)" :class="{ active: !category }" class="toggle-button">예금</button>
       <button @click="setCategory(true)" :class="{ active: category }" class="toggle-button">적금</button>
     </div>
-    <p class="recommendation-intro" v-if="userStore.isLoggedIn && userStore.user"><span>{{ userStore.user.name
+    
+    <div class="recommend-text">
+      <p class="recommendation-intro" v-if="userStore.isLoggedIn && userStore.user"><span>{{ userStore.user.name
         }}</span>님의 목표 달성에 도움이 되는</p>
-    <p class="recommendation-intro" v-else><span>가장 많은 사람들</span>이 가입한</p>
-    <p class="recommendation-title">금융상품 Best 5!</p>
+      <p class="recommendation-intro" v-else><span>가장 많은 사람들</span>이 가입한</p>
+      
+      <p class="recommendation-title">금융상품 Best 5!</p>
+    </div>
+
+
     <div class="product-list">
       <div v-for="(product, index) in category ? recommendStore.savingsProducts : recommendStore.depositProducts"
         :key="product.id" class="product-item">
@@ -128,13 +135,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
-  .container {
+  .product-recommend-container {
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin: 0px auto ;
-    width: 1280px;
+    /* margin: 0px auto ; */
   }
 
 
@@ -143,7 +149,7 @@ onMounted(() => {
   background-color: #f0f0f0;
   border-radius: 30px;
   padding: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   position: relative;
   overflow: hidden;
 }
@@ -183,11 +189,10 @@ onMounted(() => {
 
 /* .toggle-button:hover:not(.active) {
   background-color: rgba(255, 255, 255, 0.5);
-} */
+}
 
 .recommendation-intro,
 .recommendation-title {
-  margin-top: 8px;
   font-size: 20px;
   font-weight: 500;
   color: #ABABAB;
@@ -206,7 +211,7 @@ onMounted(() => {
 }
 
 .product-list {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 .product-item {

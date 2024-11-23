@@ -1,8 +1,10 @@
 <template>
     <div class="recommendation-container">
       <h2 class="title">금융상품추천</h2>
-      <ProductRecommend />
-      <ProductList />
+      <div class="content">
+        <ProductRecommend />
+        <ProductList />
+      </div>
     </div>
   </template>
   
@@ -96,25 +98,20 @@
   
   <style scoped>
 
-  .recommendation-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 150px auto 0px;
-    width: 1280px;
-}
-
 .recommendation-container {
-  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: 1280px;
+  margin: 150px auto 0px;
 }
 
-.title {
-    display: flex;
-    justify-content: center;
-    align-content: center;
+
+.recommendation-container h2 {
+    margin: 0px auto 65px;
     color: var(--main-color);
-    font-weight: bold;
-    margin-bottom: 70px;
-  }
+    font-weight: 600;
+}
 
   </style>

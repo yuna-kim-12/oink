@@ -4,180 +4,127 @@
       <span>예적금 상품 둘러보기</span>
     </div>
 
-    <div class="filter-container">
+    <div class="recommend-nav">
       <div class="select-container">
-        <select v-model="selectedBank" @change="" class="select-box">
-          <option value="none">상품옵션</option>
-          <option v-for="pdtoption in pdtoptions" :key="pdtoption" :value="pdtoption">
-            {{ pdtoption }}
+        <!-- 상품 옵션 선택 -->
+        <select v-model="selectedProduct" @change="filterProducts" class="select-box">
+          <option value="none" disabled>상품옵션</option>
+          <option v-for="prdtoption in prdtoptions" :key="prdtoption" :value="prdtoption">
+            {{ prdtoption }}
           </option>
         </select>
-        <select v-model="selectedBank" @change="" class="select-box">
-          <option value="none">금융사</option>
+
+        <!-- 금융사 선택 -->
+        <select v-model="selectedBank" @change="filterProducts" class="select-box">
+          <option value="all">금융사</option>
           <option v-for="bank in banks" :key="bank" :value="bank">
             {{ bank }}
           </option>
         </select>
-          <select v-model="selectedCity" @change="" class="select-box">
-            <option value="none">기간(개월)</option>
-            <option v-for="saving_period in saving_periods" :key="saving_period" :value="saving_period">
-              {{ saving_period }}
-            </option>
-          </select>
-        </div>
 
-
-      <div class="filter-button">
-        <button @click="setInterest(false)" :class="{ active: !interest_rate }" class="toggle-button">최고금리순</button> 
-        <button @click="setInterest(false)" :class="{ active: !interest_rate }" class="toggle-button">기본금리순</button>
+        <!-- 기간 선택 -->
+        <select v-model="selectedCity" @change="filterProducts" class="select-box">
+          <option value="all">저축기간(개월)</option>
+          <option v-for="saving_period in saving_periods" :key="saving_period" :value="saving_period">
+            {{ saving_period }}
+          </option>
+        </select>
       </div>
-    </div>
 
-    
-    <div class="main-content">
-        <div class="product-content">
-            <p class = indexnum>1 /</p>
-            <img src="#" alt="myProduct.product.company_name" class="bank-logo">
-            <!-- <p class = indexnum>{{ index+1 }} /</p>
-            <img :src="getBankLogo(myProduct.product.company_name)" :alt="myProduct.product.company_name" class="bank-logo"> -->
+        <!-- 금리 정렬 버튼 -->
+        <div class="filter-button">
+          <button @click="setInterest(false)" :class="{ active: !interestRateType }" class="toggle-button">최고금리순</button>
+          <button @click="setInterest(true)" :class="{ active: interestRateType }" class="toggle-button">기본금리순</button>
         </div>
-        <div class="product">
-            <div class="product-duration">
-                <p class="bankname">국민은행</p>
-                <span>KB국민튼튼적금</span>
-                <!-- <p class="bankname">{{ myProduct.product.company_name}}</p>
-                <span>{{ myProduct.product.product_name}}</span> -->
-                <div class="duration-section">
-                    <!-- <p>가입일: {{ myProduct.join_date.slice(0,10) }}</p>
-                    <p>만기일: {{ myProduct.expiration_date.slice(0,10) }} <span>(D-{{myProduct.d_day}})</span></p>  -->
-                    <p>가입일: 2024-11-01</p>
-                    <p>만기일: 2025-10-31 <span>(D-365)</span></p> 
-                </div>
-            </div>
-            <div class="monthly-amount">
-                <!-- <span>적용 금리: {{ myProduct.interest_rate }}%</span>
-                <p class="monthly">월 납입액: {{ (myProduct.monthly_amount*10000).toLocaleString(en-US)}}원</p>
-                <p class="amount">{{ (myProduct.remain_month*myProduct.monthly_amount*10000).toLocaleString(en-US) }}원</p> -->
-                <p class="prime_interest_rate">최고 5%</p>
-                <p class="interest_rate">기본 5%</p>
-            </div>
-        </div>
-    </div>
-    <div class="main-content">
-        <div class="product-content">
-            <p class = indexnum>1 /</p>
-            <img src="#" alt="myProduct.product.company_name" class="bank-logo">
-            <!-- <p class = indexnum>{{ index+1 }} /</p>
-            <img :src="getBankLogo(myProduct.product.company_name)" :alt="myProduct.product.company_name" class="bank-logo"> -->
-        </div>
-        <div class="product">
-            <div class="product-duration">
-                <p class="bankname">국민은행</p>
-                <span>KB국민튼튼적금</span>
-                <!-- <p class="bankname">{{ myProduct.product.company_name}}</p>
-                <span>{{ myProduct.product.product_name}}</span> -->
-                <div class="duration-section">
-                    <!-- <p>가입일: {{ myProduct.join_date.slice(0,10) }}</p>
-                    <p>만기일: {{ myProduct.expiration_date.slice(0,10) }} <span>(D-{{myProduct.d_day}})</span></p>  -->
-                    <p>가입일: 2024-11-01</p>
-                    <p>만기일: 2025-10-31 <span>(D-365)</span></p> 
-                </div>
-            </div>
-            <div class="monthly-amount">
-                <!-- <span>적용 금리: {{ myProduct.interest_rate }}%</span>
-                <p class="monthly">월 납입액: {{ (myProduct.monthly_amount*10000).toLocaleString(en-US)}}원</p>
-                <p class="amount">{{ (myProduct.remain_month*myProduct.monthly_amount*10000).toLocaleString(en-US) }}원</p> -->
-                <p class="prime_interest_rate">최고 5%</p>
-                <p class="interest_rate">기본 5%</p>
-            </div>
-        </div>
-    </div>
-    <div class="main-content">
-        <div class="product-content">
-            <p class = indexnum>1 /</p>
-            <img src="#" alt="myProduct.product.company_name" class="bank-logo">
-            <!-- <p class = indexnum>{{ index+1 }} /</p>
-            <img :src="getBankLogo(myProduct.product.company_name)" :alt="myProduct.product.company_name" class="bank-logo"> -->
-        </div>
-        <div class="product">
-            <div class="product-duration">
-                <p class="bankname">국민은행</p>
-                <span>KB국민튼튼적금</span>
-                <!-- <p class="bankname">{{ myProduct.product.company_name}}</p>
-                <span>{{ myProduct.product.product_name}}</span> -->
-                <div class="duration-section">
-                    <!-- <p>가입일: {{ myProduct.join_date.slice(0,10) }}</p>
-                    <p>만기일: {{ myProduct.expiration_date.slice(0,10) }} <span>(D-{{myProduct.d_day}})</span></p>  -->
-                    <p>가입일: 2024-11-01</p>
-                    <p>만기일: 2025-10-31 <span>(D-365)</span></p> 
-                </div>
-            </div>
-            <div class="monthly-amount">
-                <!-- <span>적용 금리: {{ myProduct.interest_rate }}%</span>
-                <p class="monthly">월 납입액: {{ (myProduct.monthly_amount*10000).toLocaleString(en-US)}}원</p>
-                <p class="amount">{{ (myProduct.remain_month*myProduct.monthly_amount*10000).toLocaleString(en-US) }}원</p> -->
-                <p class="prime_interest_rate">최고 5%</p>
-                <p class="interest_rate">기본 5%</p>
-            </div>
-        </div>
-    </div>
-    <div class="main-content">
-        <div class="product-content">
-            <p class = indexnum>1 /</p>
-            <img src="#" alt="myProduct.product.company_name" class="bank-logo">
-            <!-- <p class = indexnum>{{ index+1 }} /</p>
-            <img :src="getBankLogo(myProduct.product.company_name)" :alt="myProduct.product.company_name" class="bank-logo"> -->
-        </div>
-        <div class="product">
-            <div class="product-duration">
-                <p class="bankname">국민은행</p>
-                <span>KB국민튼튼적금</span>
-                <!-- <p class="bankname">{{ myProduct.product.company_name}}</p>
-                <span>{{ myProduct.product.product_name}}</span> -->
-                <div class="duration-section">
-                    <!-- <p>가입일: {{ myProduct.join_date.slice(0,10) }}</p>
-                    <p>만기일: {{ myProduct.expiration_date.slice(0,10) }} <span>(D-{{myProduct.d_day}})</span></p>  -->
-                    <p>가입일: 2024-11-01</p>
-                    <p>만기일: 2025-10-31 <span>(D-365)</span></p> 
-                </div>
-            </div>
-            <div class="monthly-amount">
-                <!-- <span>적용 금리: {{ myProduct.interest_rate }}%</span>
-                <p class="monthly">월 납입액: {{ (myProduct.monthly_amount*10000).toLocaleString(en-US)}}원</p>
-                <p class="amount">{{ (myProduct.remain_month*myProduct.monthly_amount*10000).toLocaleString(en-US) }}원</p> -->
-                <p class="prime_interest_rate">최고 5%</p>
-                <p class="interest_rate">기본 5%</p>
-            </div>
-        </div>
-    </div>
+      </div>
 
+
+    <!-- 상품 리스트 -->
+    <ProductListItem 
+    v-for="(product, index) in filteredProducts"
+    :key="product.pk"
+    :product="product"
+    :index="index" />
 
   </div>
+
+
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import ProductListItem from './ProductListItem.vue';
 
-const pdtoptions = [
-    '예금', '적금'
-  ];
+import { onMounted, ref, watch } from 'vue';
+import { useRecommendStore } from '@/stores/recommend';
 
-const banks = [
-    'KB국민은행', '신한은행', '우리은행', 'NH농협은행', '하나은행', 'SC제일은행'
-  ];
+const recommendStore = useRecommendStore()
 
-const saving_periods = [
-  '1', '3', '6', '12', '24', '36'
-];
+// 1. recommend-nav 변수
+const selectedProduct = ref("예금")
+const selectedBank = ref("all")
+const selectedCity = ref("all")
+const filteredProducts = ref([])
+
+// 금리 정렬 변수
+const interestRateType = ref(false) // false: 최고 금리, true: 기본 금리
 
 
-const interest_rate = ref(false); // false는 예금, true는 적금
+// 데이터 옵션
+const prdtoptions = ["예금", "적금"]
+const banks = ['KB국민은행', '신한은행', '하나은행', '우리은행', 'NH농협은행', 'IBK기업은행', 'KDB산업은행', 'SC제일은행', '부산은행', 'iM뱅크', 'SH수협은행', '경남은행', '카카오뱅크', '광주은행', '토스뱅크', '전북은행', '케이뱅크', '제주은행']
+const saving_periods = ["1", "3", "6", "12", "24", "36"]
 
+// 금리 정렬 설정 함수
 const setInterest = (value) => {
-  interest_rate.value = value;
+  interestRateType.value = value;
+  filterProducts(); // 정렬 기준 변경 시 데이터 필터링
 };
 
+// 데이터 가져오기 함수 (초기 로딩)
+onMounted(async () => {
+  selectedBank.value = "all"
+  selectedCity.value = "all"
+  await recommendStore.getDeposits("prime_interest_rate")
+  await recommendStore.getSavings("prime_interest_rate")
+  filterProducts()
+});
+
+// 필터링 함수
+const filterProducts = () => {
+  const allProducts =
+    selectedProduct.value === "예금"
+      ? recommendStore.depositLists
+      : recommendStore.savingLists
+
+  filteredProducts.value = allProducts.filter((product) => {
+    // 금융사 필터링
+    const matchesBank =
+      selectedBank.value === "all" || product.company_name === selectedBank.value
+
+    // 기간 필터링
+    const matchesPeriod =
+      selectedCity.value === "all" ||
+      product.join_period
+        .split(",") // 쉼표로 문자열 분리
+        .map((period) => period.trim()) // 공백 제거
+        .includes(selectedCity.value) // 선택된 기간과 비교
+
+    return matchesBank && matchesPeriod
+  })
+
+  // 금리 정렬 적용
+  filteredProducts.value.sort((a, b) =>
+    interestRateType.value
+      ? b.interest_rate - a.interest_rate // 기본 금리순
+      : b.prime_interest_rate - a.prime_interest_rate // 최고 금리순
+  )
+}
+
+// 선택 값 변경 시 필터링 실행
+watch([selectedProduct, selectedBank, selectedCity], filterProducts);
+
 </script>
+
 
 <style scoped>
 
@@ -198,7 +145,7 @@ const setInterest = (value) => {
   color: #565656;
 }
 
-.filter-container {
+.recommend-nav {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
@@ -206,10 +153,20 @@ const setInterest = (value) => {
 }
 
 .filter-button > button {
-  padding: 10px 5px 0;
+  padding: 10px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: bold;
+  border: none;
   color: #808080;
+  cursor: pointer;
+}
+
+.filter-button > button.active {
+  color: var(--main-text-color); /* 활성화된 버튼 텍스트 색상 */
+}
+
+.filter-button > button:hover {
+  color: var(--point-color); /* 호버 시 색상 */
 }
 
 .select-container > select {
@@ -218,108 +175,14 @@ const setInterest = (value) => {
 
 .select-box {
   padding: 8px 0px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  min-width: 10px;
-  background-color: white;
   cursor: pointer;
+  border: none;
+  outline: none;
+  color: #808080;
   font-size: 15px;
   font-weight: 700;
-  color: #808080;
-  outline: none;
+  text-align: center;
 }
 
-
-.main-content {
-    display: flex;
-    margin: 10px 0;
-    border-bottom: 1px solid #BCBCBC;
-    padding-bottom: 25px;
-    width: 650px;
-}
-
-.product-content {
-    display: flex;
-}
-
-.indexnum {
-    font-size: larger;
-}
-
-.bank-logo {
-    width: 35px;
-    height: 35px;
-    margin-left: 15px;
-    margin-top: 5px;
-}
-
-.product {
-    display: flex;
-    justify-content: space-between;
-    flex-grow: 2;
-    
-}
-
-.product-duration {
-    margin-left: 30px;
-}
-
-.product-duration > .bankname {
-    color: #808080;
-}
-
-.product-duration > span {
-    font-size: 18px;
-    font-weight: 700;
-}
-
-.product-content {
-    color: var(--main-color);
-    font-size: 22px;
-}
-
-.duration-section > p {
-    color: #BCBCBC;
-    font-weight: 300;
-}
-
-.duration-section > p > span {
-    color: var(--main-color);
-}
-
-.monthly-amount {
-    align-self: end;
-    text-align: end;
-    margin-top: 30px;
-}
-
-.monthly-amount .prime_interest_rate {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--point-color);
-}
-
-.monthly-amount .interest_rate {
-  font-size: 12px;
-  color: #999;
-}
-
-.monthly-amount > span {
-    color: #BCBCBC;
-    font-weight: 300;
-}
-
-.monthly-amount > .monthly {
-    color: #808080;
-    font-weight: 700;
-}
-
-.monthly-amount > .amount {
-    font-size: 20px;
-    color: var(--main-text-color);
-    font-weight: 700;
-
-}
 
 </style>

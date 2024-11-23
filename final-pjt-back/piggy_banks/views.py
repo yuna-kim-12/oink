@@ -33,7 +33,7 @@ def piggy_list(request):
             return Response({'detail': '이미 돼지저금통이 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
         
         user_product_pk = int(request.query_params.get('user_product', None))
-        user_product = UserProduct.objects.get(product=user_product_pk)
+        user_product = UserProduct.objects.get(pk=user_product_pk)
         # user_product는 vue에서 사용자가 선택하는데 그것이 request.data로 잘 들어갈지?
         serializer = PiggySerializer(data=request.data)
 

@@ -161,6 +161,7 @@ export const useUserStore = defineStore("user", () => {
     }
   };
 
+
   const getAllUserInfo = () => {
     axios({
       method:'get',
@@ -176,6 +177,25 @@ export const useUserStore = defineStore("user", () => {
       console.log('가져오기 실패!:', error)
     })
   }
+  
+  
+  // 팔로잉 기능
+  const followUser = () => {
+    axios({
+      method:'post',
+      url:`${url}/accounts/follow/`,
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+    .then((response) => {
+      console.log(response.data)
+    })
+    .catch((error) => {
+      console.log('가져오기 실패!:', error)
+    })
+  }
+  
 
 
   return { 

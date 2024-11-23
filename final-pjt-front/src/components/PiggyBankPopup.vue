@@ -124,7 +124,7 @@ const piggybankName = ref('')
 const goalAmount = ref(null)
 const account = ref('')
 
-const makePiggybank = function () {
+const makePiggybank =  async function () {
   if (!goal.value) {
     alert('목표를 선택해주세요🐽');
     return;
@@ -132,7 +132,6 @@ const makePiggybank = function () {
 
   if (!piggybankName.value) {
     piggybankName.value = `${userStore.user.name}님의 저금통`
-    return;
   }
 
   if (!goalAmount.value || goalAmount.value <= 0) {
@@ -145,28 +144,39 @@ const makePiggybank = function () {
     return;
   }
 
+  const requestData = {
+    name: piggybankName.value,
+    weight: Number(goalAmount.value) / 10,
+    saving_purpose: goal.value,
+    user_product: account.value
+  };
+
   axios({
     method: 'post',
     url: `${userStore.url}/piggy_banks/`,
-    data: {
-      name: piggybankName.value,
-      weight: goalAmount.value / 10,
-      saving_purpose: goal.value,
-    },
+    data: requestData,
     headers: {
-      Authorization: `Token ${userStore.token}`
-    },
-    params: {
-      user_product: String(account.value.pk)
+      'Authorization': `Token ${userStore.token}`,
+      'Content-Type': 'application/json',
     }
   })
-    .then(res => {
-      console.log('dd')
-      console.log(res.data)
+    .then(response => {
+      console.log('Success:', response.data);
     })
-    .catch(err => console.log('저금통 만들기 실패', err, account.value))
-}
-
+    .catch(err => {
+      console.log('Error Config:', {
+        url: err.config?.url,
+        method: err.config?.method,
+        headers: err.config?.headers,
+        data: err.config?.data
+      });
+      console.log('Error Response:', {
+        status: err.response?.status,
+        data: err.response?.data,
+        headers: err.response?.headers
+      });
+    });
+};
 
 // 저금통 만들 때 '만원'이 따라다니기
 const showUnit = computed(() => {

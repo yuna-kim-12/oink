@@ -149,7 +149,7 @@ onMounted(() => {
   background-color: #f0f0f0;
   border-radius: 30px;
   padding: 4px;
-  margin-bottom: 0px;
+  margin-bottom: 30px;
   position: relative;
   overflow: hidden;
 }
@@ -185,10 +185,6 @@ onMounted(() => {
 
 .toggle-button:focus {
   outline: none;
-}
-
-.toggle-button:hover:not(.active) {
-  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .recommendation-intro,

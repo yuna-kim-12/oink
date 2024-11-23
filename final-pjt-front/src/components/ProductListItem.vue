@@ -17,7 +17,7 @@
           </div>
 
           <div class="product-interest-rate">
-            <p class="prime_interest_rate">최고 {{ product.prime_interest_rate }}%</p>
+            <p class="prime_interest_rate">최고 {{ product.prime_interest_rate }}% </p>
             <p class="interest_rate">기본 {{ product.interest_rate }}%</p>
           </div>
         </div>

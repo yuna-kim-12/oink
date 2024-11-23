@@ -44,6 +44,15 @@ import { useUserStore } from '@/stores/user';
 
 const store = useUserStore()
 
+const followCondition = () => {
+    if (store.user.is_following.value = true) {
+        store.user.is_following.vlaue = false
+    }
+    else {
+        store.user.is_following.value = true
+    }
+}
+
 // 팝업창 팔로워, 팔로잉 탭 상태 확인, 이거 지우면 안됨
 defineProps({
   type: {

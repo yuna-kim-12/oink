@@ -20,7 +20,6 @@ export const useRecommendStore = defineStore("recommend", () => {
       }
     })
       .then(res => {
-        console.log(res.data)
         depositProducts.value = res.data.deposit_products
         savingsProducts.value = res.data.savings_products
       })

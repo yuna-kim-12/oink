@@ -30,7 +30,7 @@
         </div>
         <!-- 로그인 했지만 저금통 없는 사람들에게 보여주기 -->
       </div>
-      <div class="no-piggybank" v-if="!isPiggybank">
+      <div class="no-piggybank" v-else>
         <img src="@/assets/images/no-piggybank.png" alt="no-piggybank-img">
         <p>현재 만들어진 돼지 저금통이 없어요</p>
         <!-- 버튼에 팝업 창 연결 -->
@@ -66,7 +66,7 @@ const piggyExam = ref({
   piggyImg: '@/assets/images/yellow-pig(100).png' // 돼지 이미지
 })
 
-const isPiggybank = ref(false)
+const isPiggybank = ref(true)
 
 // 저금통 만들기 버튼 클릭 시 팝업 창 띄우기
 const isOpen = ref(false)
@@ -80,7 +80,12 @@ const closePopup = function () {
 }
 
 onMounted(() => {
-  // 1. progress bar 애니매이션
+  // 1. 로그인 여부, 저금통 유무 확인
+  if (userStore.isLoggedIn && !userStore.user.piggy_bank.length) {
+    isPiggybank.value = false
+  }
+
+  // 2. progress bar 애니매이션
   // curWeight 현재까지 모은 무게 넣기
   const curWeight = 27;
   const duration = 1500;

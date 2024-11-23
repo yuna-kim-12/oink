@@ -90,12 +90,18 @@ const getBankLogo = (categoryName) => {
 
 <style scoped>
 .productlist-item-container {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    border-bottom: 1px solid #BCBCBC;
-    padding-bottom: 25px;
-    width: 650px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  border-bottom: 1px solid #BCBCBC;
+  padding-bottom: 25px;
+  width: 650px;
+}
+
+.productlist-item-container:hover {
+  transition-duration: .3s;
+  transition-property: transform;
+  transform: scale(1.025);
 }
 
 .product-content {

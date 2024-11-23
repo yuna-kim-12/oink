@@ -7,7 +7,7 @@ from django.utils.timezone import now
 class BankProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankProducts
-        fields = ('category', 'company_code', 'company_name', 'product_code', 'product_name', 'interest_rate', 'prime_interest_rate', 'product_link', 'join_way')
+        fields = ('pk', 'category', 'company_code', 'company_name', 'product_code', 'product_name', 'join_period', 'interest_rate', 'prime_interest_rate', 'product_link', 'join_way')
 
 
 class BankProductSerializer(serializers.ModelSerializer):

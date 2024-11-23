@@ -26,7 +26,8 @@ User = get_user_model()
 @api_view(['GET'])
 def deposits(request):
     if request.method == 'GET':
-        deposits = BankProducts.objects.filter(category=0).order_by('-prime_interest_rate')
+        order_by = request.query_params.get('order_by', 'prime_interest_rate')
+        deposits = BankProducts.objects.filter(category=0).order_by(f'-{order_by}')
         serializer = BankProductListSerializer(deposits, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -45,8 +46,9 @@ def deposit_detail(request, product_pk):
 @api_view(['GET'])
 def savings(request):
     if request.method == 'GET':
-        savings = BankProducts.objects.filter(category=1).order_by('-prime_interest_rate')
-        serializer = BankProductListSerializer(savings, many=True)
+        order_by = request.query_params.get('order_by', 'prime_interest_rate')
+        deposits = BankProducts.objects.filter(category=1).order_by(f'-{order_by}')
+        serializer = BankProductListSerializer(deposits, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 

@@ -149,7 +149,7 @@ const getBankLogo = (categoryName) => {
 }
 
 .product-content {
-    color: #FFA46B;
+    color: var(--main-color);
     font-size: 22px;
 }
 
@@ -159,7 +159,7 @@ const getBankLogo = (categoryName) => {
 }
 
 .duration-section > p > span {
-    color: #FFAE17;
+    color: var(--point-text-color);
 }
 
 .monthly-amount {
@@ -180,7 +180,7 @@ const getBankLogo = (categoryName) => {
 
 .monthly-amount > .amount {
     font-size: 20px;
-    color: #FFA46B;
+    color: var(--main-color);
     font-weight: 700;
 
 }

@@ -177,6 +177,21 @@ export const useUserStore = defineStore("user", () => {
     })
   }
 
+  const followInfo = () => {
+    axios({
+      method:'post',
+      url: `${url}/accounts/follow/${userPK.value}/`,
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+    .then((response) => {
+      console.log(response.data)
+    })
+    .catch((error) => {
+      console.log('에러', error)
+    })
+  }
 
   return { 
     url, 
@@ -190,6 +205,7 @@ export const useUserStore = defineStore("user", () => {
     getUserInfo, 
     updateUserInfo,
     getAllUserInfo,
-	passwordChange,
+	  passwordChange,
+    followInfo,
   }
 }, { persist: true });

@@ -49,6 +49,7 @@
   <script setup>
   
   import { useUserStore } from '@/stores/user';
+  import { onMounted } from 'vue';
   
   const store = useUserStore()
   
@@ -61,6 +62,11 @@
   });
   
   defineEmits(["close", "update:type"]);
+
+  onMounted(() => {
+    store.followInfo()
+  })
+
   </script>
   
   <style scoped>

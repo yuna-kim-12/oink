@@ -212,6 +212,7 @@ onMounted(() => {
 
 .product-list {
   margin-top: 50px;
+  margin-top: 30px;
 }
 
 .product-item {

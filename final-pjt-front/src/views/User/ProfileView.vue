@@ -10,56 +10,50 @@
                 </div>
                 <div class="follow">
                     <div class="stack-piggy">
-                        <p>2</p>
+                        <p>{{ store.user.piggy_bank.length }}</p>
                         <span>누적 저금통</span>
                     </div>
-                    <div class="following">
-                        <p>50</p>
+                    <div class="following" @click="openFollowPopup('following')">
+                        <p>{{ store.user.followings_count }}</p>
                         <span>팔로잉</span>
                     </div>
-                    <div class="follower">
-                        <p>73</p>
+                    <div class="follower" @click="openFollowPopup('followers')">
+                        <p>{{ store.user.followers_count }}</p>
                         <span>팔로워</span>
                     </div>
                 </div>
             </div>
             <div class="product">
                 <span>내가 가입한 예적금 상품</span>
-    
                 <button class="product-btn" @click="connectMyProduct">연동 하기</button>
             </div>
             
             <div class ="product-items">
-
                 <p class="no-product" v-if="myProducts.length==0">아직 연동된 상품이 없습니다.</p>
-
                 <template v-else>
-
                     <ProfileUserProduct 
-                    v-for="(myProduct, index) in myProducts"
-                    :key="myProduct.pk"
-                    :my-product="myProduct"
-                    :index="index"
+                        v-for="(myProduct, index) in myProducts"
+                        :key="myProduct.pk"
+                        :my-product="myProduct"
+                        :index="index"
                     />
-
                     <div class="chart">
                         <p class="chart-title">내가 가입한 예적금 상품 금리</p>
                         <ProfileChart
-                        :click-count="clickCount"
+                            :click-count="clickCount"
                         />
                     </div>
                 </template>
-        
-                
             </div>
-        
-        
         </div>
-
-        
 
         <br>
 
+        <FollowPopUp
+            v-if="showFollowPopup"
+            v-model:type="popupType"
+            @close="closeFollowPopup"
+        />
     </div>
 </template>
 
@@ -72,10 +66,12 @@ import ProfileChart from '@/components/Profile/ProfileChart.vue';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import { storeToRefs } from 'pinia';
+import FollowPopUp from '@/components/Profile/FollowPopUp.vue';
 
 const router = useRouter()
 const store = useUserStore()
-
+const showFollowPopup = ref(false) // 팔로우 팝업 창
+const popupType = ref('') // 팔로잉이나 팔로워
 
 const url = store.url
 // const { userPK, token } = storeToRefs(useUserStore)
@@ -129,6 +125,16 @@ const connectMyProduct = () => {
 }
 
 
+// 팔로잉 팝업 창 열기
+const openFollowPopup = (type) => {
+    popupType.value = type
+    showFollowPopup.value = true
+}
+
+// 팔로잉 팝업 창 닫기
+const closeFollowPopup = () => {
+    showFollowPopup.value = false
+}
 
 </script>
 
@@ -172,6 +178,7 @@ const connectMyProduct = () => {
     position: absolute;
     right: -16px;
     bottom: 26px;
+    cursor: pointer;
 }
 
 .follow p {
@@ -186,6 +193,7 @@ const connectMyProduct = () => {
     color: var(--main-color);
     font-weight: 500;
 }
+
 
 
 .user-name {

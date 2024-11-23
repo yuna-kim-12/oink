@@ -46,7 +46,7 @@ import { ref } from 'vue';
 
 const cheerupList = ref(5);
 const cheerupItems = ref(Array(5).fill().map(() => ({
-  count: 50,
+  count: 0,
   bubbles: []
 })));
 

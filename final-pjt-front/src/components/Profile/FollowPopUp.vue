@@ -131,8 +131,6 @@
       border-radius: 15px;
   }
   
-  
-  
   .tab.active .following,
   .tab.active .follower {
     color: var(--point-text-color);

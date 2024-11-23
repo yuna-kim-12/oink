@@ -57,42 +57,42 @@
     recommendStore.getProduct();
     const productItems = document.querySelectorAll('.product-item');
     
-    gsap.fromTo(".recommendation-container", 
-      { opacity: 0, y: -50 }, 
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 1, 
-        delay: 0.8,
-        ease: "power2.out",
-        onComplete: () => {
-          productItems.forEach((item, index) => {
-            const card = item.querySelector('.product-card-inner');
-            let isAnimating = true;
-            const animationDelay = index * 0.6;
-            const animationDuration = 3;
-            const totalAnimationTime = (animationDelay + animationDuration) * 1000;
+    // gsap.fromTo(".recommendation-container", 
+    //   { opacity: 0, y: -50 }, 
+    //   { 
+    //     opacity: 1, 
+    //     y: 0, 
+    //     duration: 1, 
+    //     delay: 0.8,
+    //     ease: "power2.out",
+    //     onComplete: () => {
+    //       productItems.forEach((item, index) => {
+    //         const card = item.querySelector('.product-card-inner');
+    //         let isAnimating = true;
+    //         const animationDelay = index * 0.6;
+    //         const animationDuration = 3;
+    //         const totalAnimationTime = (animationDelay + animationDuration) * 1000;
             
-            setTimeout(() => {
-              isAnimating = false;
-            }, totalAnimationTime);
+    //         setTimeout(() => {
+    //           isAnimating = false;
+    //         }, totalAnimationTime);
             
-            item.addEventListener('mouseenter', () => {
-              if (!isAnimating) {
-                card.style.animation = 'none';
-                item.classList.add('hover-effect');
-              }
-            });
+    //         item.addEventListener('mouseenter', () => {
+    //           if (!isAnimating) {
+    //             card.style.animation = 'none';
+    //             item.classList.add('hover-effect');
+    //           }
+    //         });
             
-            item.addEventListener('mouseleave', () => {
-              if (!isAnimating) {
-                item.classList.remove('hover-effect');
-              }
-            });
-          });
-        }
-      }
-    );
+    //         item.addEventListener('mouseleave', () => {
+    //           if (!isAnimating) {
+    //             item.classList.remove('hover-effect');
+    //           }
+    //         });
+    //       });
+    //     }
+    //   }
+    // );
   });
   </script>
   

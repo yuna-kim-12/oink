@@ -95,7 +95,7 @@ onMounted(() => {
   recommendStore.getProduct();
   const productItems = document.querySelectorAll('.product-item');
 
-  gsap.fromTo(".recommendation-container",
+  gsap.fromTo(".product-recommend-container",
     { opacity: 0, y: -50 },
     {
       opacity: 1,

@@ -23,7 +23,7 @@ def piggy_list(request):
     # 메인페이지 돼지저금통 조회
     if request.method == 'GET':
         # 데이터 보고 50개 끊기 수정
-        piggys = PiggyBank.objects.all().order_by('-created_at')[:50]
+        piggys = PiggyBank.objects.all().order_by('-created_at')[:20]
         serializer = PiggyListSerializer(piggys, many=True)
         return Response(serializer.data)
 

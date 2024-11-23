@@ -80,7 +80,8 @@ const router = createRouter({
       path:'/updateUser',
       name:'updateUser',
       component:UpdateUserView
-    }
+    },
+  
   ],
 })
 

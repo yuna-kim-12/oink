@@ -66,7 +66,7 @@ const piggyExam = ref({
   piggyImg: '@/assets/images/yellow-pig(100).png' // 돼지 이미지
 })
 
-const isPiggybank = ref(true)
+const isPiggybank = ref(false)
 
 // 저금통 만들기 버튼 클릭 시 팝업 창 띄우기
 const isOpen = ref(false)

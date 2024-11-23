@@ -57,6 +57,7 @@ export const useUserStore = defineStore("user", () => {
     } catch (error) {
         console.error('로그인 실패:', error);
         if (error.response?.status === 400) {
+            alert('이메일 또는 비밀번호를 확인해주세요🐽')
             throw new Error('이메일 또는 비밀번호가 올바르지 않습니다.');
         }
         throw new Error('로그인 중 오류가 발생했습니다.');

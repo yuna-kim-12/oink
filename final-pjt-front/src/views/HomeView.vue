@@ -1,6 +1,7 @@
 <template>
     <div>
         <OinkIntro />
+        <PiggyBankPopup/>
         <PiggyBank />
         <PiggyBankInfo />
 
@@ -9,7 +10,7 @@
             <ProductRecommend />
         </div>
 
-        <button class="create-piggy" v-show="showButton" @click="navigateToPiggyCreate">
+        <button class="create-piggy" v-show="showButton && !userStore.isLoggedIn" @click="navigateToPiggyCreate">
             저금통 만들러 가기
         </button>
 
@@ -35,6 +36,7 @@ import PiggyBank from '@/components/PiggyBank.vue';
 import PiggyBankInfo from '@/components/PiggyBankInfo.vue';
 import ProductRecommend from '@/components/ProductRecommend.vue';
 import Cheerup from '@/components/Cheerup.vue';
+import PiggyBankPopup from '@/components/PiggyBankPopup.vue';
 
 const router = useRouter();
 const userStore = useUserStore()
@@ -46,7 +48,7 @@ const handleScroll = () => {
 };
 
 const navigateToPiggyCreate = () => {
-    router.push('/profile');
+    router.push({ name: 'login'});
 };
 
 onMounted(() => {

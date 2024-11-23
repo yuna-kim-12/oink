@@ -26,7 +26,7 @@ class BankProducts(models.Model):
 
 
 class UserProduct(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_product")
     product = models.ForeignKey(BankProducts, on_delete=models.CASCADE)
     # 21년부터 지금까지 랜덤
     join_date = models.DateTimeField()

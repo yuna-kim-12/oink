@@ -5,6 +5,7 @@ from dj_rest_auth.serializers import UserDetailsSerializer
 import re
 from django.conf import settings
 from piggy_banks.models import PiggyBank
+from bank_products.models import UserProduct
 
 User = get_user_model()
 
@@ -69,8 +70,15 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
         class Meta:
             model = PiggyBank
             fields = '__all__'
+    
+    class UserProductSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = UserProduct
+            fields = '__all__'
+
 
     piggy_bank = PiggyBankSerializer(many=True, read_only=True)
+    user_product = UserProductSerializer(many=True, read_only=True)
 
     # followers 필드를 사용자 이름 리스트로 변환
     followers = serializers.SerializerMethodField()
@@ -89,5 +97,5 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('pk', 'email', 'name', 'birth_date', 'asset', 'saving_purpose', 
-                  'saving_amount', 'saving_period', 'followers', 'followings', 'piggy_bank')
+                  'saving_amount', 'saving_period', 'followers', 'followings', 'piggy_bank', 'user_product')
         read_only_fields = ('pk', 'email', 'name', 'piggy_bank')

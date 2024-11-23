@@ -5,7 +5,7 @@ from dj_rest_auth.serializers import UserDetailsSerializer
 import re
 from django.conf import settings
 from piggy_banks.models import PiggyBank
-from bank_products.models import UserProduct
+from bank_products.models import UserProduct, BankProducts
 
 User = get_user_model()
 
@@ -63,23 +63,34 @@ class CustomRegisterSerializer(RegisterSerializer):
         return data
 
 
+    
+# BankProductsSerializer 정의
+class BankProductsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BankProducts
+        fields = ('product_name', 'company_name')  # 필요한 필드만 선택
+
+# UserProductSerializer에서 BankProductsSerializer 중첩
+class UserProductSerializer(serializers.ModelSerializer):
+    product = BankProductsSerializer(read_only=True)  # BankProducts와 연결
+
+    class Meta:
+        model = UserProduct
+        fields = ('product', 'join_date', 'expiration_date', 'join_period', 'monthly_amount', 'interest_rate')
+
+# PiggyBankSerializer에서 UserProductSerializer 중첩
+class PiggyBankSerializer(serializers.ModelSerializer):
+    user_product = UserProductSerializer(read_only=True)  # UserProduct와 연결
+
+    class Meta:
+        model = PiggyBank
+        fields = ('name', 'weight', 'cheerup_count', 'saving_purpose', 'user_product')
+
 # 사용자 정보 조회/수정을 위한 시리얼라이저
-class CustomUserDetailsSerializer(serializers.ModelSerializer):
-    
-    class PiggyBankSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = PiggyBank
-            fields = '__all__'
-    
-    class UserProductSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = UserProduct
-            fields = '__all__'
-
-
-    piggy_bank = PiggyBankSerializer(many=True, read_only=True)
+class CustomUserDetailsSerializer(serializers.ModelSerializer):    
+    piggy_bank = PiggyBankSerializer(many=True, read_only=True)  # PiggyBank와 연결
     user_product = UserProductSerializer(many=True, read_only=True)
-
+    
     # followers 필드를 사용자 이름 리스트로 변환
     followers = serializers.SerializerMethodField()
     followings = serializers.SerializerMethodField()
@@ -97,5 +108,5 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('pk', 'email', 'name', 'birth_date', 'asset', 'saving_purpose', 
-                  'saving_amount', 'saving_period', 'followers', 'followings', 'piggy_bank', 'user_product')
+                  'saving_amount', 'saving_period', 'followers', 'followings', 'piggy_bank', 'user_product',)
         read_only_fields = ('pk', 'email', 'name', 'piggy_bank')

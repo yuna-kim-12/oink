@@ -5,10 +5,10 @@
         <PiggyBankInfo />
 
         <div class="product-recommend">
-            <h2 class="recommendation-badge1">돼지 저금통을 불릴 수 있는</h2>
-            <h2 class="recommendation-badge2">예적금 상품을 추천해드려요.</h2>
+            <h2 class="recommendation-badge" v-if="!userStore.isLoggedIn">돼지 저금통을 불릴 수 있는<br>예적금 상품을 추천해드려요.</h2>
             <ProductRecommend />
         </div>
+
         <button class="create-piggy" v-show="showButton" @click="navigateToPiggyCreate">
             저금통 만들러 가기
         </button>
@@ -29,15 +29,17 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 import OinkIntro from '@/components/OinkIntro.vue';
 import PiggyBank from '@/components/PiggyBank.vue';
 import PiggyBankInfo from '@/components/PiggyBankInfo.vue';
-import RecommendView from './RecommendView.vue';
 import ProductRecommend from '@/components/ProductRecommend.vue';
 import Cheerup from '@/components/Cheerup.vue';
 
-const showButton = ref(false);
 const router = useRouter();
+const userStore = useUserStore()
+
+const showButton = ref(false);
 
 const handleScroll = () => {
     showButton.value = window.scrollY > 200;
@@ -58,17 +60,23 @@ onUnmounted(() => {
 
 <style scoped>
 /* 상품 추천 */
-.recommend {
-  margin-bottom: 60px;
-  text-align: center;
+.product-recommend {
+    text-align: center;
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(248, 248, 248);
 }
 
 .recommendation-badge {
-  margin-bottom: 5px;
+  margin-bottom: 80px;
   font-size: 30px;
   font-weight: 700;
   color: #020202;
 }
+
 
 /* 저금통 만들러 가기 버튼 */
 .create-piggy {
@@ -87,6 +95,7 @@ onUnmounted(() => {
     white-space: nowrap;
 }
 
+
 /* 커뮤니티 소개 */
 .create-piggy:hover {
     transform: translateX(-50%) translateY(-2px);
@@ -98,9 +107,11 @@ onUnmounted(() => {
     text-align: center;
 }
 
-.community-intro>img {
+.community-intro > img {
+    display: block;
     width: 80%;
     max-width: 1000px;
+    margin: 30px auto 0;
 }
 
 .community-intro-text {
@@ -142,39 +153,4 @@ onUnmounted(() => {
     height: 70px;
     transform: rotate(-60deg);
 }
-
-.product-recommend {
-    /* text-align: center; */
-    
-    padding: 50px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(248, 248, 248);
-}
-
-.product-recommend-text {
-    padding: 50px 0;
-    font-size: 30px;
-    font-weight: 700;
-}
-
-.recommend {
-  margin-bottom: 80px;
-  margin-top: 60px;
-  text-align: center;
-}
-.recommendation-badge1,
-.recommendation-badge2 {
-  margin-bottom: 5px;
-  font-size: 30px;
-  font-weight: 700;
-  color: #020202;
-}
-
-.recommendation-badge2{
-    margin-bottom: 50px;
-}
-
 </style>

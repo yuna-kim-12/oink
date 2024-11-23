@@ -1,5 +1,5 @@
 <template>
-  <div class="piggy-bank-info-container">
+  <div class="piggy-bank-info-container" v-if="!userStore.isLoggedIn">
     <h2>가입한 예적금 상품에 연동해서<br>돼지 저금통을 만들어요.</h2>
     <div class="piggy-bank-info">
       <div class="piggy-bank-item">
@@ -34,7 +34,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useUserStore } from '@/stores/user';
 import PiggyBankCarousel from './PiggyBankCarousel.vue'
+
+const userStore = useUserStore()
 
 const progressBar = ref(null);
 const weightDisplay = ref(null);

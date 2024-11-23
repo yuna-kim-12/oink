@@ -191,14 +191,6 @@ onMounted(() => {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.recommend-text{
-  padding: 40px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .recommendation-intro,
 .recommendation-title {
   font-size: 20px;
@@ -219,7 +211,8 @@ onMounted(() => {
 }
 
 .product-list {
-  /* margin-top: 50px; */
+  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .product-item {

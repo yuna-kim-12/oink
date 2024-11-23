@@ -1,7 +1,6 @@
 <template>
     <div>
         <OinkIntro />
-        <PiggyBankPopup/>
         <PiggyBank />
         <PiggyBankInfo />
 
@@ -36,7 +35,6 @@ import PiggyBank from '@/components/PiggyBank.vue';
 import PiggyBankInfo from '@/components/PiggyBankInfo.vue';
 import ProductRecommend from '@/components/ProductRecommend.vue';
 import Cheerup from '@/components/Cheerup.vue';
-import PiggyBankPopup from '@/components/PiggyBankPopup.vue';
 
 const router = useRouter();
 const userStore = useUserStore()

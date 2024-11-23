@@ -9,8 +9,19 @@
 
     <div class="piggybank-main">
       <!-- 로그인 안한 사용자는 예시 내용 보여주기, 로그인 했는데 저금통 있는 사람 그 정보 보여주기  -->
-      <div class="is-piggybank" v-show="false">
-         
+      <div class="is-piggybank" v-if="true">
+        <div class="piggybank-img">
+          <img src="@/assets/images/pink-pig(25).png" alt="pink-pig-img">
+          <span ref="weightDisplay" class="weight">{{ curWeight }}kg</span>
+          <div class="progress-outer">
+            <div class="progress-container">
+              <div class="progress-bar" ref="progressBar"></div>
+              <div class="indicator-wrapper" ref="indicatorWrapper">
+                <img class="progress-indicator" src="@/assets/images/indicator.png" alt="indicator-img">
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="piggybank-intro">
           <span class="piggy-nickname-btn">저금통 애칭</span>
           <p class="piggy-nickname"></p>
@@ -24,9 +35,9 @@
             <p data-label="응원 받은 수"><span></span></p>
           </div>
         </div>
+        <!-- 로그인 했지만 저금통 없는 사람들에게 보여주기 -->
       </div>
-      <!-- 로그인 했지만 저금통 없는 사람들에게 보여주기 -->
-      <div class="no-piggybank">
+      <div class="no-piggybank" v-if="false">
         <img src="@/assets/images/no-piggybank.png" alt="no-piggybank-img">
         <p>현재 만들어진 돼지 저금통이 없어요</p>
         <!-- 버튼에 팝업 창 연결 -->
@@ -127,6 +138,12 @@ onMounted(() => {
   align-items: center;
   box-shadow: 3px 3px 15px rgb(230, 229, 229);
   border-radius: 15px;
+}
+
+.is-piggybank {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .piggybank-img {
@@ -260,18 +277,18 @@ onMounted(() => {
   align-items: center;
 }
 
-.no-piggybank > img {
+.no-piggybank>img {
   width: 250px;
 }
 
-.no-piggybank > p {
+.no-piggybank>p {
   margin-top: 15px;
   font-size: 20px;
   font-weight: 700;
   color: var(--sub-text2-color);
 }
 
-.no-piggybank > button {
+.no-piggybank>button {
   margin-top: 30px;
   padding: 5px 15px;
   border-radius: 15px;
@@ -280,7 +297,7 @@ onMounted(() => {
   cursor: pointer;
 }
 
-.no-piggybank > button:hover {
+.no-piggybank>button:hover {
   background-color: var(--main-color);
   transition: all 300ms ease-in-out;
 }

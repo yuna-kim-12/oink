@@ -291,7 +291,7 @@ p {
     position: absolute;
     width: 32px;
     right: 10px;
-    top: 39px;
+    top: 41.8px;
     color: #808080;
 	font-size: 13px;
 }

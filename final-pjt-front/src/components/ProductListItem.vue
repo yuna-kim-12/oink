@@ -1,33 +1,38 @@
 <template>
-  <div class="productlist-item-container" >
-    <div class="product-content">
-      <div class="product-index">
-        <p class="indexnum">{{ index+1 }} /</p>
-        <img :src="getBankLogo(product.company_name)" :alt="product.company_name" class="bank-logo">
-      </div>
-      <div class="product-detail">
-          <p class="bankname">{{ product.company_name }}</p>
-          <p class="product-name">{{ product.product_name }}</p>
-          <p class="join-way" v-for="join in (product.join_way || '').split(',')" :key="join">
-            {{ join }}
-          </p>
-      </div>
-    </div>
+  <RouterLink
+        :to="{ name: 'recommendDetail', params: { category: product.category ? 'savings' : 'deposit', productId: product.pk } }">
+      <div class="productlist-item-container">
+          <div class="product-content">
+            <div class="product-index">
+              <p class="indexnum">{{ index+1+(pagenum-1)*10 }} /</p>
+              <img :src="getBankLogo(product.company_name)" :alt="product.company_name" class="bank-logo">
+            </div>
+            <div class="product-detail">
+              <p class="bankname">{{ product.company_name }}</p>
+              <p class="product-name">{{ product.product_name }}</p>
+              <p class="join-way" v-for="join in (product.join_way || '').split(',')" :key="join">
+                {{ join }}
+              </p>
+            </div>
+          </div>
 
-    <div class="product-interest-rate">
-        <p class="prime_interest_rate">최고 {{ product.prime_interest_rate }}%</p>
-        <p class="interest_rate">기본 {{ product.interest_rate }}%</p>
-    </div>
-  </div>
+          <div class="product-interest-rate">
+            <p class="prime_interest_rate">최고 {{ product.prime_interest_rate }}%</p>
+            <p class="interest_rate">기본 {{ product.interest_rate }}%</p>
+          </div>
+        </div>
+  </RouterLink>
 
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { RouterLink } from 'vue-router';
 
 defineProps({
   product:Object,
-  index:Number
+  index:Number,
+  pagenum:Number,
 })
 
 
@@ -111,6 +116,7 @@ const getBankLogo = (categoryName) => {
 .bank-logo {
     width: 35px;
     height: 35px;
+    object-fit: contain;
     margin-left: 15px;
     margin-top: 5px;
 }
@@ -132,11 +138,11 @@ const getBankLogo = (categoryName) => {
 
 .product-detail > .join-way {
   display: inline-block;
-  margin: 5px 10px 0 0px; 
-  padding: 2px 5px;
+  margin: 5px 4px 0 0px; 
+  padding: 2px 8px;
   background-color: var(--box-bg-color);
   background-color: var(--stroke-color);
-  border-radius: 15%;
+  border-radius: 25px;
   font-size: 12px;
   /* color: var(--sub-text-bold-color); */
   color: white;

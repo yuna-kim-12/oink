@@ -1,5 +1,5 @@
 <template>
-  <div class="piggybank-popup-container" v-if="openPopup">
+  <div v-if="isOpen" class="piggybank-popup-container">
     <!-- 네모 박스 -->
 
     <div class="piggybank-popup">
@@ -11,7 +11,7 @@
             <br>새로운 예적금을 만들어보세요!
           </p>
         </div>
-        <div class="piggybank-join-btn">
+        <div class="piggybank-join-btn" @click="goMaking">
           <p>연동된 계좌로 할게요!</p>
           <p><span>username</span>님의<br>기존 예적금 상품으로
             <br>돼지 저금통을 만들어보세요!
@@ -21,9 +21,9 @@
 
       <!-- 돼지 저금통 만들기(정보 입력) -->
       <div class="piggybank-join-info" v-if="false">
-        <div class="piggybank-img">
+        <div class="piggybank-show">
           <span class="piggy-nickname-btn">저금통 애칭</span>
-          <p class="piggy-nickname"></p>
+          <p class="piggy-nickname">먀먀</p>
           <div class="piggybank-img">
             <img src="@/assets/images/pink-pig(25).png" alt="pink-pig-img">
             <span ref="weightDisplay" class="weight">{{ curWeight }}kg</span>
@@ -48,10 +48,10 @@
               <option value=""></option>
             </select>
           </div>
-          <div class="piggybank-input">
+          <div class="piggybank-input goalAmount">
             <label for="piggybank-name">목표 금액</label>
-            <input type="text" id="piggybank-name" placeholder="목표 금액을 입력하세요">
-            <span>만원</span>
+            <input type="number" id="piggybank-name" v-model="goalAmount" placeholder="목표 금액을 입력하세요">
+            <span v-if="showUnit">만원</span>
           </div>
           <button>만들기</button>
         </form>
@@ -64,20 +64,38 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter()
-const openPopup = ref(true)
+const userStore = useUserStore()
+
+defineProps({
+  isOpen: Boolean
+})
 
 // 새로운 예적금 만들기 버튼 클릭 시 추천 페이지 이동
 const goRecommend = function () {
   router.push({ name: 'recommend' })
 }
 
+// 기존 예적금으로 만들기 버튼 클릭 시 저금통 만들기 진행
+const goMaking = function () {
+  console.log(userStore.user)
+}
+
+// 저금통 만들 때 '만원'이 따라다니기
+const goalAmount = ref('')
+
+const showUnit = computed(() => {
+  return goalAmount.value !== '' && goalAmount.value !== '0';
+})
+
 // 다음에 만들기 버튼 클릭 시 팝업 창 닫기
+const emit = defineEmits(['closePopup'])
 const closePopup = function () {
-  openPopup.value = !openPopup.value
+  emit('closePopup')
 }
 </script>
 
@@ -95,7 +113,6 @@ const closePopup = function () {
   z-index: 10;
 }
 
-
 .piggybank-popup {
   position: relative;
   display: flex;
@@ -108,6 +125,7 @@ const closePopup = function () {
   background-color: #fff;
 }
 
+/* 예적금 만들기 또는 계좌 연동 버튼 선택 팝업 */
 .piggybank-join-btns {
   display: flex;
   justify-content: center;
@@ -139,6 +157,7 @@ const closePopup = function () {
   color: var(--sub-text-color);
   line-height: 20px;
 }
+
 .piggybank-join-btn p:last-child span {
   font-weight: 700;
   color: var(--sub-text-bold-color);
@@ -165,6 +184,140 @@ const closePopup = function () {
   transition: all 300ms ease-in-out;
 }
 
+/* 돼지 저금통 만들기(정보 입력) */
+.piggybank-join-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+
+.piggybank-show {
+  text-align: center;
+}
+
+.piggy-nickname-btn {
+  font-size: 12px;
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 15px;
+  margin: 0 auto 0px;
+  padding: 2px 7px;
+}
+
+.piggy-nickname {
+  color: var(--sub-text-bold-color);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.piggybank-img {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+}
+
+.piggybank-img>img {
+  width: 200px;
+}
+
+
+.weight {
+  margin-top: 10px;
+  font-weight: 700;
+  color: var(--sub-text2-color);
+  font-size: 24px;
+}
+
+.progress-outer {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.progress-container {
+  width: 250px;
+  height: 15px;
+  background-color: #DDDDDD;
+  border-radius: 10px;
+  position: relative;
+}
+
+.progress-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background-color: #2ECC71;
+  border-radius: 10px;
+}
+
+.indicator-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+
+.progress-indicator {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.piggybank-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.piggybank-input label {
+  margin-bottom: 3px;
+  color: var(--main-color);
+  font-weight: 700;
+}
+
+.piggybank-input input,
+.piggybank-input select {
+  width: 300px;
+  padding: 8px 10px;
+  border: 1px solid var(--stroke-color);
+  border-radius: 5px;
+}
+
+.goalAmount {
+  position: relative;
+}
+
+.goalAmount input {
+  width: 100%;
+}
+
+.goalAmount span {
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  color: #666;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+
+/* 다음에 만들기 버튼 */
 .piggybank-popup button {
   position: absolute;
   bottom: 20px;

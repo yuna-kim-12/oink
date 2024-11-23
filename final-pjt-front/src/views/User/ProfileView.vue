@@ -3,9 +3,25 @@
         <h2 class="title">마이 페이지</h2>
         
         <div class="content" v-if="store.user">
-            <div>
-                <p class="user-name"><span class="user-realname">{{ store.user.name }}</span class="nim">님</p>
-                <button class="modify-btn" @click="router.push('/updateUser')">내 정보 수정</button>
+            <div class="sub-title">
+                <div class="user-info">
+                    <p class="user-name"><span class="user-realname">{{ store.user.name }}</span class="nim">님</p>
+                    <button class="modify-btn" @click="router.push('/updateUser')">내 정보 수정</button>
+                </div>
+                <div class="follow">
+                    <div class="stack-piggy">
+                        <p>2</p>
+                        <span>누적 저금통</span>
+                    </div>
+                    <div class="following">
+                        <p>50</p>
+                        <span>팔로잉</span>
+                    </div>
+                    <div class="follower">
+                        <p>73</p>
+                        <span>팔로워</span>
+                    </div>
+                </div>
             </div>
             <div class="product">
                 <span>내가 가입한 예적금 상품</span>
@@ -132,10 +148,45 @@ const connectMyProduct = () => {
 
 .title {
     margin: 0 auto;
-    margin-bottom: 20px;
+    margin-bottom: 85px;
     color: var(--main-color);
     font-weight: bold;
 }
+
+.sub-title {
+    display: flex;
+    justify-content: space-between  ;
+    position: relative;
+}
+
+.user-info {
+    display: flex;
+}
+
+.user-info button {
+    margin-left: 10px;
+}
+
+.follow {
+    display: flex;
+    position: absolute;
+    right: -16px;
+    bottom: 26px;
+}
+
+.follow p {
+    margin: 0 20px;
+    text-align: center;
+    color: var(--sub-text-color);
+    font-weight: 550;
+}
+
+.follow span { 
+    margin: 0 20px;
+    color: var(--main-color);
+    font-weight: 500;
+}
+
 
 .user-name {
     display: flex;

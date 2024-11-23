@@ -360,9 +360,9 @@ def products_joined(request, user_pk):
             userproducts = UserProduct.objects.filter(user=user_pk)
             serializer = UserProductSerializer(userproducts, many=True)
             if before_len == after_len:
-                return Response({'detail': '이미 모든 예적금이 연동되어 있습니다.', 'data':serializer.data}, status=status.HTTP_200_OK)
+                return Response({'detail': '이미 모든 예적금이 연동되어 있어요🐽', 'data':serializer.data}, status=status.HTTP_200_OK)
             
-            return Response({'detail': f'{user.name}님의 예적금이 연동되었습니다.', 'data':serializer.data
+            return Response({'detail': f'{user.name}님의 예적금이 연동되었어요🐽', 'data':serializer.data
                              }, status=status.HTTP_201_CREATED)
         
     return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)

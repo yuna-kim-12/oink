@@ -14,7 +14,7 @@ from .serializers import PiggyListSerializer, PiggySerializer, PiggyDetailSerial
 
 from bank_products.models import UserProduct
 
-
+import json
 
 # Create your views here.
 @permission_classes([IsAuthenticated])
@@ -32,14 +32,57 @@ def piggy_list(request):
         if PiggyBank.objects.filter(user=request.user).exists():
             return Response({'detail': '이미 돼지저금통이 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
         
-        user_product_pk = int(request.query_params.get('user_product', None))
-        user_product = UserProduct.objects.get(pk=user_product_pk)
-        # user_product는 vue에서 사용자가 선택하는데 그것이 request.data로 잘 들어갈지?
-        serializer = PiggySerializer(data=request.data)
+        print('=== Request Debug Info ===')
+        print('Method:', request.method)
+        print('Path:', request.path)
+        print('Data:', request.data)
+        print('User:', request.user)
+        print('Headers:', request.headers)
+        print('========================')
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user, user_product=user_product)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # request.data에서 user_product_pk를 가져옴
+        try:
+            user_product_pk = request.data.get('user_product')
+            print('user_product_pk:', user_product_pk)  # 디버깅용
+            
+            user_product = UserProduct.objects.get(pk=user_product_pk)
+            print('user_product found:', user_product)  # 디버깅용
+            
+            serializer = PiggySerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(user=request.user, user_product=user_product)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                
+        except Exception as e:
+            print('Error:', str(e))  # 디버깅용
+            return Response({'detail': str(e)}, 
+                          status=status.HTTP_400_BAD_REQUEST)
+
+
+        # # JSON 데이터 파싱
+        # try:
+        #     data = json.loads(request.body)  # JSON 데이터를 파싱
+        #     user_product_pk = request.query_params.get('user_product', None)
+        #     user_product = UserProduct.objects.get(pk=user_product_pk)
+
+        #     serializer = PiggySerializer(data=data)
+        #     if serializer.is_valid(raise_exception=True):
+        #         serializer.save(user=request.user, user_product=user_product)
+        #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # except json.JSONDecodeError:
+        #     return Response({'detail': '잘못된 JSON 데이터입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+        # except UserProduct.DoesNotExist:
+        #     return Response({'detail': '유효하지 않은 UserProduct입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        # user_product_pk = request.query_params.get('user_product', None)
+        # user_product = UserProduct.objects.get(pk=user_product_pk)
+        # # user_product는 vue에서 사용자가 선택하는데 그것이 request.data로 잘 들어갈지?
+        # serializer = PiggySerializer(data=request.data)
+
+        # if serializer.is_valid(raise_exception=True):
+        #     serializer.save(user=request.user, user_product=user_product)
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 

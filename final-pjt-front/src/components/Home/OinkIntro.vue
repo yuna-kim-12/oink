@@ -42,7 +42,6 @@ import oinkImage from '@/assets/images/bounce-oink.png'
 .logo-wrapper {
     position: relative;
     width: 250px;
-    margin-bottom: 200px;
 }
 
 .logo-img {

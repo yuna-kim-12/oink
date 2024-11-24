@@ -189,6 +189,7 @@ onMounted(() => {
 
 .recommendation-intro,
 .recommendation-title {
+  text-align: center;
   font-size: 20px;
   font-weight: 500;
   color: #ABABAB;
@@ -300,6 +301,7 @@ onMounted(() => {
 .product-icon {
   width: 40px;
   height: 40px;
+  object-fit: contain;
 }
 
 .product-info {

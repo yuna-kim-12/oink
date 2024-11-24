@@ -204,7 +204,7 @@ onBeforeRouteUpdate(async (to) => {
     margin-left: auto;
     display: flex;
     justify-content: center;
-    font-size: 20px;
+    font-size: 15px;
     border: none;
     color: white;
     background-color: var(--main-color);

@@ -9,8 +9,7 @@
             @click="$emit('update:type', 'following')"
           >
             <span class="following">팔로잉 </span>
-            <span class="followings-count" style="color: var(--sub-text-color);">{{ store.user.followings_count }}</span>
-            <!--도저히 귀찮아서 inline으로 적는 점 양해 좀-->
+            <span class="followings-count" style="color: var(--sub-text-color);"></span>
           </div>
           <div
             class="tab"
@@ -18,7 +17,7 @@
             @click="$emit('update:type', 'followers')"
           >
             <span class="follower">팔로워  </span>
-            <span class="followers-count" style="color: var(--sub-text-color);">{{ store.user.followers_count }}</span>
+            <span class="followers-count" style="color: var(--sub-text-color);"></span>
           </div>
         </div>
     </div>
@@ -28,19 +27,29 @@
         <!-- 팔로잉 목록 -->
         <div v-if="type === 'following'">
             <div v-for="following in store.user.followings"
-            :key="following.id" class="real-following">
+            :key="following.pk" class="real-following">
             <p>{{ following.name }}</p>
             <p>{{ following.pk }}</p>
-            <button>팔로잉</button>
+            <button 
+              @click="followAction(following.pk)"
+              :class="{ 'following-btn': following.is_followed }"
+            >
+              {{ following.is_followed ? '팔로잉' : '팔로우' }}
+            </button>
         </div>
         </div>
         <div v-else>
           <!-- 팔로워 목록 -->
            <div v-for="follower in store.user.followers"
-           :key="follower.id" class="real-follower">
+           :key="follower.pk" class="real-follower">
             <p>{{ follower.name }}</p>
             <p>{{ follower.pk }}</p>
-            <button>팔로잉</button>
+            <button 
+              @click="followAction(follower.pk)"
+              :class="{ 'following-btn': follower.is_followed }"
+            >
+              {{ follower.is_followed ? '팔로잉' : '팔로우' }}
+            </button>
            </div>
         </div>
       </div>
@@ -49,13 +58,11 @@
 </template>
 
 <script setup>
-
 import { useUserStore } from '@/stores/user';
 import { onMounted } from 'vue';
 
 const store = useUserStore()
 
-// 팝업창 팔로워, 팔로잉 탭 상태 확인, 이거 지우면 안됨
 defineProps({
   type: {
     type: String,
@@ -65,10 +72,10 @@ defineProps({
 
 defineEmits(["close", "update:type"]);
 
-const followAction = () => {
+const followAction = (followPk) => {
+  store.followPk = followPk
   store.followInfo()
 }
-
 </script>
 
 <style scoped>
@@ -139,8 +146,6 @@ const followAction = () => {
     border-radius: 15px;
 }
 
-
-
 .tab.active .following,
 .tab.active .follower {
   color: var(--point-text-color);
@@ -173,5 +178,19 @@ const followAction = () => {
   padding: 20px;
   max-height: calc(80vh - 60px);
   overflow-y: auto;
+}
+
+button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--point-text-color);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.following-btn {
+  background-color: var(--sub-text-color);
 }
 </style>

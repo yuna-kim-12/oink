@@ -98,6 +98,10 @@ onMounted(() => {
   color: var(--main-text-color);
 }
 
+.is-logged-in button:first-child {
+  background-color: transparent;
+}
+
 .user-icon {
   cursor: pointer;
   padding: 10px;

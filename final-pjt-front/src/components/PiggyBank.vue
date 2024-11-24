@@ -4,7 +4,7 @@
       <!-- 로그인 안한 사용자는 예시 내용 보여주기, 로그인 했는데 저금통 있는 사람 그 정보 보여주기  -->
       <div class="is-piggybank" v-if="isPiggybank">
         <div class="piggybank-img">
-          <img src="@/assets/images/pink-pig(25).png" alt="pink-pig-img">
+          <img :src="piggybankImg" alt="piggy-img">
           <span ref="weightDisplay" class="weight">{{ amountEntered }}kg</span>
           <div class="progress-outer">
             <div class="progress-container">
@@ -27,7 +27,8 @@
               </span></p>
             <p data-label="저축기간"><span>
                 {{ piggybankInfo.user_product.join_date.slice(0, 10) }} ~ {{
-                  piggybankInfo.user_product.expiration_date.slice(0,10) }} ({{ piggybankInfo.user_product.remain_month }}달 째)
+                  piggybankInfo.user_product.expiration_date.slice(0, 10) }} ({{ piggybankInfo.user_product.remain_month
+                }}달 째)
               </span></p>
             <p data-label="금리"><span>{{ piggybankInfo.user_product.interest_rate }}%</span></p>
             <p data-label="목표 무게"><span>{{ piggybankInfo.weight }}kg ({{ piggybankInfo.weight * 10 }}만원)</span></p>
@@ -59,8 +60,10 @@ const weightDisplay = ref(null);
 const indicatorWrapper = ref(null);
 
 // 돼지 저금통 정보
-const piggybankInfo = ref({})
-const amountEntered = ref('20')
+const piggybankInfo = ref({}) // 돼지 저금통 정보
+const amountEntered = ref(30) // 지금까지 넣은 금액
+const savingRate = ref(80) // 지금까지 모은 금액 비율
+const piggybankImg = ref('') // 돼지 저금통 이미지
 const piggybankExam = {
   name: '살 수 있어 서울 자가^^',
   weight: 9.9,
@@ -96,7 +99,9 @@ const getPiggybankInfo = function () {
     if (piggybank.value.length) {
       isPiggybank.value = true
       piggybankInfo.value = piggybank.value[0]
-      amountEntered.value = piggybankInfo.value.user_product.remain_month*piggybankInfo.value.user_product.monthly_amount
+      amountEntered.value = piggybankInfo.value.user_product.remain_month * piggybankInfo.value.user_product.monthly_amount
+      savingRate.value = (amountEntered.value / piggybankInfo.value.weight) * 100
+      ChangePiggyImg()
     }
 
     // 로그인은 했으나 저금통이 없는 사람
@@ -106,9 +111,22 @@ const getPiggybankInfo = function () {
   }
 }
 
-// 저금통 돼지 사진 변하게
-const piggyImg = {
-
+// 모은 금액 비율에 따라 저금통 돼지 사진 변하게 하기
+const ChangePiggyImg = function () {
+  if (savingRate.value <= 25) {
+    piggybankImg.value = '/src/assets/images/pink-pig(25).png'
+    console.log(piggybankImg.value)
+    console.log('25이다')
+  } else if (savingRate.value <= 50) {
+    piggybankImg.value = '/src/assets/images/green-pig(50).png'
+    console.log('50이다')
+  } else if (savingRate.value <= 75) {
+    piggybankImg.value = '/src/assets/images/blue-pig(75).png'
+    console.log('75이다')
+  } else {
+    console.log('100이다')
+    piggybankImg.value = '/src/assets/images/yellow-pig(100).png'
+  }
 }
 
 
@@ -128,8 +146,6 @@ onMounted(() => {
   getPiggybankInfo()
 
   // 2. progress bar 애니매이션
-  const curWeight = amountEntered.value; //현재까지 모은 무게 넣기
-  const savingRate = (curWeight / piggybankInfo.value.weight) * 100
   const duration = 1500;
 
   let startTime = null;
@@ -138,18 +154,18 @@ onMounted(() => {
     const elapsed = timestamp - startTime;
     const progress = Math.min(elapsed / duration, 1);
 
-    const currentValue = Math.round(curWeight * progress);
+    const currentValue = Math.round(amountEntered.value * progress);
     if (weightDisplay.value) {
       weightDisplay.value.textContent = `${currentValue}kg`;
     }
 
     if (progressBar.value) {
       // `${progress * 100}%` 80 자리에 얼만큼 달성했는지 적기
-      progressBar.value.style.width = `${Math.min(progress * savingRate, 100)}%`;
+      progressBar.value.style.width = `${Math.min(progress * savingRate.value, 100)}%`;
     }
 
     if (indicatorWrapper.value) {
-      indicatorWrapper.value.style.left = `${Math.min(progress * savingRate, 100)}%`;
+      indicatorWrapper.value.style.left = `${Math.min(progress * savingRate.value, 100)}%`;
     }
 
     if (progress < 1) {

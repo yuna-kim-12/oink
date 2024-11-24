@@ -59,8 +59,8 @@
             <label for="piggybank-account">예적금 선택</label>
             <select name="piggybank-account" id="piggybank-account" v-model="account" placeholder="예적금을 선택하세요">
               <option value="" disabled selected>연동할 상품을 선택하세요</option>
-              <option v-for="account in accounts" :key="account.id" :value="account.id">
-                {{ account.product.product_name }}({{ account.product.company_name }})
+              <option v-for="product in myProducts" :key="product.id" :value="product.id">
+                {{ product.product.product_name }}({{ product.product.company_name }})
               </option>
             </select>
           </div>
@@ -75,7 +75,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, toRef } from 'vue';
+import { ref, computed, watch, toRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
@@ -95,8 +95,8 @@ const goRecommend = function () {
 // 2. 기존 예적금으로 만들기 버튼 클릭 시 저금통 만들기 진행
 const isAccounts = ref(false)
 const goMaking = function () {
-  console.log(userStore.user)
   if (userStore.user.user_product.length) {
+    getMyProduct()
     isAccounts.value = true
   } else {
     alert('먼저 예적금을 연동해주세요🐽')
@@ -117,14 +117,34 @@ const goals = {
   'wishlist': '위시리스트'
 }
 
-const accounts = ref(userStore.user.user_product)
-
 const goal = ref('')
 const piggybankName = ref('')
 const goalAmount = ref(null)
 const account = ref('')
 
-const makePiggybank =  async function () {
+
+// 3-1. 사용자 예적금 가져오기
+const myProducts = ref([]);
+
+const getMyProduct = async () => {
+	try {
+	  const res = await axios({
+		method: 'get',
+		url: `${userStore.url}/bank_products/products_joined/${userStore.userPK}/`,
+		headers: {
+		  Authorization: `Token ${userStore.token}`,
+		},
+	  });
+    console.log(res.data)
+	  myProducts.value = res.data;
+	} catch (err) {
+	  console.error(err);
+	}
+  };
+
+  // 3-2. 찐 저금통 만들기
+const makePiggybank = async function () {
+  // 입력 데이터 없을 때 경고창 띄우기
   if (!goal.value) {
     alert('목표를 선택해주세요🐽');
     return;
@@ -162,19 +182,12 @@ const makePiggybank =  async function () {
   })
     .then(response => {
       console.log('Success:', response.data);
+      alert('돼지 저금통 만들기 성공🐽')
+      closePopup()
     })
     .catch(err => {
-      console.log('Error Config:', {
-        url: err.config?.url,
-        method: err.config?.method,
-        headers: err.config?.headers,
-        data: err.config?.data
-      });
-      console.log('Error Response:', {
-        status: err.response?.status,
-        data: err.response?.data,
-        headers: err.response?.headers
-      });
+      alert('이미 만들어진 돼지 저금통이 있어요🐽')
+      closePopup()
     });
 };
 

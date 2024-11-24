@@ -250,6 +250,7 @@ onMounted(() => {
   color: white;
   border-radius: 20px;
   margin-left: 10px;
+  margin-bottom: 6px;
   padding: 2px 8px;
   font-size: 12px;
   cursor: pointer;

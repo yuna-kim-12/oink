@@ -106,7 +106,7 @@ onMounted(() => {
   border-radius: 50%;
   height: 32px;
   width: 35px;
-  margin-right: 5px;
+  margin-right: 20px;
 }
 
 

@@ -115,16 +115,11 @@ const getPiggybankInfo = function () {
 const ChangePiggyImg = function () {
   if (savingRate.value <= 25) {
     piggybankImg.value = '/src/assets/images/pink-pig(25).png'
-    console.log(piggybankImg.value)
-    console.log('25이다')
   } else if (savingRate.value <= 50) {
     piggybankImg.value = '/src/assets/images/green-pig(50).png'
-    console.log('50이다')
   } else if (savingRate.value <= 75) {
     piggybankImg.value = '/src/assets/images/blue-pig(75).png'
-    console.log('75이다')
   } else {
-    console.log('100이다')
     piggybankImg.value = '/src/assets/images/yellow-pig(100).png'
   }
 }

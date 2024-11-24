@@ -84,7 +84,7 @@ class PiggyBankSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PiggyBank
-        fields = ('name', 'weight', 'cheerup_count', 'saving_purpose', 'user_product')
+        fields = ('id','name', 'weight', 'cheerup_count', 'saving_purpose', 'user_product')
 
 # 사용자 정보 조회/수정을 위한 시리얼라이저
 class CustomUserDetailsSerializer(serializers.ModelSerializer):    

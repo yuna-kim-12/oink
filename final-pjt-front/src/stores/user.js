@@ -196,7 +196,6 @@ export const useUserStore = defineStore("user", () => {
     })
   }
   
-
   const followInfo = () => {
     axios({
       method:'post',

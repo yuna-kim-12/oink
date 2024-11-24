@@ -29,7 +29,8 @@
         <div v-if="type === 'following'">
             <div v-for="following in store.user.followings"
             :key="following.id" class="real-following">
-            <p>{{ following }}</p>
+            <p>{{ following.name }}</p>
+            <p>{{ following.pk }}</p>
             <button>팔로잉</button>
         </div>
         </div>
@@ -37,7 +38,8 @@
           <!-- 팔로워 목록 -->
            <div v-for="follower in store.user.followers"
            :key="follower.id" class="real-follower">
-            <p>{{ follower }}</p>
+            <p>{{ follower.name }}</p>
+            <p>{{ follower.pk }}</p>
             <button>팔로잉</button>
            </div>
         </div>

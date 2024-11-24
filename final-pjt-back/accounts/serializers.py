@@ -98,11 +98,11 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
 
     # followers 필드에 대해 사용자 이름을 반환하는 메서드
     def get_followers(self, obj):
-        return [{ follower.name, follower.pk } for follower in obj.followers.all()]
+        return [{'name': follower.name, 'pk': follower.pk } for follower in obj.followers.all()]
 
     # followings 필드에 대해서도 동일하게 적용
     def get_followings(self, obj):
-        return [{ following.name, following.pk} for following in obj.followings.all()]
+        return [{'name': following.name, 'pk':  following.pk} for following in obj.followings.all()]
     
 
     class Meta:

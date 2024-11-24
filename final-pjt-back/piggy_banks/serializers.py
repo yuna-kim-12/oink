@@ -2,15 +2,23 @@ from rest_framework import serializers
 from .models import PiggyBank
 # from datetime import datetime
 from django.utils.timezone import now
+from django.contrib.auth import get_user_model
 
 # 메인페이지 돼지저금통 조회
 class PiggyListSerializer(serializers.ModelSerializer):
-        
-	class Meta:
-		model = PiggyBank
-		fields = '__all__'
-		# fields = ('user', 'name', 'cheerup_count')
-		read_only_fields = ('user',)
+    
+    class UserSerialzier(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('pk', 'name',)
+
+    user = UserSerialzier(read_only=True)
+
+    class Meta:
+        model = PiggyBank
+        fields = '__all__'
+        # fields = ('user', 'name', 'cheerup_count')
+        read_only_fields = ('user',)
 
 
 # 내 돼지저금통 조회

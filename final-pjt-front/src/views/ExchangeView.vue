@@ -8,13 +8,13 @@
                     <select name="cur-nm" id="cur-nm" v-model="selectedCurrency">
                         <option value="" disabled selected>국가명 통화명</option>
                         <option v-for="country in exchangeInfo" :key="country.id" :value="country">
-                            {{ country.cur_nm }}
+                            {{ country.cur_nm }}({{ country.cur_unit }})
                         </option>
                     </select>
                 </div>
                 <div class="input-box">
                     <label for="price">금액</label>
-                    <input id="price" type="number" placeholder="계산할 금액을 입력하세요" v-model="price">
+                    <input id="price" type="number" min="0" placeholder="계산할 금액을 입력하세요" v-model="price" @input="validatePrice">
                 </div>
             </div>
 
@@ -55,14 +55,22 @@ let cachedExchangeInfo = null
 // const exchangeInfo = ref([])
 const exchangeInfo = ref([])
 
+// 음수 입력 방지
+const validatePrice = () => {
+  if (price.value < 0) {
+    price.value = 0
+	alert('금액은 0원 이상 입력해주세요🐽')
+  }
+}
 
 // price 값이 변경될 때마다 실행되는 watch 함수
 watch(price, (newPrice) => {
   if (newPrice && !selectedCurrency.value) {
     alert('통화명을 먼저 선택해주세요.')
     price.value = '' // 입력된 금액을 초기화합니다
-
   }
+  // 음수 입력 방지
+  validatePrice()
 })
 
 // price나 selectedCurrency가 변경될 때마다 계산

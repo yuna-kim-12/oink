@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import PiggyBank
-from datetime import datetime
+# from datetime import datetime
 from django.utils.timezone import now
 
 # 메인페이지 돼지저금통 조회
@@ -18,7 +18,7 @@ class PiggyDetailSerializer(serializers.ModelSerializer):
     d_day = serializers.SerializerMethodField()
 
     def get_d_day(self, obj):
-        if hasattr(obj, 'user_product') and obj.user_product and obj.user_product.expiration_date:
+        if obj.user_product.expiration_date:
             return (obj.user_product.expiration_date - now().date()).days
         return None
 

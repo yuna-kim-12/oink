@@ -8,7 +8,8 @@ class PiggyListSerializer(serializers.ModelSerializer):
         
 	class Meta:
 		model = PiggyBank
-		fields = ('user', 'name', 'cheerup_count')
+		fields = '__all__'
+		# fields = ('user', 'name', 'cheerup_count')
 		read_only_fields = ('user',)
 
 

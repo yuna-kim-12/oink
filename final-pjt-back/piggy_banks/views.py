@@ -16,8 +16,10 @@ from bank_products.models import UserProduct
 
 import json
 
+
+
 # Create your views here.
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def piggy_list(request):
     # 메인페이지 돼지저금통 조회
@@ -28,7 +30,7 @@ def piggy_list(request):
         return Response(serializer.data)
 
     # 돼지저금통 생성
-    elif request.method == 'POST':
+    elif request.method == 'POST' & request.user:
         if PiggyBank.objects.filter(user=request.user).exists():
             return Response({'detail': '이미 돼지저금통이 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
         

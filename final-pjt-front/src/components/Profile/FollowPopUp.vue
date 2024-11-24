@@ -62,7 +62,6 @@ const followCondition = () => {
       store.user.is_followed = true
     }
   }
-
   
 
 onMounted(()=>{

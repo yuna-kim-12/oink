@@ -28,17 +28,18 @@
         <!-- 팔로잉 목록 -->
         <div v-if="type === 'following'">
             <div v-for="following in store.user.followings"
-            :key="following.pk" class="real-following">
-            <p>{{ following }}</p>
+            :key="following.id" class="real-following">
+            <p>{{ following.name }}</p>
+            <p>{{ following.pk }}</p>
             <button>팔로잉</button>
         </div>
         </div>
         <div v-else>
           <!-- 팔로워 목록 -->
            <div v-for="follower in store.user.followers"
-           :key="follower.pk" class="real-follower">
-            <p>{{ follower }}</p>
-            {{ follower.pk }}
+           :key="follower.id" class="real-follower">
+            <p>{{ follower.name }}</p>
+            <p>{{ follower.pk }}</p>
             <button>팔로잉</button>
            </div>
         </div>

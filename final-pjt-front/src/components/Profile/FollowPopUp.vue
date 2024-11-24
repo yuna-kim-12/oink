@@ -28,7 +28,7 @@
         <!-- 팔로잉 목록 -->
         <div v-if="type === 'following'">
             <div v-for="following in store.user.followings"
-            :key="following.id" class="real-following">
+            :key="following.pk" class="real-following">
             <p>{{ following }}</p>
             <button>팔로잉</button>
         </div>
@@ -36,32 +36,38 @@
         <div v-else>
           <!-- 팔로워 목록 -->
            <div v-for="follower in store.user.followers"
-           :key="follower.id" class="real-follower">
+           :key="follower.pk" class="real-follower">
             <p>{{ follower }}</p>
+            {{ follower.pk }}
             <button>팔로잉</button>
            </div>
         </div>
       </div>
     </div>
-    </div>
-  </template>
-  
-  <script setup>
-  
-  import { useUserStore } from '@/stores/user';
-  import { onMounted } from 'vue';
-  
-  const store = useUserStore()
-  
-  // 팝업창 팔로워, 팔로잉 탭 상태 확인, 이거 지우면 안됨
-  defineProps({
-    type: {
-      type: String,
-      required: true,
-    },
-  });
-  
-  defineEmits(["close", "update:type"]);
+  </div>
+</template>
+
+<script setup>
+
+import { useUserStore } from '@/stores/user';
+import { onMounted } from 'vue';
+
+const store = useUserStore()
+
+// 팝업창 팔로워, 팔로잉 탭 상태 확인, 이거 지우면 안됨
+defineProps({
+  type: {
+    type: String,
+    required: true,
+  },
+});
+
+defineEmits(["close", "update:type"]);
+
+const followAction = () => {
+  store.followInfo()
+}
+
 </script>
 
 <style scoped>
@@ -83,66 +89,36 @@
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
-  max-height: 80vh;
-  /* height: 80vh; */
+  height: 80vh;
   position: relative;
-  /* display: flex;
-  flex-direction: column; */
+  display: flex;
+  flex-direction: column;
 }
 
 .popup-header {
-padding: 15px;
-border-bottom: 1px solid #eee;
-display: flex;
-justify-content: center;
-align-items: center;
-text-align: center;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.popup-body {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
 }
 
 .tab-container {
-display: flex;
-gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .following,
 .follower {
-color: var(--sub-text-color);
-}
-
-.tab.active .following,
-.tab.active .follower {
-color: var(--point-text-color);
-}
-
-.tab {
-padding: 8px 16px;
-cursor: pointer;
-border-bottom: 2px solid transparent;
-}
-
-.tab.active {
-border-bottom: 0.5px solid var(--sub-text-color);
-font-weight: bold;
-}
-
-.close-btn {
-position: absolute;
-right: 8px;
-top: 6px;
-background-color: #eee;
-border-radius: 100%;
-padding: 0px 3.3px;
-border: none;
-font-size: 13px;
-cursor: pointer;
-}
-
-.popup-body {
-  padding: 20px;
-  max-height: calc(80vh - 60px);
-  overflow-y: auto;
-  /* flex: 1;
-  min-height: 0; */
+  color: var(--sub-text-color);
 }
 
 .real-following, .real-follower {
@@ -162,4 +138,39 @@ cursor: pointer;
     border-radius: 15px;
 }
 
+
+
+.tab.active .following,
+.tab.active .follower {
+  color: var(--point-text-color);
+}
+
+.tab {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  border-bottom: 0.5px solid var(--sub-text-color);
+  font-weight: bold;
+}
+
+.close-btn {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  background-color: #eee;
+  border-radius: 100%;
+  padding: 0px 3.3px;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.popup-body {
+  padding: 20px;
+  max-height: calc(80vh - 60px);
+  overflow-y: auto;
+}
 </style>

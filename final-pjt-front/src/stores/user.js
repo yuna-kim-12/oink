@@ -9,6 +9,7 @@ export const useUserStore = defineStore("user", () => {
   const isLoggedIn = computed(() => !!token.value)
   const user = ref(null)
   const userPK = ref(null)
+  const followPk = ref(null)
 
   // 1. 회원가입
   const signUp = async function (payload) {
@@ -180,7 +181,7 @@ export const useUserStore = defineStore("user", () => {
   const followInfo = () => {
     axios({
       method:'post',
-      url: `${url}/accounts/follow/${userPK.value}/`,
+      url: `${url}/accounts/follow/${followPk.value}/`,
       headers: {
         Authorization: `Token ${token.value}`
       }
@@ -207,5 +208,6 @@ export const useUserStore = defineStore("user", () => {
     getAllUserInfo,
 	  passwordChange,
     followInfo,
+    followPk
   }
 }, { persist: true });

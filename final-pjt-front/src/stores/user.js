@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
 import router from "@/router";
@@ -9,7 +9,6 @@ export const useUserStore = defineStore("user", () => {
   const isLoggedIn = computed(() => !!token.value)
   const user = ref(null)
   const userPK = ref(null)
-  const followPk = ref(null)
 
   // 1. 회원가입
   const signUp = async function (payload) {
@@ -179,39 +178,44 @@ export const useUserStore = defineStore("user", () => {
     })
   }
   
-  
-  // 팔로잉 기능
-  const followUser = () => {
-    axios({
-      method:'post',
-      url:`${url}/accounts/follow/`,
-      headers: {
-        Authorization: `Token ${token.value}`
-      }
-    })
-    .then((response) => {
-      console.log(response.data)
-    })
-    .catch((error) => {
-      console.log('가져오기 실패!:', error)
-    })
-  }
-  
-  const followInfo = () => {
-    axios({
-      method:'post',
-      url: `${url}/accounts/follow/${followPk.value}/`,
-      headers: {
-        Authorization: `Token ${token.value}`
-      }
-    })
-    .then((response) => {
-      console.log(response.data)
-    })
-    .catch((error) => {
-      console.log('에러', error)
-    })
-  }
+
+
+
+ // 팔로우 상태 관리
+ const followStatus = reactive({})
+
+ // 팔로우/언팔로우 토글 함수
+ const toggleFollow = async (targetUserPK) => {
+   try {
+     const response = await axios({
+       method: 'post',
+       url: `${url}/accounts/follow/${targetUserPK}/`,
+       headers: {
+         Authorization: `Token ${token.value}`
+       }
+     })
+
+     // 팔로우 상태 업데이트
+     followStatus[targetUserPK] = response.data.is_followed
+     
+     // user 정보 업데이트를 위해 getUserInfo 호출
+     await getUserInfo()
+
+     return response.data
+   } catch (error) {
+     console.error('팔로우 토글 실패:', error)
+     throw error
+   }
+ }
+
+ // 초기 팔로우 상태 설정
+ const setInitialFollowStatus = () => {
+   if (user.value?.followings) {
+     user.value.followings.forEach(following => {
+       followStatus[following.pk] = true
+     })
+   }
+ }
 
   return { 
     url, 
@@ -226,7 +230,8 @@ export const useUserStore = defineStore("user", () => {
     updateUserInfo,
     getAllUserInfo,
 	  passwordChange,
-    followInfo,
-    followPk
+    followStatus,
+    toggleFollow,
+    setInitialFollowStatus,
   }
 }, { persist: true });

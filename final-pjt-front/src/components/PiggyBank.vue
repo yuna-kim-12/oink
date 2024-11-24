@@ -5,7 +5,7 @@
       <div class="is-piggybank" v-if="isPiggybank">
         <div class="piggybank-img">
           <img src="@/assets/images/pink-pig(25).png" alt="pink-pig-img">
-          <span ref="weightDisplay" class="weight">{{ curWeight }}kg</span>
+          <span ref="weightDisplay" class="weight">{{ amountEntered }}kg</span>
           <div class="progress-outer">
             <div class="progress-container">
               <div class="progress-bar" ref="progressBar"></div>
@@ -17,15 +17,21 @@
         </div>
         <div class="piggybank-intro">
           <span class="piggy-nickname-btn">저금통 애칭</span>
-          <p class="piggy-nickname"></p>
+          <p class="piggy-nickname">{{ piggybankInfo.name }}</p>
           <!-- span 태그에 현재날짜부터 만기일까지의 날짜 계산 -->
-          <p class="duration">만기일까지 <span>D-날짜 계산</span></p>
+          <p class="duration">만기일까지 <span>D-{{ piggybankInfo.user_product.d_day }}</span></p>
           <div class="real-intro">
-            <p data-label="상품명"><span></span></p>
-            <p data-label="저축기간"><span></span></p>
-            <p data-label="금리"><span>%</span></p>
-            <p data-label="목표 무게"><span>kg (만원)</span></p>
-            <p data-label="응원 받은 수"><span></span></p>
+            <p data-label="상품명"><span>
+                {{ piggybankInfo.user_product.product.product_name }} ({{
+                  piggybankInfo.user_product.product.company_name }})
+              </span></p>
+            <p data-label="저축기간"><span>
+                {{ piggybankInfo.user_product.join_date.slice(0, 10) }} ~ {{
+                  piggybankInfo.user_product.expiration_date.slice(0,10) }} ({{ piggybankInfo.user_product.remain_month }}달 째)
+              </span></p>
+            <p data-label="금리"><span>{{ piggybankInfo.user_product.interest_rate }}%</span></p>
+            <p data-label="목표 무게"><span>{{ piggybankInfo.weight }}kg ({{ piggybankInfo.weight * 10 }}만원)</span></p>
+            <p data-label="응원 받은 수"><span>{{ piggybankInfo.cheerup_count }}</span></p>
           </div>
         </div>
         <!-- 로그인 했지만 저금통 없는 사람들에게 보여주기 -->
@@ -35,11 +41,7 @@
         <p>현재 만들어진 돼지 저금통이 없어요</p>
         <!-- 버튼에 팝업 창 연결 -->
         <button @click="openPopup">돼지 저금통 만들기</button>
-        <PiggyBankPopup
-        
-        :is-open="isOpen"
-        @close-popup="closePopup"
-        />
+        <PiggyBankPopup :is-open="isOpen" @close-popup="closePopup" />
       </div>
     </div>
   </div>
@@ -55,18 +57,60 @@ const userStore = useUserStore()
 const progressBar = ref(null);
 const weightDisplay = ref(null);
 const indicatorWrapper = ref(null);
-const piggyExam = ref({
-  name: '살 수 있어 서울 자가^^', // 저금통 애칭
-  duration: '15', // 만기일까지 남은 날짜
-  productName: 'SH해양플라스틱Xero적금', // 상품명
-  period: '24.09.02 ~ 24.10.03', // 저축 기간
-  interest_rate: 20, // 금리
-  weight: 300, // 목표 금액
-  cheerupCnt: 45, // 응원 수
-  piggyImg: '@/assets/images/yellow-pig(100).png' // 돼지 이미지
-})
 
-const isPiggybank = ref(true)
+// 돼지 저금통 정보
+const piggybankInfo = ref({})
+const amountEntered = ref('20')
+const piggybankExam = {
+  name: '살 수 있어 서울 자가^^',
+  weight: 9.9,
+  cheerup_count: 38,
+  user_product: {
+    join_date: '24.09.02',
+    expiration_date: '25.09.01',
+    d_day: '211',
+    remain_month: 5,
+    interest_rate: '4.3',
+    product: {
+      company_name: '수협은행',
+      product_name: 'SH해양플라스틱Xero적금'
+    }
+  }
+}
+
+// 1. 내 저금통 조회하기
+const isPiggybank = ref(false)
+const getPiggybankInfo = function () {
+
+  // const myProduct = 
+  // 로그인을 하지 않은 사람
+  if (!userStore.isLoggedIn) {
+    isPiggybank.value = true
+    piggybankInfo.value = piggybankExam
+
+    // 로그인 한 사람
+  } else if (userStore.isLoggedIn) {
+    const piggybank = ref(userStore.user.piggy_bank)
+    console.log(piggybank.value)
+
+    if (piggybank.value.length) {
+      isPiggybank.value = true
+      piggybankInfo.value = piggybank.value[0]
+      amountEntered.value = piggybankInfo.value.user_product.remain_month*piggybankInfo.value.user_product.monthly_amount
+    }
+
+    // 로그인은 했으나 저금통이 없는 사람
+  } else {
+    isPiggybank.value = false
+    piggybankInfo.value = {}
+  }
+}
+
+// 저금통 돼지 사진 변하게
+const piggyImg = {
+
+}
+
 
 // 저금통 만들기 버튼 클릭 시 팝업 창 띄우기
 const isOpen = ref(false)
@@ -81,13 +125,11 @@ const closePopup = function () {
 
 onMounted(() => {
   // 1. 로그인 여부, 저금통 유무 확인
-  if (userStore.isLoggedIn && !userStore.user.piggy_bank.length) {
-    isPiggybank.value = false
-  }
+  getPiggybankInfo()
 
   // 2. progress bar 애니매이션
-  // curWeight 현재까지 모은 무게 넣기
-  const curWeight = 27;
+  const curWeight = amountEntered.value; //현재까지 모은 무게 넣기
+  const savingRate = piggybankInfo.value.weight*10 / curWeight * 100
   const duration = 1500;
 
   let startTime = null;
@@ -103,11 +145,11 @@ onMounted(() => {
 
     if (progressBar.value) {
       // `${progress * 100}%` 80 자리에 얼만큼 달성했는지 적기
-      progressBar.value.style.width = `${progress * 80}%`;
+      progressBar.value.style.width = `${Math.min(progress * savingRate, 100)}%`;
     }
 
     if (indicatorWrapper.value) {
-      indicatorWrapper.value.style.left = `${progress * 80}%`;
+      indicatorWrapper.value.style.left = `${Math.min(progress * savingRate, 100)}%`;
     }
 
     if (progress < 1) {

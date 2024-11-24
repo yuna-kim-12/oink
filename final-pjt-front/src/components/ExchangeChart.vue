@@ -2,7 +2,7 @@
     <div class="card" v-if="currency !== 'KRW'">
         <v-card-item>
             <div class="text-h6 font-weight-bold mb-1">
-                {{ name }}
+                {{ name }} ({{ currency }})
             </div>
             <img :src="`https://ssl.pstatic.net/imgfinance/chart/marketindex/area/month/FX_${getCurrencyCode(currency)}KRW.png`"
                 :alt="`${name} exchange graph`" height="160">

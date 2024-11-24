@@ -14,9 +14,15 @@
                 </div>
             </div>
             <div class="monthly-amount">
-                <span>적용 금리: {{ myProduct.interest_rate }}%</span>
-                <p class="monthly">월 납입액: {{ (myProduct.monthly_amount*10000).toLocaleString(en-US)}}원</p>
-                <p class="amount">{{ (myProduct.remain_month*myProduct.monthly_amount*10000).toLocaleString(en-US) }}원</p>
+				<template  v-if="myProduct.product.category">
+					<span>적용 금리: {{ myProduct.interest_rate }}%</span>
+                	<p class="monthly">월 납입액: {{ (myProduct.monthly_amount*10000).toLocaleString(en-US)}}원</p>
+                	<p class="amount">{{ (myProduct.remain_month*myProduct.monthly_amount*10000).toLocaleString(en-US) }}원</p>
+				</template>
+				<template v-else>
+					<span>적용 금리: {{ myProduct.interest_rate }}%</span>
+                	<p class="amount">{{ (myProduct.monthly_amount*10000).toLocaleString(en-US) }}원</p>
+				</template>
             </div>
         </div>
     </div>

@@ -193,7 +193,7 @@ const getBankLogo = (categoryName) => {
     케이뱅크: "src/assets/images/bank_logo/kbank.png",
     제주은행: "src/assets/images/bank_logo/shinhan.png",
   };
-  return bankLogos[bankName] || "public/oink.png";
+  return bankLogos[bankName] || "public/oink2.png";
 };
 
 const cities = [

@@ -2,7 +2,7 @@
     <div class="post-detail-container" v-if="store.post">
         <div class="post-header">
             <h2>{{ store.post.title }}</h2>
-            <p>{{ store.post.name }}</p>
+            <p @click="router.push(`/profile/${store.post.user}`)" style="cursor: pointer;">{{ store.post.name }}</p>
         </div>
 
         <hr>
@@ -23,6 +23,7 @@ import { storeToRefs } from 'pinia';
 
 const store = useCommunityStore();
 const route = useRoute();
+const router = useRouter();
 
 // postId에 따라 게시글 정보를 가져오는 watch 설정
 // postId가 변경될 때마다 getPostDetail 호출
@@ -35,6 +36,7 @@ watch(() => route.params.postId, (newPostId) => {
 // 컴포넌트가 마운트될 때 초기 게시글 정보 가져오기
 onMounted(() => {
     store.getPostDetail(1);
+    store.getPosts();
 });
 
 </script>

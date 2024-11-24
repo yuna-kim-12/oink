@@ -5,7 +5,7 @@
       <div class="is-piggybank" v-if="isPiggybank">
         <div class="piggybank-img">
           <img src="@/assets/images/pink-pig(25).png" alt="pink-pig-img">
-          <span ref="weightDisplay" class="weight">{{ piggybankInfo.user_product.weight }}kg</span>
+          <span ref="weightDisplay" class="weight">{{ amountEntered }}kg</span>
           <div class="progress-outer">
             <div class="progress-container">
               <div class="progress-bar" ref="progressBar"></div>
@@ -19,7 +19,7 @@
           <span class="piggy-nickname-btn">저금통 애칭</span>
           <p class="piggy-nickname">{{ piggybankInfo.name }}</p>
           <!-- span 태그에 현재날짜부터 만기일까지의 날짜 계산 -->
-          <p class="duration">만기일까지 <span>D-날짜 계산</span></p>
+          <p class="duration">만기일까지 <span>D-{{ piggybankInfo.user_product.d_day }}</span></p>
           <div class="real-intro">
             <p data-label="상품명"><span>
                 {{ piggybankInfo.user_product.product.product_name }} ({{
@@ -27,7 +27,7 @@
               </span></p>
             <p data-label="저축기간"><span>
                 {{ piggybankInfo.user_product.join_date.slice(0, 10) }} ~ {{
-                  piggybankInfo.user_product.expiration_date.slice(0,10) }}
+                  piggybankInfo.user_product.expiration_date.slice(0,10) }} ({{ piggybankInfo.user_product.remain_month }}달 째)
               </span></p>
             <p data-label="금리"><span>{{ piggybankInfo.user_product.interest_rate }}%</span></p>
             <p data-label="목표 무게"><span>{{ piggybankInfo.weight }}kg ({{ piggybankInfo.weight * 10 }}만원)</span></p>
@@ -60,6 +60,7 @@ const indicatorWrapper = ref(null);
 
 // 돼지 저금통 정보
 const piggybankInfo = ref({})
+const amountEntered = ref('20')
 const piggybankExam = {
   name: '살 수 있어 서울 자가^^',
   weight: 9.9,
@@ -68,6 +69,7 @@ const piggybankExam = {
     join_date: '24.09.02',
     expiration_date: '25.09.01',
     d_day: '211',
+    remain_month: 5,
     interest_rate: '4.3',
     product: {
       company_name: '수협은행',
@@ -94,6 +96,7 @@ const getPiggybankInfo = function () {
     if (piggybank.value.length) {
       isPiggybank.value = true
       piggybankInfo.value = piggybank.value[0]
+      amountEntered.value = piggybankInfo.value.user_product.remain_month*piggybankInfo.value.user_product.monthly_amount
     }
 
     // 로그인은 했으나 저금통이 없는 사람
@@ -125,7 +128,8 @@ onMounted(() => {
   getPiggybankInfo()
 
   // 2. progress bar 애니매이션
-  const curWeight = piggybankInfo.value.weight; //현재까지 모은 무게 넣기
+  const curWeight = amountEntered.value; //현재까지 모은 무게 넣기
+  const savingRate = piggybankInfo.value.weight*10 / curWeight * 100
   const duration = 1500;
 
   let startTime = null;
@@ -141,11 +145,11 @@ onMounted(() => {
 
     if (progressBar.value) {
       // `${progress * 100}%` 80 자리에 얼만큼 달성했는지 적기
-      progressBar.value.style.width = `${progress * 80}%`;
+      progressBar.value.style.width = `${Math.min(progress * savingRate, 100)}%`;
     }
 
     if (indicatorWrapper.value) {
-      indicatorWrapper.value.style.left = `${progress * 80}%`;
+      indicatorWrapper.value.style.left = `${Math.min(progress * savingRate, 100)}%`;
     }
 
     if (progress < 1) {

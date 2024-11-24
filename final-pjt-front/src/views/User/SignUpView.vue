@@ -370,9 +370,9 @@ p {
 
 .goal-btn {
     width: 100px;
-    padding: 8px 0;
+    padding: 12px 0;
     border: 1px solid #E5E5E5;
-    border-radius: 20px;
+    border-radius: 8px;
     background: white;
     cursor: pointer;
     font-size: 13px;

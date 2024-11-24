@@ -27,23 +27,34 @@
       <div class="popup-body">
         <!-- 팔로잉 목록 -->
         <div v-if="type === 'following'">
-            <div v-for="following in store.user.followings"
-            :key="following.id" class="real-following">
+          <div v-for="following in followingsList" 
+              :key="following.pk" 
+              class="real-following">
             <p>{{ following.name }}</p>
-            <p>{{ following.pk }}</p>
-            <button>팔로잉</button>
+            <button 
+              @click="handleFollow(following.pk)"
+              :class="{ 'following-active': store.followStatus[following.pk] }"
+            >
+              {{ store.followStatus[following.pk] ? '팔로잉' : '팔로우' }}
+            </button>
+          </div>
         </div>
-        </div>
+        <!-- 팔로워 목록 -->
         <div v-else>
-          <!-- 팔로워 목록 -->
-           <div v-for="follower in store.user.followers"
-           :key="follower.id" class="real-follower">
+          <div v-for="follower in followersList" 
+              :key="follower.pk" 
+              class="real-follower">
             <p>{{ follower.name }}</p>
-            <p>{{ follower.pk }}</p>
-            <button>팔로잉</button>
-           </div>
+            <button 
+              @click="handleFollow(follower.pk)"
+              :class="{ 'following-active': store.followStatus[follower.pk] }"
+            >
+              {{ store.followStatus[follower.pk] ? '팔로잉' : '팔로우' }}
+            </button>
+          </div>
         </div>
       </div>
+      
     </div>
   </div>
 </template>
@@ -51,24 +62,58 @@
 <script setup>
 
 import { useUserStore } from '@/stores/user';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue'
 
 const store = useUserStore()
+const emit = defineEmits(["close", "update:type"])
 
-const followCondition = () => {
-  if (store.user.is_followed === true) {
-    store.user.is_followed = false
-    console.log(store.user.is_followed)
+// 로컬 상태로 목록 관리
+const followingsList = ref([])
+const followersList = ref([])
+
+// 초기 데이터 설정
+const initializeLists = () => {
+  followingsList.value = [...store.user.followings]
+  followersList.value = [...store.user.followers]
+}
+
+const handleFollow = async (userPK) => {
+  try {
+    await store.toggleFollow(userPK)
+  } catch (error) {
+    console.error('팔로우 처리 중 에러:', error)
   }
-  else {
-      store.user.is_followed = true
-    }
-  }
+}
+
+// 팝업 닫기 핸들러
+const handleClose = async () => {
+  // 팝업 닫기 전에 유저 정보 갱신
+  await store.getUserInfo()
+  emit('close')
+}
+
+onMounted(() => {
+  store.getUserInfo().then(() => {
+    store.setInitialFollowStatus()
+    initializeLists()
+  })
+})
+
+// const followCondition = () => {
+//   if (store.user.is_following === true) {
+//     store.user.is_following = false
+//     console.log(store.user.is_following)
+//   }
+//   else {
+//       store.user.is_following = true
+//       console.log(store.user.is_following)
+//     }
+//   }
   
 
-onMounted(()=>{
-  followCondition()
-})
+// onMounted(()=>{
+//   followCondition()
+// })
 
 
   // 팝업창 팔로워, 팔로잉 탭 상태 확인, 이거 지우면 안됨
@@ -79,7 +124,7 @@ onMounted(()=>{
     },
   });
   
-  defineEmits(["close", "update:type"]);
+  // defineEmits(["close", "update:type"]);
 </script>
 
 <style scoped>
@@ -159,25 +204,44 @@ cursor: pointer;
   padding: 20px;
   max-height: calc(80vh - 60px);
   overflow-y: auto;
-  /* flex: 1;
-  min-height: 0; */
+  display: flex;
+  justify-content: center;
 }
 
 .real-following, .real-follower {
-    padding: 5px 20px;
-    box-shadow: 0px 4px 4px #b2b2b2;
-    display: flex;
-    justify-content: space-between;
+  width: 400px;
+  box-shadow: 0px 4px 4px #b2b2b2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+  padding: 15px 20px 15px 50px;
 }
 
 .real-following, p {
-    margin: 15px 0;
-    border-radius: 15px;
-}
-
+  border-radius: 15px;
+  }
+  
 .real-follower, p {
-    margin: 15px 0;
     border-radius: 15px;
 }
 
+
+.following-active {
+  background-color: #e0e0e0;
+}
+
+button {
+  padding: 0px 15px;
+  height: 30px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--point-color);
+}
+
+button:hover {
+  background-color: var(--main-color);
+}
 </style>

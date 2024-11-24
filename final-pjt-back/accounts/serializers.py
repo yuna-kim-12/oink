@@ -6,6 +6,7 @@ import re
 from django.conf import settings
 from piggy_banks.models import PiggyBank
 from bank_products.models import UserProduct, BankProducts
+from django.utils.timezone import now
 
 User = get_user_model()
 
@@ -73,10 +74,18 @@ class BankProductsSerializer(serializers.ModelSerializer):
 # UserProductSerializer에서 BankProductsSerializer 중첩
 class UserProductSerializer(serializers.ModelSerializer):
     product = BankProductsSerializer(read_only=True)  # BankProducts와 연결
+    d_day = serializers.SerializerMethodField()
+
+
+    def get_d_day(self, obj):
+        # expiration_date가 None이 아닌 경우 d-day 계산
+        if obj.expiration_date:
+            return (obj.expiration_date.date() - now().date()).days
+        return None  # 만료일이 없으면 None 반환
 
     class Meta:
         model = UserProduct
-        fields = ('id', 'product', 'join_date', 'expiration_date', 'join_period', 'monthly_amount', 'interest_rate')
+        fields = ('id', 'product', 'join_date', 'expiration_date', 'join_period', 'monthly_amount', 'interest_rate', 'd_day')
 
 # PiggyBankSerializer에서 UserProductSerializer 중첩
 class PiggyBankSerializer(serializers.ModelSerializer):
@@ -109,4 +118,4 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ('pk', 'email', 'name', 'birth_date', 'asset', 'saving_purpose', 
                   'saving_amount', 'saving_period', 'followers', 'followings', 'piggy_bank', 'user_product',)
-        read_only_fields = ('pk', 'email', 'name', 'piggy_bank')
+        read_only_fields = ('pk', 'email', 'name', 'piggy_bank', 'user_product')

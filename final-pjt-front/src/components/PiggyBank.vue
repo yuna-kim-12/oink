@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="piggybank-intro">
-          <span class="piggy-nickname-btn">저금통 애칭</span>
+          <span class="piggy-nickname-btn">{{ goals[piggybankInfo.saving_purpose] }}</span>
           <p class="piggy-nickname">{{ piggybankInfo.name }}</p>
           <!-- span 태그에 현재날짜부터 만기일까지의 날짜 계산 -->
           <p class="duration">만기일까지 <span>D-{{ piggybankInfo.user_product.d_day }}</span></p>
@@ -59,6 +59,19 @@ const progressBar = ref(null);
 const weightDisplay = ref(null);
 const indicatorWrapper = ref(null);
 
+const goals = {
+  'home': '내집마련',
+  'education': '교육비',
+  'medication': '의료비',
+  'wedding': '결혼자금',
+  'future': '노후자금',
+  'seedmoney': '시드머니',
+  'travel': '여행자금',
+  'wishlist': '위시리스트'
+}
+
+
+
 // 돼지 저금통 정보
 const piggybankInfo = ref({}) // 돼지 저금통 정보
 const amountEntered = ref(30) // 지금까지 넣은 금액
@@ -68,6 +81,7 @@ const piggybankExam = {
   name: '살 수 있어 서울 자가^^',
   weight: 9.9,
   cheerup_count: 38,
+  saving_purpose: "home",
   user_product: {
     join_date: '24.09.02',
     expiration_date: '25.09.01',

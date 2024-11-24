@@ -8,16 +8,16 @@
     <div class="cheerup-list">
       <div class="cheerup-container">
         <div class="cheerup-item" v-for="(item, index) in piggyList" :key="item.id">
-          <p><span>{{ item.user.name }}</span>님</p>
-          <img src="@/assets/images/돼지 그림.png" alt="" class="cheerup-img">
+          <RouterLink :to="{ name: 'profile', params: { userId: item.user.pk } }">
+            <p><span>{{ item.user.name }}</span>님</p>
+          </RouterLink>
+          <img :src="goalImg[item.saving_purpose]" :alt="item.saving_purpose" class="cheerup-img">
           <p class="goal-name">{{ item.name }}</p>
           <p class="cheerup-count">{{ item.cheerup_count }}</p>
           <button class="cheerup-btn" @click="handleCheerup(item.id)">응원하기</button>
-          
+
           <div class="bubble-wrapper">
-            <div v-for="(bubble, bubbleIndex) in item.bubbles" 
-                :key="bubble" 
-                class="bubble-container">
+            <div v-for="(bubble, bubbleIndex) in item.bubbles" :key="bubble" class="bubble-container">
               <img src="@/assets/images/cheerup.png" alt="" class="bubble-effect">
             </div>
           </div>
@@ -34,29 +34,29 @@
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
+import { RouterLink } from 'vue-router';
 
 const store = useUserStore()
 const piggyList = ref(null)
 
 // 정보 요청
-const getPiggyList = function() {
+const getPiggyList = function () {
   axios({
-    method:'get',
-    url:`${store.url}/piggy_banks/`
+    method: 'get',
+    url: `${store.url}/piggy_banks/`
   })
-  .then((res) => {
-    piggyList.value = res.data
-    console.log(res.data)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+    .then((res) => {
+      piggyList.value = res.data
+      console.log(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
-onMounted(()=> {
+onMounted(() => {
   getPiggyList()
 })
-
 
 
 
@@ -67,25 +67,25 @@ const handleCheerup = (index) => {
     method: 'post',
     url: `${store.url}/piggy_banks/cheerup/${index}/`
   })
-  .then((res) => {
-    // 응답받은 데이터로 해당 항목 직접 업데이트
-    const updatedPiggy = piggyList.value.find(item => item.id === index);
-    if (updatedPiggy) {
-      updatedPiggy.cheerup_count = res.data.cheerup_count;
-    }
-  })  
-  .catch((err) => console.log(err));
+    .then((res) => {
+      // 응답받은 데이터로 해당 항목 직접 업데이트
+      const updatedPiggy = piggyList.value.find(item => item.id === index);
+      if (updatedPiggy) {
+        updatedPiggy.cheerup_count = res.data.cheerup_count;
+      }
+    })
+    .catch((err) => console.log(err));
 
-   // 버블 애니메이션을 위한 로직
-   const targetItem = piggyList.value.find(item => item.id === index);
+  // 버블 애니메이션을 위한 로직
+  const targetItem = piggyList.value.find(item => item.id === index);
   if (targetItem) {
     if (!targetItem.bubbles) {
       targetItem.bubbles = [];
     }
-    
+
     const newBubble = Date.now();
     targetItem.bubbles.push(newBubble);
-    
+
     setTimeout(() => {
       const bubbleIndex = targetItem.bubbles.indexOf(newBubble);
       if (bubbleIndex > -1) {
@@ -96,12 +96,24 @@ const handleCheerup = (index) => {
 };
 
 
+// 목표에 따라 관련된 사진 보여주기
+const goalImg = {
+  'home': '/src/assets/images/goal/home.png',
+  'education': '/src/assets/images/goal/education.png',
+  'medication': '/src/assets/images/goal/medication.png',
+  'wedding': '/src/assets/images/goal/wedding.png',
+  'future': '/src/assets/images/goal/future.png',
+  'seedmoney': '/src/assets/images/goal/seedmoney.png',
+  'travel': '/src/assets/images/goal/travel.png',
+  'wishlist': '/src/assets/images/goal/wishlist.png'
+}
+
 </script>
 
 <style scoped>
 .cheerup {
   text-align: center;
-  margin: 200px 0; 
+  margin: 200px 0;
 }
 
 .cheerup-text {
@@ -148,6 +160,7 @@ const handleCheerup = (index) => {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -255,9 +268,11 @@ const handleCheerup = (index) => {
     transform: translateY(0) scale(0.5);
     opacity: 0;
   }
+
   10% {
     opacity: 1;
   }
+
   100% {
     transform: translateY(-100px) scale(1.2);
     opacity: 0;

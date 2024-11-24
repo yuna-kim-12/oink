@@ -43,16 +43,32 @@
         </div>
       </div>
     </div>
-    </div>
-  </template>
+  </div>
+</template>
+
+<script setup>
+
+import { useUserStore } from '@/stores/user';
+import { onMounted } from 'vue';
+
+const store = useUserStore()
+
+const followCondition = () => {
+  if (store.user.is_followed === true) {
+    store.user.is_followed = false
+    console.log(store.user.is_followed)
+  }
+  else {
+      store.user.is_followed = true
+    }
+  }
   
-  <script setup>
-  
-  import { useUserStore } from '@/stores/user';
-  import { onMounted } from 'vue';
-  
-  const store = useUserStore()
-  
+
+onMounted(()=>{
+  followCondition()
+})
+
+
   // 팝업창 팔로워, 팔로잉 탭 상태 확인, 이거 지우면 안됨
   defineProps({
     type: {

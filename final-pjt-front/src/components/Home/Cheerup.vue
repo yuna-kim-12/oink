@@ -7,33 +7,22 @@
 
     <div class="cheerup-list">
       <div class="cheerup-container">
-        <div class="cheerup-item" v-for="(item, index) in cheerupItems" :key="index">
-          <p><span>오한나</span>님</p>
+        <div class="cheerup-item" v-for="(item, index) in piggyList" :key="item.id">
+          <p><span>{{ item.user.name }}</span>님</p>
           <img src="@/assets/images/돼지 그림.png" alt="" class="cheerup-img">
-          <p class="goal-name">결혼식 자금 모으기</p>
-          <p class="cheerup-count">{{ item.count }}</p>
-          <button class="cheerup-btn" @click="handleCheerup(index)">응원하기</button>
+          <p class="goal-name">{{ item.name }}</p>
+          <p class="cheerup-count">{{ item.cheerup_count }}</p>
+          <button class="cheerup-btn" @click="handleCheerup(item.id)">응원하기</button>
+          
           <div class="bubble-wrapper">
             <div v-for="(bubble, bubbleIndex) in item.bubbles" 
-                 :key="bubbleIndex" 
-                 class="bubble-container">
+                :key="bubble" 
+                class="bubble-container">
               <img src="@/assets/images/cheerup.png" alt="" class="bubble-effect">
             </div>
           </div>
-        </div>
-        <div class="cheerup-item" v-for="(item, index) in cheerupItems" :key="index + cheerupItems.length">
-          <p><span>오한나</span>님</p>
-          <img src="@/assets/images/돼지 그림.png" alt="" class="cheerup-img">
-          <p class="goal-name">결혼식 자금 모으기</p>
-          <p class="cheerup-count">{{ item.count }}</p>
-          <button class="cheerup-btn" @click="handleCheerup(index)">응원하기</button>
-          <div class="bubble-wrapper">
-            <div v-for="(bubble, bubbleIndex) in item.bubbles" 
-                 :key="bubbleIndex" 
-                 class="bubble-container">
-              <img src="@/assets/images/cheerup.png" alt="" class="bubble-effect">
-            </div>
-          </div>
+
+
         </div>
       </div>
     </div>
@@ -42,26 +31,71 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+import { useUserStore } from '@/stores/user';
 
-const cheerupList = ref(5);
-const cheerupItems = ref(Array(5).fill().map(() => ({
-  count: 0,
-  bubbles: []
-})));
+const store = useUserStore()
+const piggyList = ref(null)
 
+// 정보 요청
+const getPiggyList = function() {
+  axios({
+    method:'get',
+    url:`${store.url}/piggy_banks/`
+  })
+  .then((res) => {
+    piggyList.value = res.data
+    console.log(res.data)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+}
+
+onMounted(()=> {
+  getPiggyList()
+})
+
+
+
+
+// 응원하기 버튼 애니메이션
 const handleCheerup = (index) => {
-  cheerupItems.value[index].count++;
-  const newBubble = Date.now();
-  cheerupItems.value[index].bubbles.push(newBubble);
-  
-  setTimeout(() => {
-    const bubbleIndex = cheerupItems.value[index].bubbles.indexOf(newBubble);
-    if (bubbleIndex > -1) {
-      cheerupItems.value[index].bubbles.splice(bubbleIndex, 1);
+
+  axios({
+    method: 'post',
+    url: `${store.url}/piggy_banks/cheerup/${index}/`
+  })
+  .then((res) => {
+    // 응답받은 데이터로 해당 항목 직접 업데이트
+    const updatedPiggy = piggyList.value.find(item => item.id === index);
+    if (updatedPiggy) {
+      updatedPiggy.cheerup_count = res.data.cheerup_count;
     }
-  }, 1000);
+  })  
+  .catch((err) => console.log(err));
+
+   // 버블 애니메이션을 위한 로직
+   const targetItem = piggyList.value.find(item => item.id === index);
+  if (targetItem) {
+    if (!targetItem.bubbles) {
+      targetItem.bubbles = [];
+    }
+    
+    const newBubble = Date.now();
+    targetItem.bubbles.push(newBubble);
+    
+    setTimeout(() => {
+      const bubbleIndex = targetItem.bubbles.indexOf(newBubble);
+      if (bubbleIndex > -1) {
+        targetItem.bubbles.splice(bubbleIndex, 1);
+      }
+    }, 1000);
+  }
 };
+
+
 </script>
 
 <style scoped>

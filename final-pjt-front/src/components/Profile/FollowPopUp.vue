@@ -38,6 +38,7 @@
            <div v-for="follower in store.user.followers"
            :key="follower.id" class="real-follower">
             <p>{{ follower }}</p>
+            <p>{{ follower.pk }}</p>
             <button>팔로잉</button>
            </div>
         </div>

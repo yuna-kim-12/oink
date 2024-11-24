@@ -94,6 +94,10 @@ onMounted(() => {
   transition: all 450ms ease-in-out;
 }
 
+.real-nav a.router-link-exact-active {
+  color: var(--main-text-color);
+}
+
 .user-icon {
   cursor: pointer;
   padding: 10px;

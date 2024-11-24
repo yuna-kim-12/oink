@@ -210,6 +210,6 @@ export const useUserStore = defineStore("user", () => {
     getUserInfo, 
     updateUserInfo,
     getAllUserInfo,
-	passwordChange,
+	  passwordChange,
   }
 }, { persist: true });

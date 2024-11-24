@@ -129,7 +129,7 @@ onMounted(() => {
 
   // 2. progress bar 애니매이션
   const curWeight = amountEntered.value; //현재까지 모은 무게 넣기
-  const savingRate = piggybankInfo.value.weight*10 / curWeight * 100
+  const savingRate = (curWeight / piggybankInfo.value.weight) * 100
   const duration = 1500;
 
   let startTime = null;

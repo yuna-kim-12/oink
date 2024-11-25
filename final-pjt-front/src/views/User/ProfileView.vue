@@ -1,32 +1,21 @@
 <template>
   <div class="container">
     <h2 class="title">{{ isCurrentUser ? "마이 페이지" : `${userInfo?.name || ''}님의 프로필` }}</h2>
-
     <div class="content" v-if="userInfo">
       <div class="sub-title">
         <div class="user-info">
           <p class="user-name">
-            <span class="user-realname">{{ userInfo.name }}</span
-            >님
+            <span class="user-realname">{{ userInfo.name }}</span>님
           </p>
-          <button
-            v-if="isCurrentUser"
-            class="modify-btn"
-            @click="router.push('/updateUser')"
-          >
+          <button v-if="isCurrentUser" class="modify-btn" @click="router.push('/updateUser')">
             내 정보 수정
           </button>
-          <button
-            v-else
+          <button v-else 
             class="follow-btn"
-            :class="{
-              'following-active': store.followStatus[route.params.userId],
-            }"
+            :class="{ 'following-active': store.followStatus[route.params.userId] }"
             @click="handleFollow"
           >
-            {{
-              store.followStatus[route.params.userId] ? "팔로잉" : "팔로우"
-            }}
+            {{ store.followStatus[route.params.userId] ? "팔로잉" : "팔로우" }}
           </button>
         </div>
         <div class="follow">
@@ -34,41 +23,33 @@
             <p>{{ userInfo.piggy_bank.length }}</p>
             <span>누적 저금통</span>
           </div>
-          <div
-            class="following"
-            :class="{ clickable: isCurrentUser }"
-            @click="isCurrentUser && openFollowPopup('following')"
-          >
+          <div class="following" :class="{ clickable: isCurrentUser }" @click="isCurrentUser && openFollowPopup('following')">
             <p>{{ userInfo.followings_count }}</p>
             <span>팔로잉</span>
           </div>
-          <div
-            class="follower"
-            :class="{ clickable: isCurrentUser }"
-            @click="isCurrentUser && openFollowPopup('followers')"
-          >
+          <div class="follower" :class="{ clickable: isCurrentUser }" @click="isCurrentUser && openFollowPopup('followers')">
             <p>{{ userInfo.followers_count }}</p>
             <span>팔로워</span>
           </div>
         </div>
       </div>
-
-      <PiggyBank v-if="isCurrentUser" />
-
+      <PiggyBank 
+        :is-current-user="isCurrentUser"
+        :piggy-bank-pk="userInfo.piggy_bank.length ? userInfo.piggy_bank[0].pk : null"
+      />
       <div class="product" v-if="isCurrentUser">
         <span>내가 가입한 예적금 상품</span>
         <button class="product-btn" @click="connectMyProduct">연동 하기</button>
       </div>
-
       <div class="product-items" v-if="isCurrentUser">
         <p class="no-product" v-if="myProducts.length == 0">
           아직 연동된 상품이 없습니다.
         </p>
         <template v-else>
-          <ProfileUserProduct
-            v-for="(myProduct, index) in myProducts"
-            :key="myProduct.pk"
-            :my-product="myProduct"
+          <ProfileUserProduct 
+            v-for="(myProduct, index) in myProducts" 
+            :key="myProduct.pk" 
+            :my-product="myProduct" 
             :index="index"
           />
           <div class="chart">
@@ -78,12 +59,10 @@
         </template>
       </div>
     </div>
-
     <br />
-
-    <FollowPopUp
-      v-if="showFollowPopup && isCurrentUser"
-      v-model:type="popupType"
+    <FollowPopUp 
+      v-if="showFollowPopup && isCurrentUser" 
+      v-model:type="popupType" 
       @close="closeFollowPopup"
     />
   </div>
@@ -115,7 +94,6 @@ const isCurrentUser = computed(() => {
 const handleFollow = async () => {
   try {
     await store.toggleFollow(route.params.userId);
-    // 프로필 정보 다시 불러오기
     getUserProfile(route.params.userId);
   } catch (err) {
     console.log(err);
@@ -142,6 +120,8 @@ const getUserProfile = async (userId) => {
       },
     });
     userInfo.value = response.data;
+    console.log('User Profile Data:', userInfo.value);  // 데이터 확인
+    console.log('Piggy Bank Data:', userInfo.value.piggy_bank);  // piggy_bank 데이터 확인
     if (isCurrentUser.value) {
       getMyProduct();
     }
@@ -207,10 +187,6 @@ onMounted(() => {
   margin: 0 auto;
   margin-top: 150px;
 }
-
-/* .content {
-    margin-left: 180px;
-} */
 
 .title {
   margin: 0 auto;
@@ -316,47 +292,11 @@ onMounted(() => {
 
 .product > button {
   font-size: 12px;
-  /* margin-right: 250px ; */
   background-color: var(--main-color);
   color: white;
   padding: 0 8px;
   border-radius: 20px;
   cursor: pointer;
-}
-
-.product-content {
-  display: flex;
-}
-
-.product-content > p {
-  color: #ffa46b;
-  font-size: 19px;
-}
-
-.product-content > span {
-  margin-left: 37px;
-  padding-top: 5px;
-}
-
-.product-duration {
-  margin-left: 60px;
-  font-size: 13px;
-  color: #bcbcbc;
-}
-
-.duration-section {
-  display: flex;
-  justify-content: space-between;
-}
-
-.duration-section > span {
-  margin-right: 253px;
-}
-
-.monthly-amount {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
 }
 
 .product-items > .no-product {

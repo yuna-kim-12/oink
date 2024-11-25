@@ -30,26 +30,14 @@ export const useRecommendStore = defineStore("recommend", () => {
   // 2. 상품 상세 정보 가져오기
   const product = ref({})
   const getProductDetail = async (category, productId) => {
-    await getProduct(); // 상품 데이터를 먼저 가져옵니다.
-
-    // 카테고리에 따라 적절한 상품 목록에서 해당 상품을 찾습니다.
-    if (category === 'deposit') {
-      const foundProduct = depositProducts.value.find(p => p.id === productId);
-      if (foundProduct) {
-        product.value = foundProduct; // 상품이 발견되면 설정
-      } else {
-        // alert(`상품 ID ${productId}를 찾을 수 없습니다.`)
-        console.error(`상품 ID ${productId}를 찾을 수 없습니다.`);
-      }
-    } else {
-      const foundProduct = savingsProducts.value.find(p => p.id === productId);
-      if (foundProduct) {
-        product.value = foundProduct; // 상품이 발견되면 설정
-      } else {
-        // alert(`상품 ID ${productId}를 찾을 수 없습니다.`)
-        console.error(`상품 ID ${productId}를 찾을 수 없습니다.`);
-      }
-    }
+    axios({
+      method: 'get',
+      url: `${API_URL}/bank_products/${category}_detail/${productId}/`
+    })
+    .then(res => {
+      product.value = res.data
+    })
+    .catch(err => console.error(`상품 ID ${productId}를 찾을 수 없습니다.`, err))
   };
 
 

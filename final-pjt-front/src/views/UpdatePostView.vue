@@ -2,7 +2,7 @@
     <div class="container">
         <h2 class="title">게시글 수정하기</h2>
 
-        <form class="post" @submit.prevent="store.createPost(title, content, selectedTag)">
+        <form class="post" @submit.prevent="store.updatePost(PostId, title, content, selectedTag)">
             <div class="input-group">
                 <input type="text" id="post-title" v-model.trim="title" placeholder="제목을 입력하세요">
             </div>
@@ -48,6 +48,7 @@ const store = useCommunityStore()
 const selectedTag = ref('');
 const title = ref('')
 const content = ref('')
+const PostId = route.params.postId
 
 const selectTag = (tag) => {
     selectedTag.value = tag;

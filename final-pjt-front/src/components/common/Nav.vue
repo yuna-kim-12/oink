@@ -82,7 +82,7 @@ onMounted(() => {
 }
 
 .real-nav a {
-  padding: 12px;
+  padding: 12px 30px;
   color: #B9B9B9;
   font-size: 18px;
   font-weight: 600;

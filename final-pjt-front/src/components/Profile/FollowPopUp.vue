@@ -30,7 +30,9 @@
           <div v-for="following in followingsList" 
               :key="following.pk" 
               class="real-following">
-            <p>{{ following.name }}</p>
+            <p><RouterLink :to="{ name: 'profile', params: { userId: following.pk } }">
+              {{ following.name }}
+            </RouterLink></p>
             <button 
               @click="handleFollow(following.pk)"
               :class="{ 'following-active': store.followStatus[following.pk] }"
@@ -44,7 +46,9 @@
           <div v-for="follower in followersList" 
               :key="follower.pk" 
               class="real-follower">
-            <p>{{ follower.name }}</p>
+            <p><RouterLink :to="{ name: 'profile', params: { userId: following.pk } }">
+              {{ following.name }}
+            </RouterLink></p>
             <button 
               @click="handleFollow(follower.pk)"
               :class="{ 'following-active': store.followStatus[follower.pk] }"

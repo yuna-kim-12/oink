@@ -35,7 +35,7 @@ input:focus {
 
 button {
     border: none;
-    background-color: #fff;
+    background-color: transparent;
 }
 
 body {

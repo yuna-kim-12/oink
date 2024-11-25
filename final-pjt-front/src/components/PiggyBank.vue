@@ -76,7 +76,7 @@ const goals = {
 const piggybankInfo = ref({}) // 돼지 저금통 정보
 const amountEntered = ref(30) // 지금까지 넣은 금액
 const savingRate = ref(80) // 지금까지 모은 금액 비율
-const piggybankImg = ref('') // 돼지 저금통 이미지
+const piggybankImg = ref('/src/assets/images/pink-pig(25).png') // 돼지 저금통 이미지
 const piggybankExam = {
   name: '살 수 있어 서울 자가^^',
   weight: 9.9,

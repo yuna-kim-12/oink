@@ -154,6 +154,7 @@ export const useUserStore = defineStore("user", () => {
       });
       console.log('비밀번호 변경 완료')
       console.log(response.data.message)
+
       return response.data;
     } catch (error) {
       console.error('사용자 정보 업데이트 실패:', error);

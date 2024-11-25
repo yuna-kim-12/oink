@@ -116,12 +116,13 @@ const getUserInfo = async function () {
   try {
     const response = await axios({
       method: 'get',
-      url: `${userStore.url}/accounts/profile/${route.params.userId}/`,
+      url: `${userStore.url}/accounts/profile/${route.params.userId || userStore.userPK}/`,
       headers: {
         Authorization: `Token ${userStore.token}`
       }
     });
     piggybank.value = response.data.piggy_bank;
+    
   } catch (err) {
     console.log(err);
     throw err;  // 에러를 상위로 전파
@@ -135,19 +136,20 @@ const getPiggybankInfo = async function () {
     if (!userStore.isLoggedIn) {
       isPiggybank.value = true;
       piggybankInfo.value = piggybankExam;
+      return
+    }
 
       // 로그인 한 사람
-    } else if (userStore.isLoggedIn) {
+    if (userStore.isLoggedIn) {
       // await로 데이터를 기다림
       await getUserInfo();
 
       // 누구의 저금통인지 확인
-      if (userStore.userPK == route.params.userId) {
+      if (userStore.userPK == route.params.userId || !route.params.userId) {
         myPiggy.value = true;
       } else {
         myPiggy.value = false;
       }
-
       if (piggybank.value && piggybank.value.length) {
         isPiggybank.value = true;
         piggybankInfo.value = piggybank.value[0];

@@ -1,7 +1,7 @@
 <template>
   <div class="piggybank-container">
     <div class="piggybank-main">
-      <!-- 로그인 안한 사용자는 예시 내용 보여주기, 로그인 했는데 저금통 있는 사람 그 정보 보여주기  -->
+      <!-- 1. 로그인 안한 사용자는 예시 내용 보여주기, 로그인 했는데 저금통 있는 사람 그 정보 보여주기  -->
       <div class="is-piggybank" v-if="isPiggybank">
         <div class="piggybank-img">
           <img :src="piggybankImg" alt="piggy-img">
@@ -19,24 +19,26 @@
           <span class="piggy-nickname-btn">{{ goals[piggybankInfo.saving_purpose] }}</span>
           <p class="piggy-nickname">{{ piggybankInfo.name }}</p>
           <!-- span 태그에 현재날짜부터 만기일까지의 날짜 계산 -->
-          <p class="duration">만기일까지 <span>D-{{ piggybankInfo.user_product.d_day }}</span></p>
+          <p class="duration" v-if="myPiggy">만기일까지 <span>D-{{ piggybankInfo.user_product.d_day }}</span></p>
           <div class="real-intro">
-            <p data-label="상품명"><span>
+            <p data-label="상품명" v-if="myPiggy"><span>
                 {{ piggybankInfo.user_product.product.product_name }} ({{
                   piggybankInfo.user_product.product.company_name }})
               </span></p>
-            <p data-label="저축기간"><span>
+            <p data-label="저축기간" v-if="myPiggy"><span>
                 {{ piggybankInfo.user_product.join_date.slice(0, 10) }} ~ {{
                   piggybankInfo.user_product.expiration_date.slice(0, 10) }} ({{ piggybankInfo.user_product.remain_month
                 }}달 째)
               </span></p>
-            <p data-label="금리"><span>{{ piggybankInfo.user_product.interest_rate }}%</span></p>
+            <p data-label="금리" v-if="myPiggy"><span>{{ piggybankInfo.user_product.interest_rate }}%</span></p>
             <p data-label="목표 무게"><span>{{ piggybankInfo.weight }}kg ({{ piggybankInfo.weight * 10 }}만원)</span></p>
             <p data-label="응원 받은 수"><span>{{ piggybankInfo.cheerup_count }}</span></p>
           </div>
         </div>
-        <!-- 로그인 했지만 저금통 없는 사람들에게 보여주기 -->
       </div>
+
+
+      <!-- 2. 로그인 했지만 저금통 없는 사람들에게 보여주기 -->
       <div class="no-piggybank" v-else>
         <img src="@/assets/images/no-piggybank.png" alt="no-piggybank-img">
         <p>현재 만들어진 돼지 저금통이 없어요</p>
@@ -50,10 +52,13 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import PiggyBankPopup from './PiggyBankPopup.vue';
 
 const userStore = useUserStore()
+const route = useRoute()
 
 const progressBar = ref(null);
 const weightDisplay = ref(null);
@@ -95,35 +100,68 @@ const piggybankExam = {
   }
 }
 
+
+
 // 1. 내 저금통 조회하기
 const isPiggybank = ref(false)
-const getPiggybankInfo = function () {
+const myPiggy = ref(true)
+const piggybank = ref(null)
 
-  // const myProduct = 
-  // 로그인을 하지 않은 사람
-  if (!userStore.isLoggedIn) {
-    isPiggybank.value = true
-    piggybankInfo.value = piggybankExam
-
-    // 로그인 한 사람
-  } else if (userStore.isLoggedIn) {
-    const piggybank = ref(userStore.user.piggy_bank)
-    console.log(piggybank.value)
-
-    if (piggybank.value.length) {
-      isPiggybank.value = true
-      piggybankInfo.value = piggybank.value[0]
-      amountEntered.value = piggybankInfo.value.user_product.remain_month * piggybankInfo.value.user_product.monthly_amount
-      savingRate.value = (amountEntered.value / piggybankInfo.value.weight) * 100
-      ChangePiggyImg()
-    }
-
-    // 로그인은 했으나 저금통이 없는 사람
-  } else {
-    isPiggybank.value = false
-    piggybankInfo.value = {}
+// 1-1. 사용자 정보 가져오기
+const getUserInfo = async function () {
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${userStore.url}/accounts/profile/${route.params.userId}/`,
+      headers: {
+        Authorization: `Token ${userStore.token}`
+      }
+    });
+    piggybank.value = response.data.piggy_bank;
+  } catch (err) {
+    console.log(err);
+    throw err;  // 에러를 상위로 전파
   }
-}
+};
+
+// 1-2. 로그인 유무, 저금통 소유 확인
+const getPiggybankInfo = async function () {
+  try {
+    // 로그인을 하지 않은 사람
+    if (!userStore.isLoggedIn) {
+      isPiggybank.value = true;
+      piggybankInfo.value = piggybankExam;
+    
+    // 로그인 한 사람
+    } else if (userStore.isLoggedIn) {
+      // await로 데이터를 기다림
+      await getUserInfo();
+      
+      // 누구의 저금통인지 확인
+      if (userStore.userPK == route.params.userId) {
+        myPiggy.value = true;
+      } else {
+        myPiggy.value = false;
+      }
+
+      if (piggybank.value && piggybank.value.length) {
+        isPiggybank.value = true;
+        piggybankInfo.value = piggybank.value[0];
+        amountEntered.value = piggybankInfo.value.user_product.remain_month * 
+                             piggybankInfo.value.user_product.monthly_amount;
+        savingRate.value = (amountEntered.value / piggybankInfo.value.weight) * 100;
+        ChangePiggyImg();
+      } else {
+        isPiggybank.value = false;
+        piggybankInfo.value = {};
+      }
+    }
+  } catch (err) {
+    console.log('Error in getPiggybankInfo:', err);
+    isPiggybank.value = false;
+    piggybankInfo.value = {};
+  }
+};
 
 // 모은 금액 비율에 따라 저금통 돼지 사진 변하게 하기
 const ChangePiggyImg = function () {

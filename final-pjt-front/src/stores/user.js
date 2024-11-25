@@ -51,7 +51,7 @@ export const useUserStore = defineStore("user", () => {
 
         // 사용자 정보를 가져옵니다.
         await fetchUserInfo();
-        await getUserInfo();
+        await getUserInfo(userPK.value);
 
         router.push('/');
     } catch (error) {
@@ -101,11 +101,11 @@ export const useUserStore = defineStore("user", () => {
   }
 
   // 4. 마이페이지
-  const getUserInfo = async function () {
+  const getUserInfo = async function (userPk) {
     try {
       const response = await axios({
         method: 'get',
-        url: `${url}/accounts/profile/${userPK.value}/`,
+        url: `${url}/accounts/profile/${userPk}/`,
         headers: {
           Authorization: `Token ${token.value}`
         }

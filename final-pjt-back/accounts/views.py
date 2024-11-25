@@ -105,7 +105,6 @@ def get_users(request):
 @permission_classes([IsAuthenticated])
 def follow(request, following_user_pk):
     following_user = get_object_or_404(User, pk=following_user_pk)
-    print('=============================================',following_user)
     follower = request.user
 
     # 자기 자신을 팔로우하려는 경우 방지

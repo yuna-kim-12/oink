@@ -60,8 +60,8 @@
         </div>
         <div class="place-list">
           <div class="current-place">
-            <p>{{ selectedCity.name }} {{ selectedDistrict }}에</p>
-            <p>위치한 <span>{{ selectedBank }}</span> 입니다.</p>
+            <p class="current-place-p">{{ selectedCity.name }} {{ selectedDistrict }}에</p>
+            <p>위치한 <span class="current-place-span">{{ selectedBank }}</span> 입니다.</p>
           </div>
           <div
             class="place-item"
@@ -639,8 +639,14 @@ onMounted(() => {
   font-size: 16px;
 }
 
+.current-place > p {
+  font-weight: 700;
+  color: var(--sub-text-bold-color);
+}
+
 .current-place > p > span {
   color: var(--main-color);
+  font-weight: 700;
 }
 
 .place-item {

@@ -7,13 +7,13 @@
       <div class="piggybank-join-btns" v-if="!isAccounts">
         <div class="piggybank-join-btn" @click="goRecommend">
           <p>새로운 걸로 할게요!</p>
-          <p><span>username</span>님께 맞는<br>예적금 상품을 추천받고
+          <p><span>{{ userStore.user.name }}</span>님께 맞는<br>예적금 상품을 추천받고
             <br>새로운 예적금을 만들어보세요!
           </p>
         </div>
         <div class="piggybank-join-btn" @click="goMaking">
           <p>연동된 계좌로 할게요!</p>
-          <p><span>username</span>님의<br>기존 예적금 상품으로
+          <p><span>{{ userStore.user.name }}</span>님의<br>기존 예적금 상품으로
             <br>돼지 저금통을 만들어보세요!
           </p>
         </div>

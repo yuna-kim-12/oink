@@ -366,3 +366,4 @@ def products_joined(request, user_pk):
                              }, status=status.HTTP_201_CREATED)
         
     return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+    

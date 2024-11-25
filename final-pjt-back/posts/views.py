@@ -51,7 +51,7 @@ def post_detail(request, post_pk):
     if post.user == request.user:
         # 게시글 수정
         if request.method == 'PUT':
-            serializer = PostSerializer(post, data=request.data, partial=True)
+            serializer = PostSerializer(instance=post, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
             return Response(serializer.data)

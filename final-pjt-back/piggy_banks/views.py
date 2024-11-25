@@ -15,6 +15,7 @@ from .serializers import PiggyListSerializer, PiggySerializer, PiggyDetailSerial
 from bank_products.models import UserProduct
 
 import json
+from django.contrib.auth import get_user_model
 
 
 
@@ -30,18 +31,20 @@ def piggy_list(request):
         return Response(serializer.data)
 
     # 돼지저금통 생성
-    elif request.method == 'POST' & request.user:
+    elif request.method == 'POST' and request.user:
+    # elif request.method == 'POST':
         if PiggyBank.objects.filter(user=request.user).exists():
             return Response({'detail': '이미 돼지저금통이 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
         
-        print('=== Request Debug Info ===')
-        print('Method:', request.method)
-        print('Path:', request.path)
-        print('Data:', request.data)
-        print('User:', request.user)
-        print('Headers:', request.headers)
-        print('========================')
+        # print('=== Request Debug Info ===')
+        # print('Method:', request.method)
+        # print('Path:', request.path)
+        # print('Data:', request.data)
+        # print('User:', request.user)
+        # print('Headers:', request.headers)
+        # print('========================')
 
+        # user = get_user_model().objects.get(pk=user_pk)
         # request.data에서 user_product_pk를 가져옴
         try:
             user_product_pk = request.data.get('user_product')

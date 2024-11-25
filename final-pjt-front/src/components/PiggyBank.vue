@@ -31,13 +31,13 @@
                 }}달 째)
               </span></p>
             <p data-label="금리" v-if="myPiggy"><span>{{ piggybankInfo.user_product.interest_rate }}%</span></p>
-            <p data-label="목표 무게"><span>{{ piggybankInfo.weight }}kg ({{ piggybankInfo.weight * 10 }}만원)</span></p>
+            <p data-label="목표 무게"><span>{{ piggybankInfo.weight * 10 }}kg ({{ piggybankInfo.weight * 10 }}만원)</span></p>
             <p data-label="응원 받은 수"><span>{{ piggybankInfo.cheerup_count }}</span></p>
           </div>
         </div>
         <div class="delete-piggybank">
           <img src="/src/assets/images/Left-facing fist.png" alt="주먹 이미지">
-          <button @click="deletePiggybank">저금통 뿌수기</button>
+          <button @click="deletePiggybank" v-if="myPiggy">저금통 뿌수기</button>
         </div>
       </div>
 
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
@@ -155,7 +155,7 @@ const getPiggybankInfo = async function () {
         piggybankInfo.value = piggybank.value[0];
         amountEntered.value = piggybankInfo.value.user_product.remain_month *
           piggybankInfo.value.user_product.monthly_amount;
-        savingRate.value = (amountEntered.value / piggybankInfo.value.weight) * 100;
+          savingRate.value = (amountEntered.value / (piggybankInfo.value.weight * 10)) * 100;
         ChangePiggyImg();
       } else {
         isPiggybank.value = false;
@@ -185,8 +185,8 @@ const ChangePiggyImg = function () {
 // 2. 돼지 저금통 깨기(목표 무게 달성 시)
 const deletePiggybank = function () {
   // - 지금까지 모은 금액이 목표 무게보다 클 경우에만 깨기 가능
-  // if (amountEntered.value >= piggybankInfo.value.weight) {
-    if (confirm("정말로 저금통을 삭제하시겠습니까?🐽")) {
+  if (amountEntered.value >= piggybankInfo.value.weight* 10) {
+    if (confirm("저금통을 삭제하시겠습니까?🐽")) {
       axios({
         method: 'delete',
         url: `${userStore.url}/piggy_banks/detail/${piggybankInfo.value.id}/`,
@@ -200,7 +200,9 @@ const deletePiggybank = function () {
         })
         .catch(err => console.log('저금통 삭제 실패', err))
     }
-  // }
+  } else {
+    alert('목표 금액을 채우고 와주세요🐽')
+  }
 }
 
 
@@ -248,6 +250,10 @@ onMounted(() => {
   };
 
   requestAnimationFrame(animate);
+});
+
+watch(() => route.params.userId, () => {
+  getPiggybankInfo();
 });
 </script>
 

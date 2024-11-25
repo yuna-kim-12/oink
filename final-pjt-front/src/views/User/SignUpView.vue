@@ -44,8 +44,11 @@
 
             <p>비밀번호</p>
             <div class="input-group">
-                <input type="password" class="input-field" placeholder="비밀번호를 입력하세요" v-model.trim="password1">
-                <p class="password-require">* 비밀번호는 대소 문자, 특수문자를 포함한 8자리 이상으로 설정해주세요</p>
+                <input type="password" class="input-field" placeholder="비밀번호를 입력하세요"
+                @blur="validatePassword(password1)"
+                v-model.trim="password1">
+                <p class="password-require"
+                v-show="passwordChk">* 비밀번호는 대소 문자, 특수문자를 포함한 8자리 이상으로 설정해주세요</p>
             </div>
 
             <p>비밀번호 확인</p>
@@ -158,6 +161,25 @@ const fullEmail = computed(() => {
         return `${email.value}@${emailDomain.value}`
     }
 })
+
+// 비밀번호 유효성 검사
+const passwordChk = ref(false)
+
+const validatePassword = (password) => {
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  const isLongEnough = password.length >= 8;
+
+  if (isLongEnough && (hasUpperCase || hasLowerCase) && hasSpecialChar) {
+    passwordChk.value = false
+    return
+  } else {
+    passwordChk.value = true
+  }
+
+  return isLongEnough && (hasUpperCase || hasLowerCase) && hasSpecialChar;
+};
 
 const goals = [
     'home',
@@ -297,10 +319,10 @@ p {
 }
 
 .password-require {
-    font-size: 12px;
-    color: var(--main-text-color);
-    padding-left: 10px;
-    font-weight: 350;
+  margin-top: 10px;
+  font-size: 12px;
+  color: crimson;
+  font-weight: 350;
 }
 
 .asset-min {

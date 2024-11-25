@@ -101,6 +101,7 @@ const goMaking = function () {
   } else {
     alert('먼저 예적금을 연동해주세요🐽')
     router.push({ name: 'profile', params: { userId: userStore.user.pk } })
+    closePopup()
   }
 }
 
@@ -184,6 +185,7 @@ const makePiggybank = async function () {
       console.log('Success:', response.data);
       alert('돼지 저금통 만들기 성공🐽')
       closePopup()
+      window.location.reload()
     })
     .catch(err => {
       alert('이미 만들어진 돼지 저금통이 있어요🐽')

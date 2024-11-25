@@ -35,6 +35,10 @@
             <p data-label="응원 받은 수"><span>{{ piggybankInfo.cheerup_count }}</span></p>
           </div>
         </div>
+        <div class="delete-piggybank">
+          <img src="/src/assets/images/Left-facing fist.png" alt="주먹 이미지">
+          <button @click="deletePiggybank">저금통 뿌수기</button>
+        </div>
       </div>
 
 
@@ -112,12 +116,13 @@ const getUserInfo = async function () {
   try {
     const response = await axios({
       method: 'get',
-      url: `${userStore.url}/accounts/profile/${route.params.userId}/`,
+      url: `${userStore.url}/accounts/profile/${route.params.userId || userStore.userPK}/`,
       headers: {
         Authorization: `Token ${userStore.token}`
       }
     });
     piggybank.value = response.data.piggy_bank;
+    
   } catch (err) {
     console.log(err);
     throw err;  // 에러를 상위로 전파
@@ -131,24 +136,25 @@ const getPiggybankInfo = async function () {
     if (!userStore.isLoggedIn) {
       isPiggybank.value = true;
       piggybankInfo.value = piggybankExam;
-    
-    // 로그인 한 사람
-    } else if (userStore.isLoggedIn) {
+      return
+    }
+
+      // 로그인 한 사람
+    if (userStore.isLoggedIn) {
       // await로 데이터를 기다림
       await getUserInfo();
-      
+
       // 누구의 저금통인지 확인
-      if (userStore.userPK == route.params.userId) {
+      if (userStore.userPK == route.params.userId || !route.params.userId) {
         myPiggy.value = true;
       } else {
         myPiggy.value = false;
       }
-
       if (piggybank.value && piggybank.value.length) {
         isPiggybank.value = true;
         piggybankInfo.value = piggybank.value[0];
-        amountEntered.value = piggybankInfo.value.user_product.remain_month * 
-                             piggybankInfo.value.user_product.monthly_amount;
+        amountEntered.value = piggybankInfo.value.user_product.remain_month *
+          piggybankInfo.value.user_product.monthly_amount;
         savingRate.value = (amountEntered.value / piggybankInfo.value.weight) * 100;
         ChangePiggyImg();
       } else {
@@ -174,6 +180,27 @@ const ChangePiggyImg = function () {
   } else {
     piggybankImg.value = '/src/assets/images/yellow-pig(100).png'
   }
+}
+
+// 2. 돼지 저금통 깨기(목표 무게 달성 시)
+const deletePiggybank = function () {
+  // - 지금까지 모은 금액이 목표 무게보다 클 경우에만 깨기 가능
+  // if (amountEntered.value >= piggybankInfo.value.weight) {
+    if (confirm("정말로 저금통을 삭제하시겠습니까?🐽")) {
+      axios({
+        method: 'delete',
+        url: `${userStore.url}/piggy_banks/detail/${piggybankInfo.value.id}/`,
+        headers: {
+          Authorization: `Token ${userStore.token}`
+        }
+      })
+        .then(res => {
+          console.log('저금통 삭제 성공')
+          window.location.reload()
+        })
+        .catch(err => console.log('저금통 삭제 실패', err))
+    }
+  // }
 }
 
 
@@ -230,6 +257,7 @@ onMounted(() => {
 }
 
 .piggybank-main {
+  position: relative;
   width: 740px;
   height: 400px;
   margin: 20px auto;
@@ -370,6 +398,56 @@ onMounted(() => {
   z-index: 2;
 }
 
+.delete-piggybank {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-piggybank img {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 5px;
+  display: none;
+}
+
+.delete-piggybank button {
+  padding: 4px 8px;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 15px;
+  background-color: var(--stroke-color);
+}
+
+.delete-piggybank:hover img {
+  display: block;
+}
+
+.delete-piggybank:hover img {
+  animation: moveUpDown 0.3s infinite alternate;
+}
+
+.delete-piggybank:hover button {
+  transform: scale(0.95);
+  transition: all 0.3s ease-in-out;
+}
+
+@keyframes moveUpDown {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+
+/* 저금통 없는 사람들의 저금통 스타일 */
 .no-piggybank {
   display: flex;
   flex-direction: column;

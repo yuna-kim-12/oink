@@ -33,7 +33,9 @@
                 <h2><span>나와 같은 목표</span>를 가진<br>사람들의 소식을 만나보실 수도 있어요</h2>
                 <img src="@/assets/images/coin.png" alt="coin-img">
             </div>
-            <img src="@/assets/images/community.png" alt="">
+            <RouterLink :to="{ name: 'community' }">
+                <img src="@/assets/images/community.png" alt="">
+            </RouterLink>
         </div>
 
         <div class="scroll-animation">
@@ -172,7 +174,7 @@ onUnmounted(() => {
     text-align: center;
 }
 
-.community-intro>img {
+.community-intro a >img {
     display: block;
     width: 80%;
     max-width: 1000px;

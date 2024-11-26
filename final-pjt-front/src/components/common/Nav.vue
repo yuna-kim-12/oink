@@ -7,8 +7,8 @@
     </h1>
     <div class="real-nav">
       <RouterLink :to="{name:'recommend'}">금융상품추천</RouterLink>
-      <RouterLink :to="{name:'map'}">지도</RouterLink>
       <RouterLink :to="{name:'community'}">커뮤니티</RouterLink>
+      <RouterLink :to="{name:'map'}">지도</RouterLink>
       <RouterLink :to="{name:'exchange'}">환율 계산기</RouterLink>
     </div>
 
@@ -82,7 +82,7 @@ onMounted(() => {
 }
 
 .real-nav a {
-  padding: 12px 30px;
+  padding: 12px 15px;
   color: #B9B9B9;
   font-size: 18px;
   font-weight: 600;
@@ -110,7 +110,7 @@ onMounted(() => {
   border-radius: 50%;
   height: 32px;
   width: 35px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 

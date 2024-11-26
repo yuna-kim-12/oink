@@ -5,7 +5,6 @@
       class="chat-button"
       :class="{ active: isChatOpen }"
     >
-      <!-- <SmileIcon v-if="!isChatOpen" /> -->
       <img
         class="oink-icon"
         src="/src/assets/images/bounce-oink.png"
@@ -18,7 +17,6 @@
     <Transition name="bounce">
       <div v-if="isChatOpen" class="chat-window">
         <div class="chat-header">
-          <!-- <SmileIcon class="header-icon" /> -->
           <img
             class="oink-icon"
             src="/src/assets/images/bounce-oink.png"
@@ -28,25 +26,25 @@
         </div>
         <div class="chat-messages" ref="messagesContainer">
           <TransitionGroup name="message">
+            <!-- v-html을 사용하여 줄바꿈이 포함된 HTML 메시지 렌더링 -->
             <div
               v-for="(message, index) in messages"
               :key="index"
               class="message"
               :class="message.type"
-            >
-              {{ message.text }}
-            </div>
+              v-html="message.text"
+            ></div>
           </TransitionGroup>
         </div>
         <div class="chat-input">
-            <textarea 
-              v-model="userInput" 
-              @keyup.enter.exact.prevent="sendMessage" 
-              @input="adjustTextareaHeight"
-              placeholder="질문을 입력해주세요"
-              rows="1"
-              ref="messageInput"
-            ></textarea>
+          <textarea
+            v-model="userInput"
+            @keyup.enter.exact.prevent="sendMessage"
+            @input="adjustTextareaHeight"
+            placeholder="질문을 입력해주세요"
+            rows="1"
+            ref="messageInput"
+          ></textarea>
           <button
             @click="sendMessage"
             class="send-button"
@@ -60,54 +58,47 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
 import { SmileIcon, XIcon, SendIcon } from 'lucide-vue-next'
-import axios from 'axios';
+import axios from 'axios'
 
 const isChatOpen = ref(false)
 const userInput = ref('')
 const messages = ref([
-  { type: 'bot', text: '안녕하세요! 금융 지식을 설명하고 금융 상품을 추천해드리는 Oink Chatbot입니다. 궁금한 것을 입력해주세요🐽' }
+  { type: 'bot', text: '안녕! 금융 지식을 설명하고 금융 상품을 추천해주는 Oink Chatbot이야. 궁금한 것 있으면 알려줄게🐽' }
 ])
 const messagesContainer = ref(null)
-
 const messageInput = ref(null)
 
 const toggleChat = () => {
   isChatOpen.value = !isChatOpen.value
 }
 
-
 // 메시지를 Django 서버로 전송하고 응답 받기
 const sendMessage = async () => {
   if (userInput.value.trim() === '') return; // 입력 값이 비어있으면 동작하지 않음
-  console.log('에러1')
+  
   // 사용자가 입력한 메시지를 추가
-  messages.value.push({ type: 'user', text: userInput.value });
-  console.log('에러2',messages.value)
-  
-  const inputText = userInput.value; // 현재 입력 값을 저장
-  userInput.value = ''; // 입력창 초기화
-  
+  messages.value.push({ type: 'user', text: userInput.value })
+
+  const inputText = userInput.value // 현재 입력 값을 저장
+  userInput.value = '' // 입력창 초기화
+
   axios({
     method: 'post',
-    url:'http://127.0.0.1:8000/chatbot/',
-    data: {
-      user_input:inputText
-    }
+    url: 'http://127.0.0.1:8000/chatbot/',
+    data: { user_input: inputText }
   })
-  .then((res) => {
-    console.log(res.data)
-    const botReply = res.data.reply;
-    messages.value.push({ type: 'bot', text: botReply });
-  })
-  .catch((err) => {
-    console.error('Error communicating with chatbot:', err);
-        
-  // 에러가 발생하면 사용자에게 안내 메시지 추가
-  messages.value.push({ type: 'bot', text: '오류가 발생했어요. 다시 시도해 주세요🐽' });
-  })
+    .then((res) => {
+      const botReply = res.data.reply // Django에서 이미 <br> 변환된 데이터를 사용
+      messages.value.push({ type: 'bot', text: botReply })
+    })
+    .catch((err) => {
+      console.error('Error communicating with chatbot:', err)
+      messages.value.push({ type: 'bot', text: '오류가 발생했어요. 다시 시도해 주세요🐽' })
+    })
 }
 
 const scrollToBottom = () => {
@@ -118,7 +109,6 @@ const scrollToBottom = () => {
   })
 }
 
-	
 const adjustTextareaHeight = () => {
   const textarea = messageInput.value
   textarea.style.height = 'auto'
@@ -129,6 +119,7 @@ watch(messages, scrollToBottom)
 
 onMounted(scrollToBottom)
 </script>
+
 
 <style scoped>
 .chatbot-container {

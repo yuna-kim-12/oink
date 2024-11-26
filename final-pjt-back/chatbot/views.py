@@ -6,8 +6,6 @@ from rest_framework.decorators import api_view
 import os
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-# OpenAI API 키 설정
-# OPENAI_API_KEY = settings.OPENAI_API_KEY
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Create your views here.
@@ -71,7 +69,7 @@ def chatbot(request):
             )
 
             # 응답 메시지 추출
-            reply = response.choices[0].message.content
+            reply = response.choices[0].message.content.replace("\n", "<br>")
 
             # JSON 응답 반환
             return JsonResponse({"reply": reply})

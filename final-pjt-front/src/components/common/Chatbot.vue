@@ -1,36 +1,57 @@
 <template>
   <div class="chatbot-container">
-    <button 
-      @click="toggleChat" 
+    <button
+      @click="toggleChat"
       class="chat-button"
-      :class="{ 'active': isChatOpen }"
+      :class="{ active: isChatOpen }"
     >
       <!-- <SmileIcon v-if="!isChatOpen" /> -->
-      <img class="oink-icon" src="/src/assets/images/bounce-oink.png" alt="oink-icon" v-if="!isChatOpen">
+      <img
+        class="oink-icon"
+        src="/src/assets/images/bounce-oink.png"
+        alt="oink-icon"
+        v-if="!isChatOpen"
+      />
       <XIcon v-else />
     </button>
-    
+
     <Transition name="bounce">
       <div v-if="isChatOpen" class="chat-window">
         <div class="chat-header">
           <!-- <SmileIcon class="header-icon" /> -->
-           <img class="oink-icon" src="/src/assets/images/bounce-oink.png" alt="oink-icon">
+          <img
+            class="oink-icon"
+            src="/src/assets/images/bounce-oink.png"
+            alt="oink-icon"
+          />
           <h3>Oink Chatbot</h3>
         </div>
         <div class="chat-messages" ref="messagesContainer">
           <TransitionGroup name="message">
-            <div v-for="(message, index) in messages" :key="index" class="message" :class="message.type">
+            <div
+              v-for="(message, index) in messages"
+              :key="index"
+              class="message"
+              :class="message.type"
+            >
               {{ message.text }}
             </div>
           </TransitionGroup>
         </div>
         <div class="chat-input">
-          <input 
-            v-model="userInput" 
-            @keyup.enter="sendMessage" 
-            placeholder="질문을 입력해주세요"
-          />
-          <button @click="sendMessage" class="send-button" :disabled="!userInput.trim()">
+            <textarea 
+              v-model="userInput" 
+              @keyup.enter.exact.prevent="sendMessage" 
+              @input="adjustTextareaHeight"
+              placeholder="질문을 입력해주세요"
+              rows="1"
+              ref="messageInput"
+            ></textarea>
+          <button
+            @click="sendMessage"
+            class="send-button"
+            :disabled="!userInput.trim()"
+          >
             <SendIcon />
           </button>
         </div>
@@ -42,6 +63,7 @@
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
 import { SmileIcon, XIcon, SendIcon } from 'lucide-vue-next'
+import axios from 'axios';
 
 const isChatOpen = ref(false)
 const userInput = ref('')
@@ -50,20 +72,42 @@ const messages = ref([
 ])
 const messagesContainer = ref(null)
 
+const messageInput = ref(null)
+
 const toggleChat = () => {
   isChatOpen.value = !isChatOpen.value
 }
 
-const sendMessage = () => {
-  if (userInput.value.trim() === '') return
 
-  messages.value.push({ type: 'user', text: userInput.value })
-  userInput.value = ''
-
-  // Simulate bot response (replace with actual chatbot logic)
-  setTimeout(() => {
-    messages.value.push({ type: 'bot', text: "That's interesting! I'm a cute chatbot, but I'm still learning. Can you tell me more? 🌟" })
-  }, 1000)
+// 메시지를 Django 서버로 전송하고 응답 받기
+const sendMessage = async () => {
+  if (userInput.value.trim() === '') return; // 입력 값이 비어있으면 동작하지 않음
+  console.log('에러1')
+  // 사용자가 입력한 메시지를 추가
+  messages.value.push({ type: 'user', text: userInput.value });
+  console.log('에러2',messages.value)
+  
+  const inputText = userInput.value; // 현재 입력 값을 저장
+  userInput.value = ''; // 입력창 초기화
+  
+  axios({
+    method: 'post',
+    url:'http://127.0.0.1:8000/chatbot/',
+    data: {
+      user_input:inputText
+    }
+  })
+  .then((res) => {
+    console.log(res.data)
+    const botReply = res.data.reply;
+    messages.value.push({ type: 'bot', text: botReply });
+  })
+  .catch((err) => {
+    console.error('Error communicating with chatbot:', err);
+        
+  // 에러가 발생하면 사용자에게 안내 메시지 추가
+  messages.value.push({ type: 'bot', text: '오류가 발생했어요. 다시 시도해 주세요🐽' });
+  })
 }
 
 const scrollToBottom = () => {
@@ -72,6 +116,13 @@ const scrollToBottom = () => {
       messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
     }
   })
+}
+
+	
+const adjustTextareaHeight = () => {
+  const textarea = messageInput.value
+  textarea.style.height = 'auto'
+  textarea.style.height = textarea.scrollHeight + 'px'
 }
 
 watch(messages, scrollToBottom)
@@ -122,8 +173,8 @@ onMounted(scrollToBottom)
   position: absolute;
   bottom: 80px;
   right: 0;
-  width: 300px;
-  height: 400px;
+  width: 400px;
+  height: 500px;
   background-color: white;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -150,10 +201,6 @@ onMounted(scrollToBottom)
   margin: 0;
   font-size: 1.2em;
   margin-left: 10px;
-}
-
-.header-icon {
-  font-size: 1.5em;
 }
 
 .chat-messages {
@@ -194,7 +241,7 @@ onMounted(scrollToBottom)
   border-top: 1px solid #eee;
 }
 
-.chat-input input {
+.chat-input textarea {
   flex-grow: 1;
   border: none;
   padding: 10px;
@@ -202,9 +249,12 @@ onMounted(scrollToBottom)
   margin-right: 10px;
   background-color: #f0f0f0;
   transition: all 0.3s ease;
+  resize: none;
+  max-height: 100px;
+  overflow-y: auto;
 }
 
-.chat-input input:focus {
+.chat-input textarea:focus {
   outline: none;
   box-shadow: 0 0 0 2px #7268CF;
 }
@@ -272,4 +322,5 @@ onMounted(scrollToBottom)
     transform: translateY(0);
   }
 }
+
 </style>

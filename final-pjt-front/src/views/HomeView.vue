@@ -27,14 +27,14 @@
             저금통 만들러 가기
         </button>
 
-        <div class="community-intro scroll-animation">
+        <div class="community-intro scroll-animation" v-if="!userStore.isLoggedIn">
             <div class="community-intro-text">
                 <img src="@/assets/images/coin.png" alt="coin-img">
                 <h2><span>나와 같은 목표</span>를 가진<br>사람들의 소식을 만나보실 수도 있어요</h2>
                 <img src="@/assets/images/coin.png" alt="coin-img">
             </div>
             <RouterLink :to="{ name: 'community' }">
-                <img src="@/assets/images/community.png" alt="">
+                <img src="@/assets/images/community.png" alt="커뮤니티 소개">
             </RouterLink>
         </div>
 

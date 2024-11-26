@@ -2,18 +2,23 @@
     <div>
         <OinkIntro />
 
-        <div class="piggy-text">
-            <p v-if="userStore.isLoggedIn && userStore.user" class="piggy-user"><span>{{ userStore.user.name }}</span>님의
-                돼지
-                저금통</p>
+        <div class="piggy-text scroll-animation">
+            <p v-if="userStore.isLoggedIn && userStore.user" class="piggy-user">
+                <span>{{ userStore.user.name }}</span>님의 돼지 저금통
+            </p>
             <p v-else class="piggy-recommend">나만의 <span>돼지 저금통</span>을 만들어 금융 자산을 관리하고,<br>
                 저금통을 무겁게 만들 <span>금융 상품</span>을 추천 받아보세요!</p>
         </div>
-        <PiggyBank />
+        
+        <div class="scroll-animation">
+            <PiggyBank />
+        </div>
 
-        <PiggyBankInfo />
+        <div class="scroll-animation">
+            <PiggyBankInfo />
+        </div>
 
-        <div class="product-recommend">
+        <div class="product-recommend scroll-animation">
             <h2 class="recommendation-badge" v-if="!userStore.isLoggedIn">돼지 저금통을 불릴 수 있는<br>예적금 상품을 추천해드려요.</h2>
             <ProductRecommend />
         </div>
@@ -22,7 +27,7 @@
             저금통 만들러 가기
         </button>
 
-        <div class="community-intro">
+        <div class="community-intro scroll-animation">
             <div class="community-intro-text">
                 <img src="@/assets/images/coin.png" alt="coin-img">
                 <h2><span>나와 같은 목표</span>를 가진<br>사람들의 소식을 만나보실 수도 있어요</h2>
@@ -31,7 +36,9 @@
             <img src="@/assets/images/community.png" alt="">
         </div>
 
-        <Cheerup />
+        <div class="scroll-animation">
+            <Cheerup />
+        </div>
     </div>
 </template>
 
@@ -60,6 +67,18 @@ const navigateToPiggyCreate = () => {
 
 onMounted(() => {
     window.addEventListener('scroll', handleScroll);
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    document.querySelectorAll('.scroll-animation').forEach((el) => observer.observe(el));
 });
 
 onUnmounted(() => {
@@ -68,31 +87,43 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* 스크롤 애니메이션 */
+.scroll-animation {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease;
+}
+
+.scroll-animation.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* 돼지 저금통 큰 제목 */
 .piggy-text {
     margin-top: 50px;
 }
 
 .piggy-text p {
-  width: 740px;
-  margin: 0 auto;
-  padding-left: 20px;
-  font-size: 25px;
-  font-weight: 700;
-  color: var(--sub-text-color);
+    width: 740px;
+    margin: 0 auto;
+    padding-left: 20px;
+    font-size: 25px;
+    font-weight: 700;
+    color: var(--sub-text-color);
 }
 
 .piggy-text span {
-  font-weight: 700;
-  color: var(--main-text-color);
+    font-weight: 700;
+    color: var(--main-text-color);
 }
 
 .piggy-recommend {
-  text-align: center;
+    text-align: center;
 }
 
 .piggy-recommend span:last-child {
-  color: var(--point-color);
+    color: var(--point-color);
 }
 
 /* 상품 추천 */
@@ -113,7 +144,6 @@ onUnmounted(() => {
     color: #020202;
 }
 
-
 /* 저금통 만들러 가기 버튼 */
 .create-piggy {
     position: fixed;
@@ -131,13 +161,12 @@ onUnmounted(() => {
     white-space: nowrap;
 }
 
-
-/* 커뮤니티 소개 */
 .create-piggy:hover {
     transform: translateX(-50%) translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* 커뮤니티 소개 */
 .community-intro {
     margin: 100px auto 200px;
     text-align: center;

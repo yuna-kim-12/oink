@@ -22,7 +22,7 @@
           </div>
         </div>
     </div>
-    <button class="close-btn" @click="$emit('close')">&times;</button>
+    <button class="close-btn" @click="$emit('close')">X</button>
 
       <div class="popup-body">
         <!-- 팔로잉 목록 -->
@@ -46,8 +46,8 @@
           <div v-for="follower in followersList" 
               :key="follower.pk" 
               class="real-follower">
-            <p><RouterLink :to="{ name: 'profile', params: { userId: following.pk } }">
-              {{ following.name }}
+            <p><RouterLink :to="{ name: 'profile', params: { userId: follower.pk } }">
+              {{ follower.name }}
             </RouterLink></p>
             <button 
               @click="handleFollow(follower.pk)"
@@ -198,9 +198,10 @@ right: 8px;
 top: 6px;
 background-color: #eee;
 border-radius: 100%;
-padding: 0px 3.3px;
+padding: 0px 11px;
 border: none;
-font-size: 13px;
+font-size: 11px;
+font-weight: 700;
 cursor: pointer;
 }
 

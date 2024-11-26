@@ -52,7 +52,6 @@ const price = ref('')
 const selectedCurrency = ref('')
 const calculatedAmount = ref('')
 let cachedExchangeInfo = null
-// const exchangeInfo = ref([])
 const exchangeInfo = ref([])
 
 // 음수 입력 방지
@@ -83,7 +82,11 @@ watch([price, selectedCurrency], ([newPrice, newCurrency]) => {
     try {
         const rateStr = String(newCurrency.deal_bas_r).replace(/,/g, '')
         const rate = parseFloat(rateStr)
-        const amount = parseFloat(newPrice) * rate
+        let amount = parseFloat(newPrice) * rate 
+
+        if (newCurrency.cur_unit.length !== 3) {
+            amount = amount/100
+        }
 
         if (!isNaN(amount)) {
             calculatedAmount.value = new Intl.NumberFormat('ko-KR', {
@@ -103,7 +106,7 @@ watch([price, selectedCurrency], ([newPrice, newCurrency]) => {
 const getInfo = function () {
     if (cachedExchangeInfo) {
         exchangeInfo.value = cachedExchangeInfo
-        console.log(exchangeInfo.value)
+        // console.log(exchangeInfo.value)
         return
     }
 

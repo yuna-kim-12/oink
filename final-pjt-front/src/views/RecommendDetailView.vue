@@ -47,7 +47,7 @@
           </div>
           <div class="product-detail-item">
             <dt>대상</dt>
-            <dd>{{ product.join_member }}</dd>
+            <dd v-html="product.join_member"></dd>
           </div>
           <div class="product-detail-item">
             <dt>이자지급</dt>
@@ -119,7 +119,6 @@ const primeCondition = {
 
 .product-title {
   color: #8d8d8d;
-  margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #dfdcdc;
 }
@@ -129,9 +128,11 @@ const primeCondition = {
   padding: 150px 0;
   margin-top: 40px;
 }
-
+.prime-conditions {
+    margin: 10px 0;
+}
 .prime-conditions span {
-  margin: 10px 5px;
+  margin-right:  10px;
   padding: 3px 8px;
   color: #fff;
   font-size: 12px;

@@ -11,6 +11,7 @@ import LoginView from '@/views/User/LoginView.vue'
 import SignUpView from '@/views/User/SignUpView.vue'
 import ProfileView from '@/views/User/ProfileView.vue'
 import UpdateUserView from '@/views/User/UpdateUserView.vue'
+import { useUserStore } from '@/stores/user'
 
 
 const router = createRouter({
@@ -75,6 +76,12 @@ const router = createRouter({
       path:'/profile/:userId',
       name:'profile',
       component:ProfileView,
+      beforeEnter: (to, from) => {
+        const store = useUserStore()
+        if (!store.isLoggedIn) {
+          return { name:'login'}
+        }
+      }
     },
     {
       path:'/updateUser',

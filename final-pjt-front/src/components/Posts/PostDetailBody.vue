@@ -84,8 +84,8 @@ const getSavedStatus = async () => {
 // 좋아요 토글
 const toggleLike = async () => {
     if (!userStore.isLoggedIn) {
-        alert('로그인이 필요합니다.');
-        return;
+        router.push({name: 'login'})
+        return
     }
 
     if (!props.post) return;
@@ -112,7 +112,7 @@ const toggleLike = async () => {
 // 저장 토글
 const toggleSave = async () => {
     if (!userStore.isLoggedIn) {
-        alert('로그인이 필요합니다.');
+        router.push({name: 'login'})
         return;
     }
 

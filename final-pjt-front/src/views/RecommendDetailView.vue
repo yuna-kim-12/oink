@@ -3,10 +3,10 @@
         <div class="product-container">
             <div class="product-info"> <!-- 상품 정보-->
                 <h2 class="product-title">{{ product.product_name }}</h2>
-                <p class="bank-name">{{ product.company_name }}</p>
-                <div class="product-event" v-if="product.events">
-                    <span v-for="event in product.events" :key="event">{{ event }}</span>
+                <div class="prime-conditions">
+                    <span  v-for="primecondition in primeConditionArray" :key="primecondition">{{ primeCondition[primecondition] }}</span>
                 </div>
+                <p class="bank-name">{{ product.company_name }}</p>
                 <div class="product-interest">
                     <div class="interest-high">
                         <p>최고</p> <span>{{ product.prime_interest_rate }}%</span>
@@ -23,7 +23,7 @@
                 <div class="product-detail-list">
                     <div class="product-detail-item">
                         <dt>금액</dt>
-                        <dd>{{ product.join_amount_text }}</dd>
+                        <dd v-html="product.join_amount_text"></dd>
                     </div>
                     <div class="product-detail-item">
                         <dt>기간</dt>
@@ -36,10 +36,6 @@
                     <div class="product-detail-item">
                         <dt>대상</dt>
                         <dd>{{ product.join_member }}</dd>
-                    </div>
-                    <div class="product-detail-item">
-                        <dt>우대조건</dt>
-                        <dd v-html="product.prime_conditions"></dd>
                     </div>
                     <div class="product-detail-item">
                         <dt>이자지급</dt>
@@ -64,11 +60,24 @@ const route = useRoute();
 const recommendStore = useRecommendStore();
 const product = computed(() => recommendStore.product)
 
+const primeConditions = product.value.prime_conditions
+const primeConditionArray = ref([])
+
+
 
 onMounted(async () => {
     const category = route.params.category;
     const productId = Number(route.params.productId);
     await recommendStore.getProductDetail(category, productId);
+    for (const primeCondition of primeConditions.split(', ')) {
+        if (primeCondition[0] !== "'" ) {
+            primeConditionArray.value.push("'" + primeCondition)
+            console
+        }
+        else {
+            primeConditionArray.value.push(primeCondition)
+        }
+    }
 });
 
 onBeforeRouteUpdate(async (to) => {
@@ -76,6 +85,22 @@ onBeforeRouteUpdate(async (to) => {
     const productId = Number(to.params.productId);
     await recommendStore.getProductDetail(category, productId);
 });
+
+
+const primeCondition = {
+    "'online'": '비대면가입',
+    "'firstBanking'": '첫거래',
+    "'usingCard'": '카드사용',
+    "'bankApp'": '은행앱사용',
+    "'depositAccount'": '입출금통장',
+    "'usingSalaryAccount'": '급여연동',
+    "'usingUtilityBill'": '공과금연동',
+    "'pension'": '연금',
+    "'depositAgain'": '재예치'
+}   
+ 
+
+
 </script>
 
 <style scoped>
@@ -100,21 +125,19 @@ onBeforeRouteUpdate(async (to) => {
     margin-top: 40px;
 }
 
-.bank-name {
-    margin-top: 5px;
-    color: #a7a7a7;
-}
-
-.product-event {
-    margin-top: 5px;
-}
-
-.product-event>span {
-    background-color: #E9E9E9;
-    border-radius: 15px;
-    padding: 0.5px 10px;
+.prime-conditions span {
+    margin-right: 10px;
+    padding: 3px 8px;
+    color: #fff;
     font-size: 12px;
-    color: #FF6708;
+    border-radius: 15px;
+    background-color: #BCBCBC;
+}
+
+
+.bank-name {
+    margin-top: 15px;
+    color: #a7a7a7;
 }
 
 .product-info {
@@ -129,7 +152,7 @@ onBeforeRouteUpdate(async (to) => {
 }
 
 .product-interest {
-    margin-top: 20px;
+    margin-top: 15px;
     display: flex;
     gap: 20px;
 
